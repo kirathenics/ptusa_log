@@ -5,13 +5,15 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class LogRecord {
     private final SimpleIntegerProperty id;
-    private final SimpleStringProperty dateTime;
+    private final SimpleStringProperty date;
+    private final SimpleStringProperty time;
     private final SimpleStringProperty type;
     private final SimpleStringProperty message;
 
-    public LogRecord(int id, String dateTime, String type, String message) {
+    public LogRecord(int id, String date, String time, String type, String message) {
         this.id = new SimpleIntegerProperty(id);
-        this.dateTime = new SimpleStringProperty(dateTime);
+        this.date = new SimpleStringProperty(date);
+        this.time = new SimpleStringProperty(time);
         this.type = new SimpleStringProperty(type);
         this.message = new SimpleStringProperty(message);
     }
@@ -24,12 +26,20 @@ public class LogRecord {
         return id;
     }
 
-    public String getDateTime() {
-        return dateTime.get();
+    public String getDate() {
+        return date.get();
     }
 
-    public SimpleStringProperty dateTimeProperty() {
-        return dateTime;
+    public SimpleStringProperty dateProperty() {
+        return date;
+    }
+
+    public String getTime() {
+        return time.get();
+    }
+
+    public SimpleStringProperty timeProperty() {
+        return time;
     }
 
     public String getType() {

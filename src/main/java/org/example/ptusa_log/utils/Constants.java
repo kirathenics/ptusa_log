@@ -5,7 +5,8 @@ public class Constants {
     // TODO: write appropriate PROGRAM_INFO
     public static final String PROGRAM_INFO = "Данная программа предоставляет логи контроллеров";
 
-    public static final String DATE_TIME_LABEL = "Дата/время";
+    public static final String DATE_LABEL = "Дата";
+    public static final String TIME_LABEL = "Время";
     public static final String TYPE_LABEL = "Тип";
     public static final String MESSAGE_LABEL = "Сообщение";
 }

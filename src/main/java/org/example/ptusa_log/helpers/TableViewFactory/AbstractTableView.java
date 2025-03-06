@@ -91,6 +91,8 @@ public abstract class AbstractTableView<T> {
     public void updateTable(Supplier<List<T>> dataSupplier) {
         observableList.setAll(dataSupplier.get());
 
+        adjustColumnWidths();
+
         Platform.runLater(this::adjustTableSize);
         Platform.runLater(() -> Platform.runLater(this::adjustTableSize));
     }
@@ -98,9 +100,11 @@ public abstract class AbstractTableView<T> {
     public void updateTable(List<T> items) {
         observableList.setAll(items);
 
+        adjustColumnWidths();
+
         Platform.runLater(this::adjustTableSize);
         Platform.runLater(() -> Platform.runLater(this::adjustTableSize));
     }
 
-    protected abstract void adjustColumnWidths(boolean hasAdditionalInfo);
+    protected abstract void adjustColumnWidths();
 }

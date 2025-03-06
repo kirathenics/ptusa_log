@@ -10,9 +10,15 @@ import org.example.ptusa_log.utils.Constants;
 import java.util.Arrays;
 
 public class LogRecordTableView extends AbstractTableView<LogRecord> {
-    private TableColumn<LogRecord, String> dateTimeColumn;
+    private TableColumn<LogRecord, String> dateColumn;
+    private TableColumn<LogRecord, String> timeColumn;
     private TableColumn<LogRecord, String> typeColumn;
     private TableColumn<LogRecord, String> infoColumn;
+
+    public LogRecordTableView() {
+        super();
+        setupColumns();
+    }
 
     @Override
     protected AbstractTableView<LogRecord> cloneTable() {
@@ -23,23 +29,27 @@ public class LogRecordTableView extends AbstractTableView<LogRecord> {
 
     @Override
     protected void setupColumns() {
-        dateTimeColumn = new MultilineStringColumnFactory<LogRecord>().createColumn(Constants.DATE_TIME_LABEL, "dateTime");
+        dateColumn = new MultilineStringColumnFactory<LogRecord>().createColumn(Constants.DATE_LABEL, "date");
+        timeColumn = new MultilineStringColumnFactory<LogRecord>().createColumn(Constants.TIME_LABEL, "time");
         typeColumn = new MultilineStringColumnFactory<LogRecord>().createColumn(Constants.TYPE_LABEL, "type");
         infoColumn = new MultilineStringColumnFactory<LogRecord>().createColumn(Constants.MESSAGE_LABEL, "message");
 
         tableView.getColumns().addAll(Arrays.asList(
-                dateTimeColumn,
+                dateColumn,
+                timeColumn,
                 typeColumn,
                 infoColumn));
     }
 
     @Override
-    protected void adjustColumnWidths(boolean hasAdditionalInfo) {
-        double dateTimeColumnWidth = 0.19;
+    protected void adjustColumnWidths() {
+        double dateColumnWidth = 0.9;
+        double timeColumnWidth = 0.9;
         double typeColumnWidth = 0.19;
         double infoColumnWidth = 0.6;
 
-        dateTimeColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(dateTimeColumnWidth));
+        dateColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(dateColumnWidth));
+        timeColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(timeColumnWidth));
         typeColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(typeColumnWidth));
         infoColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(infoColumnWidth));
     }
