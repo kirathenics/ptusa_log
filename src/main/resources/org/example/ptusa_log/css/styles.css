@@ -1,0 +1,23 @@
+.parent {
+    -fx-background-color: #F6F6F8;
+    -fx-background-radius: 30px;
+}
+
+.sidebar {
+    -fx-background-color: #0a3151;
+}
+
+.sidebar-opt {
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
+
+.sidebar-opt:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+/* dark blue 0f4876 */
+/* dark dark blue 0a3151 */
+/* red ed1b2f */
+/* yellow fec526  */

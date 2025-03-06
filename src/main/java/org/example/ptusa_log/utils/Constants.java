@@ -1,0 +1,11 @@
+package org.example.ptusa_log.utils;
+
+public class Constants {
+    public static final String ABOUT_PROGRAM = "О программе";
+    // TODO: write appropriate PROGRAM_INFO
+    public static final String PROGRAM_INFO = "Данная программа предоставляет логи контроллеров";
+
+    public static final String DATE_TIME_LABEL = "Дата/время";
+    public static final String TYPE_LABEL = "Тип";
+    public static final String MESSAGE_LABEL = "Сообщение";
+}
