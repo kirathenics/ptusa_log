@@ -33,6 +33,14 @@
     -fx-padding: 5px;
     -fx-border-insets: 5px;
     -fx-background-insets: 5px;
+
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
+}
+
+.h1-label:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
 }
 
 .log-type-label {
@@ -42,7 +50,26 @@
 
     -fx-alignment: center;
     -fx-text-alignment: center;
+
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
 }
+
+.log-type-label:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.selected-label {
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
+}
+
+.selected-label:hover {
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
+}
+
 
 
 .custom-table-view {

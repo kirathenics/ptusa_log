@@ -2,6 +2,7 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1150.0" styleClass="parent" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ptusa_log.controllers.AppController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1150.0" styleClass="parent" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ptusa_log.controllers.AppController">
    <children>
       <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
@@ -56,16 +57,20 @@
                                  <children>
                                     <HBox fx:id="logTypeContainer" alignment="CENTER_LEFT">
                                        <children>
-                                          <FontAwesomeIconView fill="#bcbcbe" glyphName="BOOK" size="1.7em" styleClass="sidebar-opt" />
+                                          <FontAwesomeIconView fill="#bcbcbe" glyphName="BOOK" size="1.7em" />
                                           <MaterialIconView fill="#bcbcbe" glyphName="KEYBOARD_ARROW_RIGHT" size="1.5em">
                                              <HBox.margin>
                                                 <Insets left="7.0" />
                                              </HBox.margin>
                                           </MaterialIconView>
-                                          <Label fx:id="allTypesLabel" styleClass="h1-label" text="Все">
+                                          <Label fx:id="allTypesLabel" text="Все">
                                              <HBox.margin>
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
+                                             <styleClass>
+                                                <String fx:value="h1-label" />
+                                                <String fx:value="selected-label" />
+                                             </styleClass>
                                           </Label>
                                        </children>
                                        <VBox.margin>

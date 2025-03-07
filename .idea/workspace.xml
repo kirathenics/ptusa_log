@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1eeebe2-0600-460d-99cd-96e1f722199f" name="Changes" comment="added log table to main view">
+    <list default="true" id="b1eeebe2-0600-460d-99cd-96e1f722199f" name="Changes" comment="added log type container">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ptusa_log/DAO/LogRecordDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ptusa_log/DAO/LogRecordDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ptusa_log/controllers/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ptusa_log/controllers/AppController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/ptusa_log/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/ptusa_log/css/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/ptusa_log/views/main_view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/ptusa_log/views/main_view.fxml" afterDir="false" />
@@ -146,7 +145,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741330697449</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="added log type container">
+      <option name="closed" value="true" />
+      <created>1741336628873</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1741336628875</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -154,6 +161,7 @@
     <MESSAGE value="added table view classes reactors" />
     <MESSAGE value="changed LogRecord structure" />
     <MESSAGE value="added log table to main view" />
-    <option name="LAST_COMMIT_MESSAGE" value="added log table to main view" />
+    <MESSAGE value="added log type container" />
+    <option name="LAST_COMMIT_MESSAGE" value="added log type container" />
   </component>
 </project>
