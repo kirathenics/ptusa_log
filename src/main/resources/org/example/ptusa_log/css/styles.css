@@ -26,6 +26,25 @@
 }
 
 
+.h1-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+
+    -fx-padding: 5px;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
+}
+
+.log-type-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #bcbcbe;
+
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+
+
 .custom-table-view {
     -fx-background-color: transparent;
     /* -fx-border-color: #0a3151; */
@@ -50,6 +69,15 @@
     -fx-font-family: "Arial";
 }
 
+.custom-table-view .column-header:hover .arrow {
+    -fx-background-color: white; /* Цвет при наведении */
+}
+
+.custom-table-view .column-header.sorted .arrow {
+    -fx-background-color: white; /* Цвет для активной сортировки */
+}
+
+
 .table-row-cell:selected {
     /* -fx-background-color: #A4CE4E; */
     -fx-text-fill: black;
@@ -57,7 +85,8 @@
 }
 
 .table-row-cell:selected .text {
-    -fx-fill: black;
+    /* -fx-fill: black; */
+    -fx-fill: lightgray;
 }
 
 .table-row-cell:focused:selected {
