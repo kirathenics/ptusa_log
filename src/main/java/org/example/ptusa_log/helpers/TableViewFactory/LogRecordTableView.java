@@ -43,8 +43,8 @@ public class LogRecordTableView extends AbstractTableView<LogRecord> {
 
     @Override
     protected void adjustColumnWidths() {
-        double dateColumnWidth = 0.9;
-        double timeColumnWidth = 0.9;
+        double dateColumnWidth = 0.09;
+        double timeColumnWidth = 0.09;
         double typeColumnWidth = 0.19;
         double infoColumnWidth = 0.6;
 

@@ -29,7 +29,7 @@ public abstract class AbstractTableView<T> {
         observableList.addListener((ListChangeListener<T>) change -> Platform.runLater(this::adjustTableSize));
 
         setupTableSize();
-        tableView.getStyleClass().add("maintenance-table-view");
+        tableView.getStyleClass().add("custom-table-view");
 
         tableContainer.getChildren().add(tableView);
     }

@@ -17,6 +17,54 @@
     -fx-scale-y: 1.1;
 }
 
+.transparent {
+    -fx-background-color: transparent;
+}
+
+.shadow {
+    -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1), 10.0, 0.0, 0.0, 10.0);
+}
+
+
+.custom-table-view {
+    -fx-background-color: transparent;
+    /* -fx-border-color: #0a3151; */
+    -fx-border-radius: 8px;
+    -fx-padding: 0px;
+}
+
+.custom-table-view .column-header-background {
+    -fx-background-color: #0a3151;
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 8px 8px 0px 0px;
+}
+
+.custom-table-view .column-header, .filler {
+    -fx-background-color: transparent;
+    -fx-size: 50px;
+    -fx-wrap-text: true;
+}
+
+.custom-table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-family: "Arial";
+}
+
+.table-row-cell:selected {
+    /* -fx-background-color: #A4CE4E; */
+    -fx-text-fill: black;
+    /* -fx-table-cell-border-color: #A4CE4E; */
+}
+
+.table-row-cell:selected .text {
+    -fx-fill: black;
+}
+
+.table-row-cell:focused:selected {
+    /* -fx-background-color: #A4CE4E; */
+    /* -fx-table-cell-border-color: #A4CE4E; */
+}
+
 /* dark blue 0f4876 */
 /* dark dark blue 0a3151 */
 /* red ed1b2f */

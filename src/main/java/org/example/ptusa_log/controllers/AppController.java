@@ -3,7 +3,10 @@ package org.example.ptusa_log.controllers;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import org.example.ptusa_log.DAO.LogRecordDAO;
+import org.example.ptusa_log.helpers.TableViewFactory.LogRecordTableView;
 import org.example.ptusa_log.utils.Constants;
 import org.example.ptusa_log.utils.UserDialogs;
 
@@ -17,6 +20,9 @@ public class AppController implements Initializable  {
 
     @FXML
     private FontAwesomeIconView aboutSidebarButton;
+
+    @FXML
+    private VBox logTableContainer;
 
     private final String ACTIVE_COLOR = "#FEC526";
     private final String DEFAULT_COLOR = "#C1C1C1";
@@ -32,6 +38,10 @@ public class AppController implements Initializable  {
         });
 
         setActiveIcon(homeSidebarButton);
+
+        LogRecordTableView logRecordTableView = new LogRecordTableView.Builder().build();
+        logRecordTableView.updateTable(LogRecordDAO.loadRecords());
+        logTableContainer.getChildren().add(logRecordTableView.getTableContainer());
     }
 
     private void setActiveIcon(FontAwesomeIconView activeIcon) {

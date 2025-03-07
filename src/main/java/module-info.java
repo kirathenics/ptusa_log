@@ -8,4 +8,5 @@ module org.example.ptusa_log {
     exports org.example.ptusa_log;
     exports org.example.ptusa_log.controllers;
     opens org.example.ptusa_log.controllers to javafx.fxml;
+    opens org.example.ptusa_log.models to javafx.base;
 }
