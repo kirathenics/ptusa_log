@@ -104,22 +104,40 @@
     -fx-background-color: white; /* Цвет для активной сортировки */
 }
 
-
-.table-row-cell:selected {
-    /* -fx-background-color: #A4CE4E; */
-    -fx-text-fill: black;
-    /* -fx-table-cell-border-color: #A4CE4E; */
+/* .custom-table-view .table-row-cell:selected {
+    -fx-background-color: #3A76A8;
+    -fx-text-fill: white;
+    -fx-table-cell-border-color: #3A76A8;
 }
 
-.table-row-cell:selected .text {
-    /* -fx-fill: black; */
-    -fx-fill: lightgray;
+.custom-table-view .table-row-cell:selected .text {
+    -fx-fill: white;
 }
 
-.table-row-cell:focused:selected {
-    /* -fx-background-color: #A4CE4E; */
-    /* -fx-table-cell-border-color: #A4CE4E; */
+.custom-table-view .table-row-cell:focused:selected {
+    -fx-background-color: #3A76A8;
+    -fx-table-cell-border-color: #3A76A8;
+} */
+
+
+.custom-table-view .table-row-cell:selected {
+    -fx-background-color: #3A76A8;
+    -fx-text-fill: white;
+    -fx-table-cell-border-color: #3A76A8;
 }
+
+.custom-table-view .table-row-cell:selected .label {
+    -fx-text-fill: white;
+}
+
+.custom-table-view .table-row-cell:selected .text {
+    -fx-fill: white;
+}
+
+.custom-table-view .table-row-cell:selected .table-cell {
+    -fx-text-fill: white;
+}
+
 
 /* dark blue 0f4876 */
 /* dark dark blue 0a3151 */

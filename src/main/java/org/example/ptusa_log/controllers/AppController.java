@@ -39,8 +39,8 @@ public class AppController implements Initializable  {
     private Label selectedLabel;
     private LogRecordTableView logRecordTableView;
 
-    private final String ACTIVE_ICON_COLOR = "#FEC526";
-    private final String DEFAULT_ICON_COLOR = "#C1C1C1";
+    private final String ACTIVE_SIDEBAR_ICON_COLOR = "#fec526";
+    private final String DEFAULT_SIDEBAR_ICON_COLOR = "#c1c1c1";
     private final String DEFAULT_LOG_TYPE_TEXT_COLOR = "#bcbcbe";
 
     @Override
@@ -118,110 +118,9 @@ public class AppController implements Initializable  {
     }
 
     private void setActiveIcon(FontAwesomeIconView activeIcon) {
-        homeSidebarButton.setFill(Color.web(DEFAULT_ICON_COLOR));
-        aboutSidebarButton.setFill(Color.web(DEFAULT_ICON_COLOR));
+        homeSidebarButton.setFill(Color.web(DEFAULT_SIDEBAR_ICON_COLOR));
+        aboutSidebarButton.setFill(Color.web(DEFAULT_SIDEBAR_ICON_COLOR));
 
-        activeIcon.setFill(Color.web(ACTIVE_ICON_COLOR));
+        activeIcon.setFill(Color.web(ACTIVE_SIDEBAR_ICON_COLOR));
     }
 }
-
-
-//public class AppController implements Initializable  {
-//
-//    @FXML
-//    private FontAwesomeIconView homeSidebarButton;
-//
-//    @FXML
-//    private FontAwesomeIconView aboutSidebarButton;
-//
-//    @FXML
-//    private HBox logTypeContainer;
-//
-//    @FXML
-//    private Label allTypesLabel;
-//
-//    @FXML
-//    private VBox logTableContainer;
-//
-//    private Label selectedLabel;
-//    private LogRecordTableView logRecordTableView;
-//
-//    private final String ACTIVE_ICON_COLOR = "#FEC526";
-//    private final String DEFAULT_ICON_COLOR = "#C1C1C1";
-//    private final String DEFAULT_LOG_TYPE_TEXT_COLOR = "#bcbcbe";
-//
-//    @Override
-//    public void initialize(URL url, ResourceBundle resourceBundle) {
-//        initializeSidebarButtons();
-//        initializeLogTable();
-//        initializeLogTypeFilters();
-//    }
-//
-//    private void initializeSidebarButtons() {
-//        homeSidebarButton.setOnMouseClicked(mouseEvent -> setActiveIcon(homeSidebarButton));
-//
-//        aboutSidebarButton.setOnMouseClicked(mouseEvent -> {
-//            setActiveIcon(aboutSidebarButton);
-//            UserDialogs.showInfo(Constants.ABOUT_PROGRAM, Constants.PROGRAM_INFO);
-//            setActiveIcon(homeSidebarButton);
-//        });
-//
-//        setActiveIcon(homeSidebarButton);
-//    }
-//
-//    private void initializeLogTable() {
-//        logRecordTableView = new LogRecordTableView.Builder().build();
-//        logRecordTableView.updateTable(LogRecordDAO.loadRecords());
-//        logTableContainer.getChildren().add(logRecordTableView.getTableContainer());
-//    }
-//
-//    private void initializeLogTypeFilters() {
-//        List<LogType> logTypeList = LogTypeDAO.loadTypes();
-//        for (LogType logType : logTypeList) {
-//            Label label = createLogTypeLabel(logType);
-//            logTypeContainer.getChildren().add(label);
-//        }
-//
-//        allTypesLabel.setOnMouseClicked(mouseEvent -> resetLogTypeFilter());
-//        allTypesLabel.getStyleClass().add("selected");
-//        allTypesLabel.setStyle("-fx-text-fill: black;");
-//
-//        allTypesLabel.setOnMouseEntered(null);
-//        allTypesLabel.setOnMouseExited(null);
-//    }
-//
-//    private Label createLogTypeLabel(LogType logType) {
-//        Label label = new Label(logType.getName());
-//        label.getStyleClass().add("log-type-label");
-//        HBox.setMargin(label, new Insets(0, 10, 0, 10));
-//
-//        label.setOnMouseClicked(mouseEvent -> applyLogTypeFilter(label, logType));
-//        return label;
-//    }
-//
-//    private void applyLogTypeFilter(Label label, LogType logType) {
-//        allTypesLabel.setStyle("-fx-text-fill: " + DEFAULT_LOG_TYPE_TEXT_COLOR + ";");
-//        if (selectedLabel != null) {
-//            selectedLabel.setStyle("-fx-text-fill: " + DEFAULT_LOG_TYPE_TEXT_COLOR + ";");
-//        }
-//        label.setStyle("-fx-text-fill: " + logType.getColor() + ";");
-//        selectedLabel = label;
-//
-//        logRecordTableView.updateTable(LogRecordDAO.filterRecords(logType.getName()));
-//    }
-//
-//    private void resetLogTypeFilter() {
-//        if (selectedLabel != null) {
-//            selectedLabel.setStyle("-fx-text-fill: " + DEFAULT_LOG_TYPE_TEXT_COLOR + ";");
-//        }
-//        allTypesLabel.setStyle("-fx-text-fill: black;");
-//        logRecordTableView.updateTable(LogRecordDAO.loadRecords());
-//    }
-//
-//    private void setActiveIcon(FontAwesomeIconView activeIcon) {
-//        homeSidebarButton.setFill(Color.web(DEFAULT_ICON_COLOR));
-//        aboutSidebarButton.setFill(Color.web(DEFAULT_ICON_COLOR));
-//
-//        activeIcon.setFill(Color.web(ACTIVE_ICON_COLOR));
-//    }
-//}
