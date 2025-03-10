@@ -122,8 +122,6 @@ public class AppController implements Initializable  {
             closeIconButton.setVisible(true);
             closeIconButton.setManaged(true);
 
-            searchIconButton.getStyleClass().add("search-icon-active");
-
             timeline.getKeyFrames().add(new KeyFrame(Duration.millis(300),
                     new KeyValue(searchField.prefWidthProperty(), expandedWidth, Interpolator.EASE_BOTH)));
         } else {
@@ -135,8 +133,6 @@ public class AppController implements Initializable  {
 
             closeIconButton.setVisible(false);
             closeIconButton.setManaged(false);
-
-            searchIconButton.getStyleClass().remove("search-icon-active");
 
             timeline.getKeyFrames().add(new KeyFrame(Duration.millis(300),
                     new KeyValue(searchField.prefWidthProperty(), collapsedWidth, Interpolator.EASE_BOTH)));

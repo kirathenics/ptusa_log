@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1eeebe2-0600-460d-99cd-96e1f722199f" name="Changes" comment="added search bar">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+    <list default="true" id="b1eeebe2-0600-460d-99cd-96e1f722199f" name="Changes" comment="added close icon button">
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ptusa_log/controllers/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ptusa_log/controllers/AppController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/ptusa_log/views/main_view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/ptusa_log/views/main_view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/ptusa_log/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/ptusa_log/css/styles.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,7 +177,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741594321811</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="added close icon button">
+      <option name="closed" value="true" />
+      <created>1741594917223</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1741594917223</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -191,6 +197,7 @@
     <MESSAGE value="added hovering effect on log type labels" />
     <MESSAGE value="deleted odd comments" />
     <MESSAGE value="added search bar" />
-    <option name="LAST_COMMIT_MESSAGE" value="added search bar" />
+    <MESSAGE value="added close icon button" />
+    <option name="LAST_COMMIT_MESSAGE" value="added close icon button" />
   </component>
 </project>

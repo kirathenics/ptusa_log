@@ -89,16 +89,22 @@
 .search-icon {
     -fx-fill: #bcbcbe;
     -fx-cursor: hand;
+
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
 }
 
-.search-icon-active {
-    -fx-fill: #0f4876;
+.search-icon:hover {
+    -fx-fill: #052c4d;
+
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
 }
 
 
 .custom-table-view {
     -fx-background-color: transparent;
-    /* -fx-border-color: #052c4d; */
+    -fx-border-color: #052c4d;
     -fx-border-radius: 8px;
     -fx-padding: 0px;
 }
