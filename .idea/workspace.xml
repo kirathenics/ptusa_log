@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1eeebe2-0600-460d-99cd-96e1f722199f" name="Changes" comment="fixed table cell text color">
+    <list default="true" id="b1eeebe2-0600-460d-99cd-96e1f722199f" name="Changes" comment="added placeholder for table view">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ptusa_log/helpers/TableViewFactory/AbstractTableView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ptusa_log/helpers/TableViewFactory/AbstractTableView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ptusa_log/controllers/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ptusa_log/controllers/AppController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,7 +201,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741596528640</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="added placeholder for table view">
+      <option name="closed" value="true" />
+      <created>1741597295322</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1741597295322</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -216,6 +224,7 @@
     <MESSAGE value="added close icon button" />
     <MESSAGE value="added search icon button animation" />
     <MESSAGE value="fixed table cell text color" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed table cell text color" />
+    <MESSAGE value="added placeholder for table view" />
+    <option name="LAST_COMMIT_MESSAGE" value="added placeholder for table view" />
   </component>
 </project>

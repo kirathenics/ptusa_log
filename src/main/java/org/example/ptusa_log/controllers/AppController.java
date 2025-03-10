@@ -72,7 +72,6 @@ public class AppController implements Initializable  {
         initializeSidebarButtons();
         initializeLogTable();
         initializeLogTypeFilters();
-
         initializeSearchBar();
     }
 
@@ -93,10 +92,7 @@ public class AppController implements Initializable  {
 
         searchField.setPrefWidth(0);
         searchField.setVisible(false);
-        searchField.setFocusTraversable(false);
-
-        closeIconButton.setVisible(false);
-        closeIconButton.setManaged(false);
+        setSearchVisibility();
 
         searchIconButton.setOnMouseClicked(event -> toggleSearch());
         closeIconButton.setOnMouseClicked(event -> toggleSearch());
@@ -112,36 +108,32 @@ public class AppController implements Initializable  {
 
         if (isSearchVisible) {
             searchField.setVisible(true);
-            searchField.setManaged(true);
-            searchField.setFocusTraversable(true);
+            setSearchVisibility();
             searchField.requestFocus();
-
-            searchIconButton.setVisible(false);
-            searchIconButton.setManaged(false);
-
-            closeIconButton.setVisible(true);
-            closeIconButton.setManaged(true);
 
             timeline.getKeyFrames().add(new KeyFrame(Duration.millis(300),
                     new KeyValue(searchField.prefWidthProperty(), expandedWidth, Interpolator.EASE_BOTH)));
         } else {
-            searchField.setFocusTraversable(false);
-            searchField.clear();
-
-            searchIconButton.setVisible(true);
-            searchIconButton.setManaged(true);
-
-            closeIconButton.setVisible(false);
-            closeIconButton.setManaged(false);
+            setSearchVisibility();
 
             timeline.getKeyFrames().add(new KeyFrame(Duration.millis(300),
                     new KeyValue(searchField.prefWidthProperty(), collapsedWidth, Interpolator.EASE_BOTH)));
             timeline.setOnFinished(e -> searchField.setVisible(false));
+            searchField.clear();
         }
 
         timeline.play();
     }
 
+    private void setSearchVisibility() {
+        searchField.setFocusTraversable(isSearchVisible);
+
+        searchIconButton.setVisible(!isSearchVisible);
+        searchIconButton.setManaged(!isSearchVisible);
+
+        closeIconButton.setVisible(isSearchVisible);
+        closeIconButton.setManaged(isSearchVisible);
+    }
 
     private void initializeLogTable() {
         logRecordTableView = new LogRecordTableView.Builder().build();
