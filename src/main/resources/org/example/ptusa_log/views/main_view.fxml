@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1150.0" styleClass="parent" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ptusa_log.controllers.AppController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1150.0" styleClass="parent" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ptusa_log.controllers.AppController">
    <children>
       <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
@@ -22,19 +22,19 @@
                <children>
                   <VBox alignment="TOP_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                         <FontAwesomeIconView fill="WHITE" glyphName="BARS" size="1.7em" styleClass="sidebar-opt">
+                         <FontAwesomeIconView fill="WHITE" glyphName="BARS" size="1.75em" styleClass="sidebar-opt">
                              <VBox.margin>
                                  <Insets top="15.0" />
                              </VBox.margin>
                          </FontAwesomeIconView>
                          <VBox alignment="TOP_CENTER" fillWidth="false">
                              <children>
-                                 <FontAwesomeIconView fx:id="homeSidebarButton" fill="#fec526" glyphName="HOME" size="1.5em" styleClass="sidebar-opt">
+                                 <FontAwesomeIconView fx:id="homeSidebarButton" fill="#fec526" glyphName="HOME" size="1.75em" styleClass="sidebar-opt">
                                      <VBox.margin>
                                          <Insets top="15.0" />
                                      </VBox.margin>
                                  </FontAwesomeIconView>
-                                 <FontAwesomeIconView fx:id="aboutSidebarButton" fill="#c1c1c1" glyphName="QUESTION_CIRCLE_ALT" size="1.7em" styleClass="sidebar-opt">
+                                 <FontAwesomeIconView fx:id="aboutSidebarButton" fill="#c1c1c1" glyphName="QUESTION_CIRCLE_ALT" size="1.75em" styleClass="sidebar-opt">
                                      <VBox.margin>
                                          <Insets top="15.0" />
                                      </VBox.margin>

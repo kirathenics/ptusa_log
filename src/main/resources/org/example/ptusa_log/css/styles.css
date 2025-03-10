@@ -104,7 +104,7 @@
 
 .custom-table-view {
     -fx-background-color: transparent;
-    -fx-border-color: #052c4d;
+    /* -fx-border-color: #052c4d; */
     -fx-border-radius: 8px;
     -fx-padding: 0px;
 }
@@ -134,40 +134,10 @@
     -fx-background-color: white; /* Цвет для активной сортировки */
 }
 
-/* .custom-table-view .table-row-cell:selected {
-    -fx-background-color: #3A76A8;
-    -fx-text-fill: white;
-    -fx-table-cell-border-color: #3A76A8;
-}
-
-.custom-table-view .table-row-cell:selected .text {
-    -fx-fill: white;
-}
-
-.custom-table-view .table-row-cell:focused:selected {
-    -fx-background-color: #3A76A8;
-    -fx-table-cell-border-color: #3A76A8;
-} */
-
-
 .custom-table-view .table-row-cell:selected {
-    -fx-background-color: #3A76A8;
-    -fx-text-fill: white;
-    -fx-table-cell-border-color: #3A76A8;
+    -fx-background-color: #4083BB;
+    -fx-table-cell-border-color: #4083BB;
 }
-
-.custom-table-view .table-row-cell:selected .label {
-    -fx-text-fill: white;
-}
-
-.custom-table-view .table-row-cell:selected .text {
-    -fx-fill: white;
-}
-
-.custom-table-view .table-row-cell:selected .table-cell {
-    -fx-text-fill: white;
-}
-
 
 /* dark blue 0f4876 */
 /* dark dark blue 0a3151 */
