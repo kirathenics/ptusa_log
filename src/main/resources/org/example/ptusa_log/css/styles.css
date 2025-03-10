@@ -4,7 +4,7 @@
 }
 
 .sidebar {
-    -fx-background-color: #0a3151;
+    -fx-background-color: #052c4d;
 }
 
 .sidebar-opt {
@@ -71,16 +71,40 @@
 }
 
 
+.search-field {
+    -fx-background-radius: 30px
+}
+
+.search-field:focused {
+    -fx-background-color:
+        #0f4876,
+        #FFFFFF;
+}
+
+.search-field-active {
+    -fx-pref-width: 400px;
+    -fx-opacity: 1;
+}
+
+.search-icon {
+    -fx-fill: #bcbcbe;
+    -fx-cursor: hand;
+}
+
+.search-icon-active {
+    -fx-fill: #0f4876;
+}
+
 
 .custom-table-view {
     -fx-background-color: transparent;
-    /* -fx-border-color: #0a3151; */
+    /* -fx-border-color: #052c4d; */
     -fx-border-radius: 8px;
     -fx-padding: 0px;
 }
 
 .custom-table-view .column-header-background {
-    -fx-background-color: #0a3151;
+    -fx-background-color: #052c4d;
     -fx-background-insets: 0 0 0 0;
     -fx-background-radius: 8px 8px 0px 0px;
 }
@@ -141,5 +165,7 @@
 
 /* dark blue 0f4876 */
 /* dark dark blue 0a3151 */
+/* new dark dark blue 052c4d */
+/* steel blue 4083BB */
 /* red ed1b2f */
 /* yellow fec526  */

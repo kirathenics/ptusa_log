@@ -1,16 +1,23 @@
 package org.example.ptusa_log.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import org.example.ptusa_log.DAO.LogRecordDAO;
 import org.example.ptusa_log.DAO.LogTypeDAO;
 import org.example.ptusa_log.helpers.TableViewFactory.LogRecordTableView;
+import org.example.ptusa_log.models.LogRecord;
 import org.example.ptusa_log.models.LogType;
 import org.example.ptusa_log.utils.Constants;
 import org.example.ptusa_log.utils.UserDialogs;
@@ -18,6 +25,7 @@ import org.example.ptusa_log.utils.UserDialogs;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class AppController implements Initializable  {
 
@@ -31,23 +39,37 @@ public class AppController implements Initializable  {
     private HBox logTypeContainer;
 
     @FXML
+    private HBox logTypeLabelContainer;
+
+    @FXML
+    private TextField searchField;
+
+    @FXML
+    private FontAwesomeIconView searchIconButton;
+
+    @FXML
     private Label allTypesLabel;
 
     @FXML
     private VBox logTableContainer;
 
     private Label selectedLabel;
+
+    private boolean isSearchVisible = false;
+
     private LogRecordTableView logRecordTableView;
 
     private final String ACTIVE_SIDEBAR_ICON_COLOR = "#fec526";
     private final String DEFAULT_SIDEBAR_ICON_COLOR = "#c1c1c1";
-    private final String DEFAULT_LOG_TYPE_TEXT_COLOR = "#bcbcbe";
+    private final String DEFAULT_INACTIVE_COLOR = "#bcbcbe";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeSidebarButtons();
         initializeLogTable();
         initializeLogTypeFilters();
+
+        initializeSearchBar();
     }
 
     private void initializeSidebarButtons() {
@@ -62,6 +84,47 @@ public class AppController implements Initializable  {
         setActiveIcon(homeSidebarButton);
     }
 
+    private void initializeSearchBar() {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> updateFilteredRecords());
+
+        searchField.setPrefWidth(0);
+        searchField.setVisible(false);
+        searchField.setFocusTraversable(false);
+
+        searchIconButton.setOnMouseClicked(event -> toggleSearchField());
+    }
+
+    private void toggleSearchField() {
+        double expandedWidth = 400.0;
+        double collapsedWidth = 0.0;
+
+        Timeline timeline = new Timeline();
+
+        if (!isSearchVisible) {
+            searchField.setVisible(true);
+            searchField.setFocusTraversable(true);
+            searchField.requestFocus();
+
+            searchIconButton.getStyleClass().add("search-icon-active");
+
+            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(300),
+                    new KeyValue(searchField.prefWidthProperty(), expandedWidth, Interpolator.EASE_BOTH)));
+        } else {
+            searchField.setFocusTraversable(false);
+            searchField.clear();
+
+            searchIconButton.getStyleClass().remove("search-icon-active");
+
+            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(300),
+                    new KeyValue(searchField.prefWidthProperty(), collapsedWidth, Interpolator.EASE_BOTH)));
+            timeline.setOnFinished(e -> searchField.setVisible(false));
+        }
+
+        isSearchVisible = !isSearchVisible;
+        timeline.play();
+    }
+
+
     private void initializeLogTable() {
         logRecordTableView = new LogRecordTableView.Builder().build();
         logRecordTableView.updateTable(LogRecordDAO.loadRecords());
@@ -72,7 +135,7 @@ public class AppController implements Initializable  {
         List<LogType> logTypeList = LogTypeDAO.loadTypes();
         for (LogType logType : logTypeList) {
             Label label = createLogTypeLabel(logType);
-            logTypeContainer.getChildren().add(label);
+            logTypeLabelContainer.getChildren().add(label);
         }
 
         allTypesLabel.setOnMouseClicked(mouseEvent -> resetLogTypeFilter());
@@ -89,12 +152,12 @@ public class AppController implements Initializable  {
     }
 
     private void applyLogTypeFilter(Label label, LogType logType) {
-        allTypesLabel.setStyle("-fx-text-fill: " + DEFAULT_LOG_TYPE_TEXT_COLOR + ";");
         allTypesLabel.getStyleClass().remove("selected-label");
+        allTypesLabel.setStyle("-fx-text-fill: " + DEFAULT_INACTIVE_COLOR + ";");
 
         if (selectedLabel != null) {
             selectedLabel.getStyleClass().remove("selected-label");
-            selectedLabel.setStyle("-fx-text-fill: " + DEFAULT_LOG_TYPE_TEXT_COLOR + ";");
+            selectedLabel.setStyle("-fx-text-fill: " + DEFAULT_INACTIVE_COLOR + ";");
         }
 
         label.getStyleClass().add("selected-label");
@@ -102,19 +165,38 @@ public class AppController implements Initializable  {
 
         selectedLabel = label;
 
-        logRecordTableView.updateTable(LogRecordDAO.filterRecords(logType.getName()));
+        updateFilteredRecords();
     }
 
     private void resetLogTypeFilter() {
         if (selectedLabel != null) {
             selectedLabel.getStyleClass().remove("selected-label");
-            selectedLabel.setStyle("-fx-text-fill: " + DEFAULT_LOG_TYPE_TEXT_COLOR + ";");
+            selectedLabel.setStyle("-fx-text-fill: " + DEFAULT_INACTIVE_COLOR + ";");
         }
 
         allTypesLabel.getStyleClass().add("selected-label");
         allTypesLabel.setStyle("-fx-text-fill: black;");
 
-        logRecordTableView.updateTable(LogRecordDAO.loadRecords());
+        selectedLabel = null;
+
+        updateFilteredRecords();
+    }
+
+    private void updateFilteredRecords() {
+        String searchText = searchField.getText().toLowerCase();
+        String selectedType = selectedLabel != null ? selectedLabel.getText() : null;
+
+        List<LogRecord> allRecords = LogRecordDAO.loadRecords();
+
+        List<LogRecord> filteredRecords = allRecords.stream()
+                .filter(record -> (selectedType == null || selectedType.equals("Все") || record.getType().equals(selectedType)))
+                .filter(record -> record.getDate().toLowerCase().contains(searchText) ||
+                        record.getTime().toLowerCase().contains(searchText) ||
+                        record.getType().toLowerCase().contains(searchText) ||
+                        record.getMessage().toLowerCase().contains(searchText))
+                .collect(Collectors.toList());
+
+        logRecordTableView.updateTable(filteredRecords);
     }
 
     private void setActiveIcon(FontAwesomeIconView activeIcon) {
