@@ -1,6 +1,7 @@
 package org.example.ptusa_log.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import de.jensd.fx.glyphs.materialicons.MaterialIconView;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -48,6 +49,9 @@ public class AppController implements Initializable  {
     private FontAwesomeIconView searchIconButton;
 
     @FXML
+    private MaterialIconView closeIconButton;
+
+    @FXML
     private Label allTypesLabel;
 
     @FXML
@@ -91,19 +95,32 @@ public class AppController implements Initializable  {
         searchField.setVisible(false);
         searchField.setFocusTraversable(false);
 
-        searchIconButton.setOnMouseClicked(event -> toggleSearchField());
+        closeIconButton.setVisible(false);
+        closeIconButton.setManaged(false);
+
+        searchIconButton.setOnMouseClicked(event -> toggleSearch());
+        closeIconButton.setOnMouseClicked(event -> toggleSearch());
     }
 
-    private void toggleSearchField() {
+    private void toggleSearch() {
+        isSearchVisible = !isSearchVisible;
+
         double expandedWidth = 400.0;
         double collapsedWidth = 0.0;
 
         Timeline timeline = new Timeline();
 
-        if (!isSearchVisible) {
+        if (isSearchVisible) {
             searchField.setVisible(true);
+            searchField.setManaged(true);
             searchField.setFocusTraversable(true);
             searchField.requestFocus();
+
+            searchIconButton.setVisible(false);
+            searchIconButton.setManaged(false);
+
+            closeIconButton.setVisible(true);
+            closeIconButton.setManaged(true);
 
             searchIconButton.getStyleClass().add("search-icon-active");
 
@@ -113,6 +130,12 @@ public class AppController implements Initializable  {
             searchField.setFocusTraversable(false);
             searchField.clear();
 
+            searchIconButton.setVisible(true);
+            searchIconButton.setManaged(true);
+
+            closeIconButton.setVisible(false);
+            closeIconButton.setManaged(false);
+
             searchIconButton.getStyleClass().remove("search-icon-active");
 
             timeline.getKeyFrames().add(new KeyFrame(Duration.millis(300),
@@ -120,7 +143,6 @@ public class AppController implements Initializable  {
             timeline.setOnFinished(e -> searchField.setVisible(false));
         }
 
-        isSearchVisible = !isSearchVisible;
         timeline.play();
     }
 

@@ -92,7 +92,7 @@
                                                       <Insets right="10.0" />
                                                    </StackPane.margin>
                                                 </FontAwesomeIconView>
-                                                <MaterialIconView fx:id="closeSearch" glyphName="CLOSE" size="2em">
+                                                <MaterialIconView fx:id="closeIconButton" fill="#b73f0c" glyphName="CLOSE" size="2em">
                                                    <StackPane.margin>
                                                       <Insets right="10.0" />
                                                    </StackPane.margin>
