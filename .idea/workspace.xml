@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1eeebe2-0600-460d-99cd-96e1f722199f" name="Changes" comment="added search icon button animation">
+    <list default="true" id="b1eeebe2-0600-460d-99cd-96e1f722199f" name="Changes" comment="fixed table cell text color">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ptusa_log/helpers/TableColumnFactory/Wrappers/WrappedTableCellFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ptusa_log/helpers/TableColumnFactory/Wrappers/WrappedTableCellFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/ptusa_log/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/ptusa_log/css/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/ptusa_log/views/main_view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/ptusa_log/views/main_view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ptusa_log/helpers/TableViewFactory/AbstractTableView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ptusa_log/helpers/TableViewFactory/AbstractTableView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,7 +193,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741595260372</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="fixed table cell text color">
+      <option name="closed" value="true" />
+      <created>1741596528640</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1741596528640</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -209,6 +215,7 @@
     <MESSAGE value="added search bar" />
     <MESSAGE value="added close icon button" />
     <MESSAGE value="added search icon button animation" />
-    <option name="LAST_COMMIT_MESSAGE" value="added search icon button animation" />
+    <MESSAGE value="fixed table cell text color" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed table cell text color" />
   </component>
 </project>

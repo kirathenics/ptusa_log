@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.skin.TableViewSkin;
 import javafx.scene.control.skin.VirtualFlow;
@@ -23,6 +24,8 @@ public abstract class AbstractTableView<T> {
         VBox.setMargin(tableContainer, new Insets(10,0,10,0));
 
         tableView = new TableView<>();
+        tableView.setPlaceholder(new Label("Нет результата"));
+
         observableList = FXCollections.observableArrayList();
         tableView.setItems(observableList);
 
@@ -47,11 +50,11 @@ public abstract class AbstractTableView<T> {
 
         tableView.getItems().addListener((ListChangeListener<? super Object>) change -> {
             boolean hasItems = !tableView.getItems().isEmpty();
-            changeTableVisibility(hasItems);
+//            changeTableVisibility(hasItems);
         });
 
         boolean hasItems = !tableView.getItems().isEmpty();
-        changeTableVisibility(hasItems);
+//        changeTableVisibility(hasItems);
     }
 
     private void adjustTableSize() {
@@ -64,6 +67,10 @@ public abstract class AbstractTableView<T> {
         if (skin != null) {
             VirtualFlow<?> flow = (VirtualFlow<?>) skin.getChildren().get(1);
             double totalHeight = tableView.lookup(".column-header-background").getBoundsInLocal().getHeight();
+
+            if (tableView.getItems().isEmpty()) {
+                totalHeight += 24;
+            }
 
             for (int i = 0; i < tableView.getItems().size(); i++) {
                 totalHeight += flow.getCell(i).getBoundsInLocal().getHeight();
@@ -78,15 +85,15 @@ public abstract class AbstractTableView<T> {
         tableView.prefWidthProperty().bind(tableContainer.widthProperty());
     }
 
-    public void hideTable() {
-        changeTableVisibility(false);
-        observableList.clear();
-    }
-
-    private void changeTableVisibility(boolean shouldShowTable) {
-        tableContainer.setVisible(shouldShowTable);
-        tableContainer.setManaged(shouldShowTable);
-    }
+//    public void hideTable() {
+//        changeTableVisibility(false);
+//        observableList.clear();
+//    }
+//
+//    private void changeTableVisibility(boolean shouldShowTable) {
+//        tableContainer.setVisible(shouldShowTable);
+//        tableContainer.setManaged(shouldShowTable);
+//    }
 
     public void updateTable(Supplier<List<T>> dataSupplier) {
         observableList.setAll(dataSupplier.get());
