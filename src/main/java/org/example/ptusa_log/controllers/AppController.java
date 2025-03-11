@@ -7,10 +7,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -23,6 +25,7 @@ import org.example.ptusa_log.models.LogType;
 import org.example.ptusa_log.utils.Constants;
 import org.example.ptusa_log.utils.UserDialogs;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -57,6 +60,9 @@ public class AppController implements Initializable  {
     @FXML
     private VBox logTableContainer;
 
+    @FXML
+    private VBox sessionContainer;
+
     private Label selectedLabel;
 
     private boolean isSearchVisible = false;
@@ -73,6 +79,17 @@ public class AppController implements Initializable  {
         initializeLogTable();
         initializeLogTypeFilters();
         initializeSearchBar();
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Constants.VIEW_PATH + "session_item_view.fxml"));
+        AnchorPane anchorPane = null;
+        try {
+            anchorPane = fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        sessionContainer.getChildren().add(anchorPane);
+        VBox.setMargin(anchorPane, new Insets(10));
     }
 
     private void initializeSidebarButtons() {

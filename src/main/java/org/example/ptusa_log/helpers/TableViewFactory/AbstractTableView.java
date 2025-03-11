@@ -67,6 +67,7 @@ public abstract class AbstractTableView<T> {
         if (skin != null) {
             VirtualFlow<?> flow = (VirtualFlow<?>) skin.getChildren().get(1);
             double totalHeight = tableView.lookup(".column-header-background").getBoundsInLocal().getHeight();
+            totalHeight += 5;
 
             if (tableView.getItems().isEmpty()) {
                 totalHeight += 24;
