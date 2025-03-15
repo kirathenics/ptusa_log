@@ -46,17 +46,19 @@
 
 .context-menu {
     -fx-background-color: white;
+    -fx-background-radius: 8px; 
     -fx-text-fill: white;
   }
   
 .menu-item .label {
     -fx-text-fill: black;
+    -fx-font-weight: bold;
     -fx-font-family: "Arial";
     -fx-font-size: 12px;
 }
   
 .menu-item:focused {
-    -fx-background-color: #4083BB;
+    -fx-background-color: #c1c1c1;
 }
 
 .menu-item:focused .label {

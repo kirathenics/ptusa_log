@@ -58,7 +58,7 @@ public class SessionItemController implements Initializable {
     private void initializeContextMenu() {
         FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL);
         editIcon.setSize("1.5em");
-        editIcon.setFill(Paint.valueOf("#bcbcbe"));
+        editIcon.setFill(Paint.valueOf("#000000"));
         MenuItem editItem = new MenuItem(Constants.EDIT_CONTENT_MENU_ACTION, editIcon);
 
         FontAwesomeIconView deleteIcon = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
