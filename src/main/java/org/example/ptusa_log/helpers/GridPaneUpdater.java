@@ -12,6 +12,7 @@ import org.example.ptusa_log.utils.Constants;
 import java.io.IOException;
 import java.util.List;
 
+// TODO: если сделать ширину окна очень узкой, чтобы помещался только один элемент в ряду. то он не выравнивается по центру
 public class GridPaneUpdater {
     private final GridPane sessionItemGridPane;
 
@@ -26,9 +27,6 @@ public class GridPaneUpdater {
 
     public void updateGrid(List<LogFile> logFiles) {
         this.logFiles = logFiles;
-
-//        System.out.println(logFiles);
-//        System.out.println(this.logFiles);
 
         updateGrid();
     }
@@ -52,9 +50,6 @@ public class GridPaneUpdater {
 
             int column = 0, row = 1;
 
-//            System.out.println("------------------------------------------");
-            int i = 1;
-
             for (LogFile logFile : logFiles) {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "session_item_view.fxml"));
@@ -62,8 +57,6 @@ public class GridPaneUpdater {
 
                     SessionItemController technicItemController = fxmlLoader.getController();
                     technicItemController.setData(logFile);
-
-//                    System.out.println(Integer.toString(i++) + " " + logFile);
 
                     sessionItemGridPane.add(anchorPane, column, row);
                     GridPane.setMargin(anchorPane, new Insets(10));

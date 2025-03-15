@@ -377,33 +377,6 @@ public class AppController implements Initializable  {
     private final String ACTIVE_SIDEBAR_ICON_COLOR = "#fec526";
     private final String DEFAULT_SIDEBAR_ICON_COLOR = "#c1c1c1";
 
-//    private List<LogFile> logDocList = new ArrayList<>(Arrays.asList(
-//        new LogFile("2025-03-13_11-39-35", "PLC NEXT DEMO"),
-//        new LogFile("2025-03-14_12-11-40", "PLC NEXT DEMO"),
-//        new LogFile("2025-03-14_12-11-12", "PLC NEXT DEMO"),
-//        new LogFile("2025-03-14_18-11-40", "PLC NEXT DEMO"),
-//        new LogFile("2025-03-15_13-11-54", "PLC NEXT DEMO"),
-//        new LogFile("2025-03-14_12-11-23", "PLC NEXT DEMO"),
-//        new LogFile("2025-03-16_17-12-40", "PLC NEXT DEMO"),
-//        new LogFile("2025-03-14_12-11-30", "PLC NEXT DEMO")
-//    ));
-
-//    @Override
-//    public void initialize(URL url, ResourceBundle resourceBundle) {
-//        initializeSidebarButtons();
-//        initializeSearchBar();
-//
-//        logMonitorService = new LogMonitorService(sessionItemGridPane);
-//        logMonitorService.loadInitialLogs(); // Загружаем файлы при старте
-//        logMonitorService.startWatching();   // Запускаем мониторинг в фоне
-//
-//        scrollPane.widthProperty().addListener((obs, oldWidth, newWidth) -> logMonitorService.updateGrid((double) newWidth));
-//        logMonitorService.updateGrid(scrollPane.getPrefWidth());
-//
-////        scrollPane.widthProperty().addListener((obs, oldWidth, newWidth) -> updateGrid((double) newWidth));
-////        updateGrid(scrollPane.getPrefWidth());
-//    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeSidebarButtons();
@@ -419,10 +392,6 @@ public class AppController implements Initializable  {
                 gridPaneUpdater.updateGridOnResize((double) newWidth)
         );
         gridPaneUpdater.updateGridOnResize(scrollPane.getPrefWidth());
-    }
-
-    public void stopMonitoring() {
-        logMonitorService.stopWatching();
     }
 
     private void initializeSidebarButtons() {
@@ -451,7 +420,7 @@ public class AppController implements Initializable  {
 
         searchField.setPrefWidth(0);
         searchField.setVisible(false);
-        closeIconButton.setVisible(false); // Закрытие изначально скрыто
+        closeIconButton.setVisible(false);
         searchIcon.setVisible(false);
 
         searchIconButton.setOnMouseClicked(event -> showSearchField());
@@ -520,53 +489,4 @@ public class AppController implements Initializable  {
         searchIcon.setVisible(isSearchVisible);
         searchIcon.setManaged(isSearchVisible);
     }
-
-//    private int lastColumnCount = -1;
-
-    // TODO: если сделать ширину окна очень узкой, чтобы помещался только один элемент в ряду. то он не выравнивается по центру
-//    private void updateGrid(double width) {
-//        int columnCount = (int) Math.max(1, width / getSessionItemWidth());
-//
-//        if (columnCount == lastColumnCount) {
-//            return;
-//        }
-//        lastColumnCount = columnCount;
-//
-//        sessionItemGridPane.getChildren().clear();
-//
-//        int column = 0, row = 1;
-//
-//        try {
-//            for (LogFile logDoc : logDocList) {
-//                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Constants.VIEW_PATH + "session_item_view.fxml"));
-//                AnchorPane anchorPane = fxmlLoader.load();
-//
-//                SessionItemController technicItemController = fxmlLoader.getController();
-//                technicItemController.setData(logDoc);
-//
-//                sessionItemGridPane.add(anchorPane, column, row);
-//                GridPane.setMargin(anchorPane, new Insets(10));
-//
-//                column++;
-//                if (column >= columnCount) {
-//                    column = 0;
-//                    row++;
-//                }
-//            }
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
-
-//    private double getSessionItemWidth() {
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Constants.VIEW_PATH + "session_item_view.fxml"));
-//        AnchorPane anchorPane = null;
-//        try {
-//            anchorPane = fxmlLoader.load();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return anchorPane.getPrefWidth();
-//    }
 }
