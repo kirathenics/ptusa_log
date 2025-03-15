@@ -2,11 +2,11 @@ package org.example.ptusa_log.models;
 
 import javafx.beans.property.SimpleStringProperty;
 
-public class LogDoc {
+public class LogFile {
     private final SimpleStringProperty name;
     private final SimpleStringProperty deviceName;
 
-    public LogDoc(String name, String deviceName) {
+    public LogFile(String name, String deviceName) {
         this.name = new SimpleStringProperty(name);
         this.deviceName = new SimpleStringProperty(deviceName);
     }
@@ -29,7 +29,7 @@ public class LogDoc {
 
     @Override
     public String toString() {
-        return "LogDoc{" +
+        return "LogFile{" +
                 "name=" + name.get() +
                 ", deviceName=" + deviceName.get() +
                 '}';

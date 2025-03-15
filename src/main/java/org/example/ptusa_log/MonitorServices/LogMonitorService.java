@@ -2,10 +2,13 @@ package org.example.ptusa_log.MonitorServices;
 
 import javafx.application.Platform;
 import org.example.ptusa_log.helpers.GridPaneUpdater;
-import org.example.ptusa_log.models.LogDoc;
+import org.example.ptusa_log.models.LogFile;
+import org.example.ptusa_log.utils.LogFileProcessor;
 import org.example.ptusa_log.utils.LogPath;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +25,8 @@ public class LogMonitorService {
     }
 
     public void loadInitialLogs() {
-        List<LogDoc> logDocs = readLogFiles();
-        gridPaneUpdater.updateGrid(logDocs);
+        List<LogFile> logFiles = readLogFiles();
+        gridPaneUpdater.updateGrid(logFiles);
     }
 
     public void startWatching() {
@@ -52,8 +55,8 @@ public class LogMonitorService {
 
                 if (hasValidEvents) {
                     System.out.println("Изменения обнаружены! Обновление...");
-                    List<LogDoc> logDocs = readLogFiles();
-                    Platform.runLater(() -> gridPaneUpdater.updateGrid(logDocs));
+                    List<LogFile> logFiles = readLogFiles();
+                    Platform.runLater(() -> gridPaneUpdater.updateGrid(logFiles));
                 }
 
                 key.reset();
@@ -63,11 +66,13 @@ public class LogMonitorService {
         }
     }
 
-    private List<LogDoc> readLogFiles() {
-        List<LogDoc> logDocs = new ArrayList<>();
+    private List<LogFile> readLogFiles() {
+        List<LogFile> logDocs = new ArrayList<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(LOGS_PATH), "ptusa_*.log")) {
             for (Path entry : stream) {
-                logDocs.add(new LogDoc(entry.getFileName().toString(), "PLC NEXT DEMO"));
+                String logName = LogFileProcessor.extractLogName(entry);
+                String deviceName = LogFileProcessor.extractDeviceName(entry);
+                logDocs.add(new LogFile(logName, deviceName));
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -13,11 +13,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
-import org.example.ptusa_log.models.LogDoc;
+import org.example.ptusa_log.models.LogFile;
 import org.example.ptusa_log.utils.Constants;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -37,15 +36,15 @@ public class SessionItemController implements Initializable {
 
     private final ContextMenu contextMenu = new ContextMenu();
 
-    private LogDoc logDoc;
+    private LogFile logFile;
 
-    public void setData(LogDoc logDoc) {
-        this.logDoc = logDoc;
+    public void setData(LogFile logFile) {
+        this.logFile = logFile;
 
-        sessionLabel.setText(Constants.SESSION + logDoc.getName());
+        sessionLabel.setText(Constants.SESSION + logFile.getName());
         sessionLabel.setMinHeight(Region.USE_PREF_SIZE);
 
-        deviceLabel.setText((logDoc.getDeviceName()));
+        deviceLabel.setText((logFile.getDeviceName()));
     }
 
     @Override

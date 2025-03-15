@@ -58,12 +58,12 @@
 }
   
 .menu-item:focused {
-    -fx-background-color: #c1c1c1;
+    -fx-background-color: #ededed;
 }
 
-.menu-item:focused .label {
+/* .menu-item:focused .label {
     -fx-text-fill: white;
-}
+} */
 
 
 .h1-label {

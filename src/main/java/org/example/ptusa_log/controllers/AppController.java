@@ -377,15 +377,15 @@ public class AppController implements Initializable  {
     private final String ACTIVE_SIDEBAR_ICON_COLOR = "#fec526";
     private final String DEFAULT_SIDEBAR_ICON_COLOR = "#c1c1c1";
 
-//    private List<LogDoc> logDocList = new ArrayList<>(Arrays.asList(
-//        new LogDoc("2025-03-13_11-39-35", "PLC NEXT DEMO"),
-//        new LogDoc("2025-03-14_12-11-40", "PLC NEXT DEMO"),
-//        new LogDoc("2025-03-14_12-11-12", "PLC NEXT DEMO"),
-//        new LogDoc("2025-03-14_18-11-40", "PLC NEXT DEMO"),
-//        new LogDoc("2025-03-15_13-11-54", "PLC NEXT DEMO"),
-//        new LogDoc("2025-03-14_12-11-23", "PLC NEXT DEMO"),
-//        new LogDoc("2025-03-16_17-12-40", "PLC NEXT DEMO"),
-//        new LogDoc("2025-03-14_12-11-30", "PLC NEXT DEMO")
+//    private List<LogFile> logDocList = new ArrayList<>(Arrays.asList(
+//        new LogFile("2025-03-13_11-39-35", "PLC NEXT DEMO"),
+//        new LogFile("2025-03-14_12-11-40", "PLC NEXT DEMO"),
+//        new LogFile("2025-03-14_12-11-12", "PLC NEXT DEMO"),
+//        new LogFile("2025-03-14_18-11-40", "PLC NEXT DEMO"),
+//        new LogFile("2025-03-15_13-11-54", "PLC NEXT DEMO"),
+//        new LogFile("2025-03-14_12-11-23", "PLC NEXT DEMO"),
+//        new LogFile("2025-03-16_17-12-40", "PLC NEXT DEMO"),
+//        new LogFile("2025-03-14_12-11-30", "PLC NEXT DEMO")
 //    ));
 
 //    @Override
@@ -537,7 +537,7 @@ public class AppController implements Initializable  {
 //        int column = 0, row = 1;
 //
 //        try {
-//            for (LogDoc logDoc : logDocList) {
+//            for (LogFile logDoc : logDocList) {
 //                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Constants.VIEW_PATH + "session_item_view.fxml"));
 //                AnchorPane anchorPane = fxmlLoader.load();
 //

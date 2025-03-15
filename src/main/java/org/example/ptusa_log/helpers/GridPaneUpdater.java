@@ -6,7 +6,7 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import org.example.ptusa_log.controllers.SessionItemController;
-import org.example.ptusa_log.models.LogDoc;
+import org.example.ptusa_log.models.LogFile;
 import org.example.ptusa_log.utils.Constants;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ import java.util.List;
 public class GridPaneUpdater {
     private final GridPane sessionItemGridPane;
 
-    private List<LogDoc> logDocs;
+    private List<LogFile> logFiles;
 
     private int lastColumnCount = -1;
     private double gridWidth;
@@ -24,11 +24,11 @@ public class GridPaneUpdater {
         this.sessionItemGridPane = sessionItemGridPane;
     }
 
-    public void updateGrid(List<LogDoc> logDocs) {
-        this.logDocs = logDocs;
+    public void updateGrid(List<LogFile> logFiles) {
+        this.logFiles = logFiles;
 
-//        System.out.println(logDocs);
-//        System.out.println(this.logDocs);
+//        System.out.println(logFiles);
+//        System.out.println(this.logFiles);
 
         updateGrid();
     }
@@ -55,15 +55,15 @@ public class GridPaneUpdater {
 //            System.out.println("------------------------------------------");
             int i = 1;
 
-            for (LogDoc logDoc : logDocs) {
+            for (LogFile logFile : logFiles) {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "session_item_view.fxml"));
                     AnchorPane anchorPane = fxmlLoader.load();
 
                     SessionItemController technicItemController = fxmlLoader.getController();
-                    technicItemController.setData(logDoc);
+                    technicItemController.setData(logFile);
 
-//                    System.out.println(Integer.toString(i++) + " " + logDoc);
+//                    System.out.println(Integer.toString(i++) + " " + logFile);
 
                     sessionItemGridPane.add(anchorPane, column, row);
                     GridPane.setMargin(anchorPane, new Insets(10));
