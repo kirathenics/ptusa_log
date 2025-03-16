@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LogRecordDAO {
+    private LogRecordDAO() {}
+
     private static final List<LogRecord> logRecordList = new ArrayList<>(Arrays.asList(
             new LogRecord("2025-03-06", "20.31.10", "INFO", "Started!"),
             new LogRecord("2025-03-06", "20.31.12", "WARNING", "Do something please"),

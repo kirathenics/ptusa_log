@@ -4,6 +4,7 @@ module org.example.ptusa_log {
     requires de.jensd.fx.glyphs.commons;
     requires de.jensd.fx.glyphs.fontawesome;
     requires de.jensd.fx.glyphs.materialicons;
+    requires java.sql;
 
 
     opens org.example.ptusa_log to javafx.fxml;

@@ -87,7 +87,7 @@ import java.util.ResourceBundle;
 ////        sessionContainer.getChildren().add(anchorPane);
 ////        VBox.setMargin(anchorPane, new Insets(10));
 //
-//        logPath = LogPath.defineLogPath();
+//        logPath = SystemPaths.defineLogPath();
 //        startLogMonitoring();
 //    }
 //

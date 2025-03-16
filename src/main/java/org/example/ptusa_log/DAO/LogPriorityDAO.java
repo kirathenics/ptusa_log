@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LogPriorityDAO {
+    private LogPriorityDAO() {}
+
     private static final List<LogPriority> LOG_PRIORITY_LIST = new ArrayList<>(Arrays.asList(
             new LogPriority(1, "ALERT", "#ff0000", 1),
             new LogPriority(2, "CRITIC", "#ff0000", 2),

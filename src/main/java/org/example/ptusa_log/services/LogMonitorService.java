@@ -3,7 +3,7 @@ package org.example.ptusa_log.services;
 import javafx.application.Platform;
 import org.example.ptusa_log.models.LogFile;
 import org.example.ptusa_log.utils.LogFileProcessor;
-import org.example.ptusa_log.utils.LogPath;
+import org.example.ptusa_log.utils.SystemPaths;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 public class LogMonitorService {
-    private static final String LOGS_PATH = LogPath.defineLogPath();
+    private static final String LOGS_PATH = SystemPaths.defineLogFilesPath();
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private final Consumer<List<LogFile>> onLogsChanged;
     private volatile boolean running = true;
