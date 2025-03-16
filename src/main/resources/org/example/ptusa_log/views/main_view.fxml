@@ -58,7 +58,7 @@
                            <content>
                               <VBox alignment="TOP_CENTER">
                                  <children>
-                                    <HBox alignment="CENTER_LEFT">
+                                    <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0">
                                        <children>
 <!--                                          <FontAwesomeIconView fill="#bcbcbe" glyphName="BOOK" size="1.7em" />-->
 <!--                                          <MaterialIconView fill="#bcbcbe" glyphName="KEYBOARD_ARROW_RIGHT" size="1.5em">-->
@@ -80,26 +80,26 @@
 <!--                                             </children>-->
 <!--                                          </HBox>-->
                                           <Region HBox.hgrow="ALWAYS" />
-                                          <StackPane alignment="CENTER_RIGHT">
+                                          <StackPane>
                                              <children>
                                                 <TextField fx:id="searchField" prefWidth="400.0" promptText="Поиск…" styleClass="search-field">
                                                    <padding>
-                                                      <Insets bottom="5.0" left="10.0" right="40.0" top="5.0" />
+                                                      <Insets bottom="5.0" left="30.0" right="40.0" top="5.0" />
                                                    </padding>
                                                 </TextField>
-                                                <FontAwesomeIconView fx:id="searchIconButton" fill="#bcbcbe" glyphName="SEARCH" size="1.7em" styleClass="search-icon">
+                                                <FontAwesomeIconView fx:id="searchIconButton" fill="#bcbcbe" glyphName="SEARCH" size="1.7em" styleClass="search-icon" StackPane.alignment="CENTER_RIGHT">
                                                    <StackPane.margin>
                                                       <Insets right="10.0" />
                                                    </StackPane.margin>
                                                 </FontAwesomeIconView>
-                                                <MaterialIconView fx:id="closeIconButton" fill="#b73f0c" glyphName="CLOSE" size="2em">
+                                                <MaterialIconView fx:id="closeIconButton" fill="#bcbcbe" glyphName="CLOSE" size="1.7em" StackPane.alignment="CENTER_RIGHT">
                                                    <StackPane.margin>
                                                       <Insets right="10.0" />
                                                    </StackPane.margin>
                                                 </MaterialIconView>
-                                                <FontAwesomeIconView fx:id="searchIcon" fill="#bcbcbe" glyphName="SEARCH" size="1.7em" styleClass="search-icon">
+                                                <FontAwesomeIconView fx:id="searchIcon" fill="#bcbcbe" glyphName="SEARCH" size="1.7em" styleClass="search-icon" StackPane.alignment="CENTER_LEFT">
                                                    <StackPane.margin>
-                                                      <Insets right="375.0" />
+                                                      <Insets left="7.0" />
                                                    </StackPane.margin>
                                                 </FontAwesomeIconView>
                                              </children>
