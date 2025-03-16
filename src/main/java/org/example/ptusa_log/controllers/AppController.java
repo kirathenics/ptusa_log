@@ -2,15 +2,12 @@ package org.example.ptusa_log.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialicons.MaterialIconView;
-import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 import org.example.ptusa_log.services.LogManager;
 import org.example.ptusa_log.services.LogMonitorService;
 import org.example.ptusa_log.services.GridPaneUpdater;
@@ -373,8 +370,7 @@ public class AppController implements Initializable  {
     private LogManager logManager;
     private LogMonitorService logMonitorService;
     private GridPaneUpdater gridPaneUpdater;
-
-    private boolean isSearchVisible = false;
+    private SearchBarController searchBarController;
 
     private final String ACTIVE_SIDEBAR_ICON_COLOR = "#fec526";
     private final String DEFAULT_SIDEBAR_ICON_COLOR = "#c1c1c1";
@@ -382,19 +378,7 @@ public class AppController implements Initializable  {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeSidebarButtons();
-        initializeSearchBar();
-
-        gridPaneUpdater = new GridPaneUpdater(sessionItemGridPane);
-        logManager = new LogManager(gridPaneUpdater::updateGrid);
-        logMonitorService = new LogMonitorService(logManager::updateLogs);
-
-        logMonitorService.loadInitialLogs();
-        logMonitorService.startWatching();
-
-        scrollPane.widthProperty().addListener((obs, oldWidth, newWidth) ->
-                gridPaneUpdater.updateGridOnResize((double) newWidth)
-        );
-        gridPaneUpdater.updateGridOnResize(scrollPane.getPrefWidth());
+        initializeLogControls();
     }
 
     private void initializeSidebarButtons() {
@@ -409,88 +393,26 @@ public class AppController implements Initializable  {
         setActiveIcon(homeSidebarButton);
     }
 
+    private void initializeLogControls() {
+        gridPaneUpdater = new GridPaneUpdater(sessionItemGridPane);
+        logManager = new LogManager(gridPaneUpdater::updateGrid);
+        logMonitorService = new LogMonitorService(logManager::updateLogs);
+        searchBarController = new SearchBarController(searchField, searchIconButton, closeIconButton, searchIcon,
+                query -> logManager.setSearchQuery(query));
+
+        logMonitorService.loadInitialLogs();
+        logMonitorService.startWatching();
+
+        scrollPane.widthProperty().addListener((obs, oldWidth, newWidth) ->
+                gridPaneUpdater.updateGridOnResize((double) newWidth)
+        );
+        gridPaneUpdater.updateGridOnResize(scrollPane.getPrefWidth());
+    }
+
     private void setActiveIcon(FontAwesomeIconView activeIcon) {
         homeSidebarButton.setFill(Color.web(DEFAULT_SIDEBAR_ICON_COLOR));
         aboutSidebarButton.setFill(Color.web(DEFAULT_SIDEBAR_ICON_COLOR));
 
         activeIcon.setFill(Color.web(ACTIVE_SIDEBAR_ICON_COLOR));
-    }
-
-    private void initializeSearchBar() {
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            closeIconButton.setVisible(!newValue.isEmpty()); // Показывать closeIconButton только если есть текст
-            logManager.setSearchQuery(newValue);
-        });
-
-        searchField.setPrefWidth(0);
-        searchField.setVisible(false);
-        closeIconButton.setVisible(false);
-        searchIcon.setVisible(false);
-
-        searchIconButton.setOnMouseClicked(event -> showSearchField());
-        closeIconButton.setOnMouseClicked(event -> hideSearchField());
-
-        searchField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ESCAPE) {
-                if (searchField.getText().isEmpty()) {
-                    hideSearchField();
-                } else {
-                    searchField.clear();
-                    closeIconButton.setVisible(false);
-                }
-            }
-        });
-    }
-
-    private void showSearchField() {
-        if (!isSearchVisible) {
-            isSearchVisible = true;
-            searchField.setVisible(true);
-            searchField.setManaged(true);
-            searchField.requestFocus();
-
-            setSearchVisibility();
-
-            Timeline timeline = new Timeline(
-                    new KeyFrame(Duration.millis(300),
-                            new KeyValue(searchField.prefWidthProperty(), 400.0, Interpolator.EASE_BOTH)
-                    )
-            );
-            timeline.play();
-        }
-    }
-
-    private void hideSearchField() {
-        if (isSearchVisible) {
-            isSearchVisible = false;
-            searchField.clear();
-            closeIconButton.setVisible(false);
-
-            setSearchVisibility();
-
-            Timeline timeline = new Timeline(
-                    new KeyFrame(Duration.millis(300),
-                            new KeyValue(searchField.prefWidthProperty(), 0.0, Interpolator.EASE_BOTH)
-                    )
-            );
-            timeline.setOnFinished(e -> {
-                searchField.setVisible(false);
-                searchField.setManaged(false);
-            });
-            timeline.play();
-        }
-    }
-
-    private void setSearchVisibility() {
-        searchField.setFocusTraversable(isSearchVisible);
-
-        searchIconButton.setVisible(!isSearchVisible);
-        searchIconButton.setManaged(!isSearchVisible);
-
-        closeIconButton.setVisible(isSearchVisible);
-        closeIconButton.setManaged(isSearchVisible);
-
-        searchIcon.setVisible(isSearchVisible);
-        searchIcon.setManaged(isSearchVisible);
     }
 }
