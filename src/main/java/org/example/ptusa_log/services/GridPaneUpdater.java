@@ -1,4 +1,4 @@
-package org.example.ptusa_log.helpers;
+package org.example.ptusa_log.services;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -12,60 +12,52 @@ import org.example.ptusa_log.utils.Constants;
 import java.io.IOException;
 import java.util.List;
 
-// TODO: если сделать ширину окна очень узкой, чтобы помещался только один элемент в ряду. то он не выравнивается по центру
 public class GridPaneUpdater {
     private final GridPane sessionItemGridPane;
+    private List<LogFile> currentLogFiles;
 
-    private List<LogFile> logFiles;
-
-    private int lastColumnCount = -1;
     private double gridWidth;
+    private int lastColumnCount = -1;
 
     public GridPaneUpdater(GridPane sessionItemGridPane) {
         this.sessionItemGridPane = sessionItemGridPane;
-    }
-
-    public void updateGrid(List<LogFile> logFiles) {
-        this.logFiles = logFiles;
-
-        updateGrid();
+        gridWidth = sessionItemGridPane.getPrefWidth();
     }
 
     public void updateGridOnResize(double width) {
         gridWidth = width;
+        if (currentLogFiles != null) {
+            int columnCount = (int) Math.max(1, gridWidth / (SessionItemController.getItemWidth() + 20));
 
-        updateGrid();
-    }
-
-    private void updateGrid() {
-        Platform.runLater(() -> {
-            int columnCount = (int) Math.max(1, gridWidth / SessionItemController.getItemWidth());
-
-//        if (columnCount == lastColumnCount) {
-//            return;
-//        }
+            if (columnCount == lastColumnCount) {
+                return;
+            }
             lastColumnCount = columnCount;
 
+            updateGrid(currentLogFiles);
+        }
+    }
+
+    public void updateGrid(List<LogFile> logFiles) {
+        this.currentLogFiles = logFiles;
+        Platform.runLater(() -> {
+            int columnCount = (int) Math.max(1, gridWidth / (SessionItemController.getItemWidth() + 20));
+
             sessionItemGridPane.getChildren().clear();
-
             int column = 0, row = 1;
-
             for (LogFile logFile : logFiles) {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "session_item_view.fxml"));
                     AnchorPane anchorPane = fxmlLoader.load();
 
-                    SessionItemController technicItemController = fxmlLoader.getController();
-                    technicItemController.setData(logFile);
+                    SessionItemController controller = fxmlLoader.getController();
+                    controller.setData(logFile);
 
                     sessionItemGridPane.add(anchorPane, column, row);
                     GridPane.setMargin(anchorPane, new Insets(10));
 
-                    column++;
-                    if (column >= columnCount) {
-                        column = 0;
-                        row++;
-                    }
+                    column = (column + 1) % columnCount;
+                    if (column == 0) row++;
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

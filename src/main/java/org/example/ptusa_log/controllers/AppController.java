@@ -11,8 +11,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import org.example.ptusa_log.MonitorServices.LogMonitorService;
-import org.example.ptusa_log.helpers.GridPaneUpdater;
+import org.example.ptusa_log.services.LogManager;
+import org.example.ptusa_log.services.LogMonitorService;
+import org.example.ptusa_log.services.GridPaneUpdater;
 import org.example.ptusa_log.utils.Constants;
 import org.example.ptusa_log.utils.UserDialogs;
 
@@ -369,6 +370,7 @@ public class AppController implements Initializable  {
     @FXML
     private GridPane sessionItemGridPane;
 
+    private LogManager logManager;
     private LogMonitorService logMonitorService;
     private GridPaneUpdater gridPaneUpdater;
 
@@ -383,7 +385,8 @@ public class AppController implements Initializable  {
         initializeSearchBar();
 
         gridPaneUpdater = new GridPaneUpdater(sessionItemGridPane);
-        logMonitorService = new LogMonitorService(gridPaneUpdater);
+        logManager = new LogManager(gridPaneUpdater::updateGrid);
+        logMonitorService = new LogMonitorService(logManager::updateLogs);
 
         logMonitorService.loadInitialLogs();
         logMonitorService.startWatching();
@@ -416,6 +419,7 @@ public class AppController implements Initializable  {
     private void initializeSearchBar() {
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             closeIconButton.setVisible(!newValue.isEmpty()); // Показывать closeIconButton только если есть текст
+            logManager.setSearchQuery(newValue);
         });
 
         searchField.setPrefWidth(0);
