@@ -9,7 +9,8 @@ public class Constants {
     // TODO: write appropriate PROGRAM_INFO
     public static final String PROGRAM_INFO = "Данная программа предоставляет логи контроллеров";
 
-    public static final String SESSION =  "Сессия ";
+    public static final String SESSION = "Сессия ";
+    public static final String DEVICE = "Устройство: ";
 
     public static final String EDIT_CONTENT_MENU_ACTION = "Редактировать";
     public static final String DELETE_CONTENT_MENU_ACTION = "Удалить";

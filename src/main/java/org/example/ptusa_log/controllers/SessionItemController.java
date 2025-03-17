@@ -4,9 +4,12 @@ import com.dlsc.gemsfx.ExpandingTextArea;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialicons.MaterialIconView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.CacheHint;
+import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -46,7 +49,7 @@ public class SessionItemController implements Initializable {
         sessionTextArea.setText(logFile.getAliasName());
         sessionTextArea.setEditable(false);
 
-        deviceLabel.setText((logFile.getDeviceName()));
+        deviceLabel.setText(Constants.DEVICE + logFile.getDeviceName());
     }
 
     @Override

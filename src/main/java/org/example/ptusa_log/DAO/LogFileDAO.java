@@ -1,7 +1,9 @@
 package org.example.ptusa_log.DAO;
 
 import org.example.ptusa_log.models.LogFile;
+import org.example.ptusa_log.utils.LogFileProcessor;
 
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,5 +77,42 @@ public class LogFileDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void insertOrUpdateFile(String filePath) {
+        LogFile logFile = findLogFileByFilePath(filePath);
+        if (logFile == null) {
+            addLogFile(filePath,
+                    LogFileProcessor.extractAliasName(Paths.get(filePath)),
+                    LogFileProcessor.extractDeviceName(Paths.get(filePath)),
+                    0);
+        } else {
+            setLogFileDeletion(logFile.getId(), 9);
+        }
+    }
+
+    public static LogFile findLogFileByFilePath(String filePath) {
+        String sql = "SELECT * FROM log_files WHERE path = ?";
+
+        try (Connection conn = SQLiteDatabaseManager.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, filePath);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new LogFile(
+                        rs.getInt("id"),
+                        rs.getString("path"),
+                        rs.getString("alias_name"),
+                        rs.getString("device_name"),
+                        rs.getInt("is_deleted")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null; // Если файл не найден
     }
 }

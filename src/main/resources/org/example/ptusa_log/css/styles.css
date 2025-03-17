@@ -33,8 +33,8 @@
     -fx-border-width: 2px;
     -fx-border-radius: 8px;
 
-    -fx-scale-x: 1;
-    -fx-scale-y: 1;
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
 }
 
 .session-item:hover {
@@ -176,6 +176,31 @@
 }
 
 
+.add-session-button {
+    -fx-background-color: #38be88; /* Зелёный фон */
+    -fx-text-fill: white; /* Белый текст */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px 8px 8px;
+    -fx-alignment: center-left;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
+}
+
+.add-session-button .text {
+    -fx-padding: 10px;
+}
+
+.add-session-button:hover {
+    -fx-background-color: #34af7e;
+
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
 .custom-table-view {
     -fx-background-color: transparent;
     -fx-border-color: #052c4d;
@@ -235,5 +260,6 @@
 /* dark dark blue       0a3151 */
 /* new dark dark blue   052c4d */
 /* steel blue           4083BB */
+/* mint green           38be88  */
 /* red                  ed1b2f */
 /* yellow               fec526 */

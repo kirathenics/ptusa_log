@@ -11,12 +11,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import org.example.ptusa_log.DAO.LogFileDAO;
 import org.example.ptusa_log.services.LogManager;
 import org.example.ptusa_log.services.LogMonitorService;
 import org.example.ptusa_log.services.GridPaneUpdater;
 import org.example.ptusa_log.utils.Constants;
 import org.example.ptusa_log.utils.UserDialogs;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -360,6 +363,9 @@ public class AppController implements Initializable  {
     private HBox searchBarContainer;
 
     @FXML
+    private Button addSessionButton;
+
+    @FXML
     private GridPane sessionItemGridPane;
 
     private LogManager logManager;
@@ -374,6 +380,8 @@ public class AppController implements Initializable  {
         initializeSidebarButtons();
         initializeLogControls();
         loadSearchBar();
+
+        addSessionButton.setOnAction(event -> handleAddSession());
     }
 
     private void initializeSidebarButtons() {
@@ -386,6 +394,20 @@ public class AppController implements Initializable  {
         });
 
         setActiveIcon(homeSidebarButton);
+    }
+
+    private void loadSearchBar() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "search_bar_view.fxml"));
+            loader.load();
+
+            SearchBarController controller = loader.getController();
+            controller.setOnSearchQueryChange(logManager::setSearchQuery);
+
+            searchBarContainer.getChildren().add(controller.getRootPane());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void initializeLogControls() {
@@ -402,25 +424,33 @@ public class AppController implements Initializable  {
         gridPaneUpdater.updateGridOnResize(scrollPane.getPrefWidth());
     }
 
-    private void loadSearchBar() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "search_bar_view.fxml"));
-            loader.load();
-
-            SearchBarController controller = loader.getController();
-            controller.setOnSearchQueryChange(logManager::setSearchQuery);
-
-            searchBarContainer.getChildren().add(controller.getRootPane());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
     private void setActiveIcon(FontAwesomeIconView activeIcon) {
         homeSidebarButton.setFill(Color.web(DEFAULT_SIDEBAR_ICON_COLOR));
         aboutSidebarButton.setFill(Color.web(DEFAULT_SIDEBAR_ICON_COLOR));
 
         activeIcon.setFill(Color.web(ACTIVE_SIDEBAR_ICON_COLOR));
+    }
+
+    private void handleAddSession() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Выберите файл сессии");
+
+        // Фильтр для файлов (например, только .log файлы)
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Лог-файлы (*.log)", "*.log");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        // Открытие диалога выбора файла
+        File selectedFile = fileChooser.showOpenDialog(rootPane.getScene().getWindow());
+
+        if (selectedFile != null) {
+            String filePath = selectedFile.getAbsolutePath();
+            System.out.println("Выбран файл: " + filePath);
+
+            // Здесь можно добавить логику обработки пути, например, сохранить в список сессий
+            LogFileDAO.insertOrUpdateFile(filePath);
+
+        } else {
+            System.out.println("Выбор файла отменён");
+        }
     }
 }
