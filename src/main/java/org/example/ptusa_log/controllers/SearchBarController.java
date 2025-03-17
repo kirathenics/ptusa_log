@@ -6,37 +6,57 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
-public class SearchBarController {
-    private final TextField searchField;
-    private final FontAwesomeIconView searchIconButton;
-    private final MaterialIconView closeIconButton;
-    private final FontAwesomeIconView searchIcon;
-    private final Consumer<String> onSearchQueryChange;
+public class SearchBarController implements Initializable {
+
+    @FXML
+    private StackPane rootPane;
+
+    @FXML
+    private TextField searchField;
+
+    @FXML
+    private FontAwesomeIconView searchIconButton;
+
+    @FXML
+    private MaterialIconView closeIconButton;
+
+    @FXML
+    private FontAwesomeIconView searchIcon;
+
+    private Consumer<String> onSearchQueryChange;
 
     private boolean isSearchVisible = false;
 
-    public SearchBarController(TextField searchField, FontAwesomeIconView searchIconButton,
-                               MaterialIconView closeIconButton, FontAwesomeIconView searchIcon,
-                               Consumer<String> onSearchQueryChange) {
-        this.searchField = searchField;
-        this.searchIconButton = searchIconButton;
-        this.closeIconButton = closeIconButton;
-        this.searchIcon = searchIcon;
-        this.onSearchQueryChange = onSearchQueryChange;
+    public StackPane getRootPane() {
+        return rootPane;
+    }
 
+    public void setOnSearchQueryChange(Consumer<String> onSearchQueryChange) {
+        this.onSearchQueryChange = onSearchQueryChange;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeSearchBar();
     }
 
     private void initializeSearchBar() {
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             closeIconButton.setVisible(!newValue.isEmpty());
-            onSearchQueryChange.accept(newValue);
+            if (onSearchQueryChange != null) {
+                onSearchQueryChange.accept(newValue.trim());
+            }
         });
 
         searchField.setPrefWidth(0);

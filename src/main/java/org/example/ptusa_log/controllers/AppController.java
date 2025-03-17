@@ -3,10 +3,13 @@ package org.example.ptusa_log.controllers;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialicons.MaterialIconView;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import org.example.ptusa_log.services.LogManager;
 import org.example.ptusa_log.services.LogMonitorService;
@@ -14,6 +17,7 @@ import org.example.ptusa_log.services.GridPaneUpdater;
 import org.example.ptusa_log.utils.Constants;
 import org.example.ptusa_log.utils.UserDialogs;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -353,16 +357,7 @@ public class AppController implements Initializable  {
     private ScrollPane scrollPane;
 
     @FXML
-    private TextField searchField;
-
-    @FXML
-    private FontAwesomeIconView searchIconButton;
-
-    @FXML
-    private MaterialIconView closeIconButton;
-
-    @FXML
-    private FontAwesomeIconView searchIcon;
+    private HBox searchBarContainer;
 
     @FXML
     private GridPane sessionItemGridPane;
@@ -370,7 +365,6 @@ public class AppController implements Initializable  {
     private LogManager logManager;
     private LogMonitorService logMonitorService;
     private GridPaneUpdater gridPaneUpdater;
-    private SearchBarController searchBarController;
 
     private final String ACTIVE_SIDEBAR_ICON_COLOR = "#fec526";
     private final String DEFAULT_SIDEBAR_ICON_COLOR = "#c1c1c1";
@@ -379,6 +373,7 @@ public class AppController implements Initializable  {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeSidebarButtons();
         initializeLogControls();
+        loadSearchBar();
     }
 
     private void initializeSidebarButtons() {
@@ -397,8 +392,6 @@ public class AppController implements Initializable  {
         gridPaneUpdater = new GridPaneUpdater(sessionItemGridPane);
         logManager = new LogManager(gridPaneUpdater::updateGrid);
         logMonitorService = new LogMonitorService(logManager::updateLogs);
-        searchBarController = new SearchBarController(searchField, searchIconButton, closeIconButton, searchIcon,
-                query -> logManager.setSearchQuery(query));
 
         logMonitorService.loadInitialLogs();
         logMonitorService.startWatching();
@@ -407,6 +400,21 @@ public class AppController implements Initializable  {
                 gridPaneUpdater.updateGridOnResize((double) newWidth)
         );
         gridPaneUpdater.updateGridOnResize(scrollPane.getPrefWidth());
+    }
+
+    private void loadSearchBar() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "search_bar_view.fxml"));
+            loader.load();
+
+            SearchBarController controller = loader.getController();
+            controller.setOnSearchQueryChange(logManager::setSearchQuery);
+
+            searchBarContainer.getChildren().add(controller.getRootPane());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private void setActiveIcon(FontAwesomeIconView activeIcon) {
