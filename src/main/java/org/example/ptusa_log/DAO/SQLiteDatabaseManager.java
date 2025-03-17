@@ -1,49 +1,22 @@
 package org.example.ptusa_log.DAO;
 
+import org.example.ptusa_log.utils.SQLReader;
+
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class SQLiteDatabaseManager {
-//    private static final String DB_FILE_NAME = "extra_data.db";
-//    private static final String DB_PATH = System.getProperty("user.home") +
-//            File.separator +
-//            "ptusa_log" +
-//            File.separator +
-//            DB_FILE_NAME;
-//    private static final String URL = "jdbc:sqlite:" + DB_PATH;
-//
-//    static {
-//        extractDatabase();
-//    }
-//
-//    public static Connection getConnection() throws SQLException {
-//        return DriverManager.getConnection(URL);
-//    }
-//
-//    private static void extractDatabase() {
-//        File dbFile = new File(DB_PATH);
-//        if (!dbFile.exists()) {
-//            try (InputStream is = SQLiteDatabaseManager.class.getResourceAsStream( Constants.PROJECT_PATH + DB_FILE_NAME)) {
-//                if (is == null) {
-//                    throw new RuntimeException("Файл базы данных не найден в ресурсах!");
-//                }
-//                Files.copy(is, dbFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-//                System.out.println("База данных скопирована в " + DB_PATH);
-//            } catch (IOException e) {
-//                throw new RuntimeException("Ошибка копирования базы данных", e);
-//            }
-//        }
-//    }
-
-//    private static final String DB_PATH;
-
-    private static final String DB_FILE_NAME = "extra_data.db";
+    private static final String DB_FILE_NAME = "logs_data.db";
     private static final String DB_PATH = System.getProperty("user.home") +
             File.separator +
             "ptusa_log" +
+            File.separator +
+            "data" +
             File.separator +
             DB_FILE_NAME;
 
@@ -57,9 +30,9 @@ public class SQLiteDatabaseManager {
         File dbFile = new File(DB_PATH);
         if (!dbFile.exists()) {
             try {
-//                Files.createDirectories(Paths.get(dbFile.getParent()));
-                dbFile.getParentFile().mkdirs();
-                dbFile.createNewFile();
+                Files.createDirectories(Paths.get(dbFile.getParent()));
+//                dbFile.getParentFile().mkdirs();
+//                dbFile.createNewFile();
             } catch (Exception e) {
                 throw new RuntimeException("Ошибка создания директории для БД!", e);
             }
@@ -81,42 +54,54 @@ public class SQLiteDatabaseManager {
 //        applyMigrations();
     }
 
+//    private static void initializeLogFilesTable() {
+//        String sql = """
+//            CREATE TABLE IF NOT EXISTS log_files (
+//                id INTEGER PRIMARY KEY AUTOINCREMENT,
+//                path TEXT NOT NULL UNIQUE,
+//                alias_name TEXT NOT NULL,
+//                device_name TEXT NOT NULL,
+//                is_deleted INTEGER NOT NULL DEFAULT 0
+//            );
+//        """;
+//
+//        try (Connection conn = connect();
+//             Statement stmt = conn.createStatement()) {
+//            stmt.execute(sql);
+//        } catch (SQLException e) {
+//            throw new RuntimeException("Ошибка инициализации БД", e);
+//        }
+//    }
+
     private static void initializeLogFilesTable() {
-        String sql = """
-            CREATE TABLE IF NOT EXISTS log_files (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                path TEXT NOT NULL UNIQUE,
-                alias_name TEXT NOT NULL,
-                device_name TEXT NOT NULL,
-                is_deleted INTEGER NOT NULL DEFAULT 0
-            );
-        """;
+        String schemaFile = "log_files_table_schema.sql";
+
+        String createTableSql = SQLReader.readSQLFileFromResource(schemaFile);
 
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
+            stmt.execute(createTableSql);
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка инициализации БД", e);
         }
     }
 
     private static void initializeLofPrioritiesTable() {
-        String sql = """
-            CREATE TABLE IF NOT EXISTS log_priorities (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL UNIQUE,
-                color TEXT NOT NULL,
-                priority INTEGER NOT NULL
-            );
-        """;
+        String schemaFile = "log_priorities_table_schema.sql";
+        String dataFile = "log_priorities_data.sql";
+
+        String createTableSql = SQLReader.readSQLFileFromResource(schemaFile);
+        String insertDefaultsSql = SQLReader.readSQLFileFromResource(dataFile);
 
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
+            stmt.execute(createTableSql);
+            stmt.execute(insertDefaultsSql);
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка инициализации БД", e);
         }
     }
+
 
 //    private static void applyMigrations() {
 //        List<String> migrations = List.of(
@@ -135,9 +120,4 @@ public class SQLiteDatabaseManager {
 //        }
 //    }
 }
-
-
-
-
-
 
