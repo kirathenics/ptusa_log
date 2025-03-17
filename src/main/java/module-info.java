@@ -1,10 +1,10 @@
 module org.example.ptusa_log {
-    requires javafx.controls;
     requires javafx.fxml;
     requires de.jensd.fx.glyphs.commons;
     requires de.jensd.fx.glyphs.fontawesome;
     requires de.jensd.fx.glyphs.materialicons;
     requires java.sql;
+    requires com.dlsc.gemsfx;
 
 
     opens org.example.ptusa_log to javafx.fxml;

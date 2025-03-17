@@ -44,11 +44,45 @@
     -fx-scale-y: 1.05;
 }
 
+.session-text-area {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+
+    -fx-padding: 0;
+
+    -fx-border-insets: 0px;
+    -fx-background-insets: 0px;
+}
+
+.session-text-area .content {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+
+    -fx-padding: 0;
+
+    -fx-border-insets: 0px;
+    -fx-background-insets: 0px;
+}
+
+.session-text-area .scroll-pane {
+    -fx-hbar-policy: NEVER;
+    -fx-vbar-policy: NEVER;
+    -fx-background-color: transparent;
+}
+
+.session-text-area .scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.session-text-area .scroll-pane .content {
+    -fx-background-color: transparent;
+}
+
 .context-menu {
     -fx-background-color: white;
     -fx-background-radius: 8px; 
     -fx-text-fill: white;
-  }
+}
   
 .menu-item .label {
     -fx-text-fill: black;

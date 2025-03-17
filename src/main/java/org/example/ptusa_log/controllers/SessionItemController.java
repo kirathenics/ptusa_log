@@ -1,5 +1,6 @@
 package org.example.ptusa_log.controllers;
 
+import com.dlsc.gemsfx.ExpandingTextArea;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialicons.MaterialIconView;
@@ -9,10 +10,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
+import org.example.ptusa_log.DAO.LogFileDAO;
 import org.example.ptusa_log.models.LogFile;
 import org.example.ptusa_log.utils.Constants;
 
@@ -26,7 +28,7 @@ public class SessionItemController implements Initializable {
     private AnchorPane rootPane;
 
     @FXML
-    private Label sessionLabel;
+    private ExpandingTextArea sessionTextArea;
 
     @FXML
     private Label deviceLabel;
@@ -41,8 +43,8 @@ public class SessionItemController implements Initializable {
     public void setData(LogFile logFile) {
         this.logFile = logFile;
 
-        sessionLabel.setText(logFile.getAliasName());
-        sessionLabel.setMinHeight(Region.USE_PREF_SIZE);
+        sessionTextArea.setText(logFile.getAliasName());
+        sessionTextArea.setEditable(false);
 
         deviceLabel.setText((logFile.getDeviceName()));
     }
@@ -83,10 +85,40 @@ public class SessionItemController implements Initializable {
 
     private void handleEdit() {
         System.out.println("Редактирование...");
+
+        sessionTextArea.setEditable(true);
+        sessionTextArea.requestFocus();
+        sessionTextArea.selectAll();
+
+        sessionTextArea.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                event.consume(); // Убираем перенос строки
+
+                sessionTextArea.setText(sessionTextArea.getText().replace("\n", "").trim());
+
+                saveEdit();
+            }
+        });
+
+        sessionTextArea.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+            if (!isNowFocused) {
+                saveEdit();
+            }
+        });
+    }
+
+    private void saveEdit() {
+        sessionTextArea.setEditable(false);
+
+        String newText = sessionTextArea.getText().trim();
+        LogFileDAO.setAliasName(logFile.getId(), newText);
+
+        System.out.println("Сохранено: " + newText);
     }
 
     private void handleDelete() {
         System.out.println("Удаление...");
+        LogFileDAO.setLogFileDeletion(logFile.getId(), 1);
     }
 
     private void openDetailScene(MouseEvent event) {

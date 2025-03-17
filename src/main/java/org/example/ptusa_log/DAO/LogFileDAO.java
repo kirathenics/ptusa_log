@@ -48,4 +48,32 @@ public class LogFileDAO {
             e.printStackTrace();
         }
     }
+
+    public static void setAliasName(Integer id, String aliasName) {
+        String sql = "UPDATE log_files SET alias_name = ? WHERE id = ?";
+
+        try (Connection conn = SQLiteDatabaseManager.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, aliasName);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setLogFileDeletion(Integer id, Integer isDeleted) {
+        String sql = "UPDATE log_files SET is_deleted = ? WHERE id = ?";
+
+        try (Connection conn = SQLiteDatabaseManager.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, isDeleted);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
