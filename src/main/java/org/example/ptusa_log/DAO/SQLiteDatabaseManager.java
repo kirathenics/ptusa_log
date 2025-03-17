@@ -1,8 +1,6 @@
 package org.example.ptusa_log.DAO;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -40,16 +38,28 @@ public class SQLiteDatabaseManager {
 //        }
 //    }
 
-    private static final String DB_PATH;
+//    private static final String DB_PATH;
+
+    private static final String DB_FILE_NAME = "extra_data.db";
+    private static final String DB_PATH = System.getProperty("user.home") +
+            File.separator +
+            "ptusa_log" +
+            File.separator +
+            DB_FILE_NAME;
+
+    private static final String JDBC_URL = "jdbc:sqlite:" + DB_PATH;
 
     static {
-        String envPath = System.getenv("DB_PATH");
-        DB_PATH = (envPath != null) ? envPath : "database/development.db";
+//        String envPath = System.getenv("DB_PATH");
+//        DB_PATH = (envPath != null) ? envPath : "database/development.db";
+//        System.out.println(DB_PATH);
 
         File dbFile = new File(DB_PATH);
         if (!dbFile.exists()) {
             try {
-                Files.createDirectories(Paths.get(dbFile.getParent()));
+//                Files.createDirectories(Paths.get(dbFile.getParent()));
+                dbFile.getParentFile().mkdirs();
+                dbFile.createNewFile();
             } catch (Exception e) {
                 throw new RuntimeException("Ошибка создания директории для БД!", e);
             }
@@ -58,8 +68,6 @@ public class SQLiteDatabaseManager {
         initializeDatabase();
     }
 
-    private static final String JDBC_URL = "jdbc:sqlite:" + DB_PATH;
-
     private SQLiteDatabaseManager() {}
 
     public static Connection connect() throws SQLException {
@@ -67,14 +75,20 @@ public class SQLiteDatabaseManager {
     }
 
     private static void initializeDatabase() {
+        initializeLogFilesTable();
+        initializeLofPrioritiesTable();
+
+//        applyMigrations();
+    }
+
+    private static void initializeLogFilesTable() {
         String sql = """
             CREATE TABLE IF NOT EXISTS log_files (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 path TEXT NOT NULL UNIQUE,
-                display_name TEXT,
-                device_name TEXT,
-                is_deleted INTEGER DEFAULT 0,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                alias_name TEXT NOT NULL,
+                device_name TEXT NOT NULL,
+                is_deleted INTEGER NOT NULL DEFAULT 0
             );
         """;
 
@@ -84,8 +98,24 @@ public class SQLiteDatabaseManager {
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка инициализации БД", e);
         }
+    }
 
-//        applyMigrations();
+    private static void initializeLofPrioritiesTable() {
+        String sql = """
+            CREATE TABLE IF NOT EXISTS log_priorities (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL UNIQUE,
+                color TEXT NOT NULL,
+                priority INTEGER NOT NULL
+            );
+        """;
+
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка инициализации БД", e);
+        }
     }
 
 //    private static void applyMigrations() {
@@ -105,3 +135,9 @@ public class SQLiteDatabaseManager {
 //        }
 //    }
 }
+
+
+
+
+
+

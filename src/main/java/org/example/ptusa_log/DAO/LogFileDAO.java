@@ -11,7 +11,7 @@ public class LogFileDAO {
 
     public static List<LogFile> getLogFiles() {
         List<LogFile> logs = new ArrayList<>();
-        String sql = "SELECT * FROM log_files WHERE is_deleted = 0 ORDER BY created_at DESC";
+        String sql = "SELECT * FROM log_files WHERE is_deleted = 0 ORDER BY alias_name DESC";
 
         try (Connection conn = SQLiteDatabaseManager.connect();
              Statement stmt = conn.createStatement();
@@ -19,11 +19,11 @@ public class LogFileDAO {
 
             while (rs.next()) {
                 logs.add(new LogFile(
-//                        rs.getInt("id"),
+                        rs.getInt("id"),
                         rs.getString("path"),
-                        rs.getString("device_name")
-//                        rs.getString("display_name"),
-//                        rs.getTimestamp("created_at")
+                        rs.getString("alias_name"),
+                        rs.getString("device_name"),
+                        rs.getInt("is_deleted")
                 ));
             }
         } catch (SQLException e) {
@@ -33,13 +33,16 @@ public class LogFileDAO {
         return logs;
     }
 
-    public static void addLogFile(String path, String displayName) {
-        String sql = "INSERT INTO log_files (path, display_name) VALUES (?, ?)";
+    public static void addLogFile(String path, String aliasName, String deviceName, Integer isDeleted) {
+        String sql = "INSERT or IGNORE INTO log_files (path, alias_name, device_name, is_deleted) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = SQLiteDatabaseManager.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
+
             stmt.setString(1, path);
-            stmt.setString(2, displayName);
+            stmt.setString(2, aliasName);
+            stmt.setString(3, deviceName);
+            stmt.setInt(4, isDeleted);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

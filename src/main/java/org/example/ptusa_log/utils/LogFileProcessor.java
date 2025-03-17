@@ -7,10 +7,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class LogFileProcessor {
-    public static String extractLogName(Path path) {
+    public static String extractAliasName(Path path) {
         String fileName = path.getFileName().toString();
         if (fileName.startsWith("ptusa_") && fileName.endsWith(".log")) {
-            return fileName.substring(6, fileName.length() - 4);
+            return Constants.SESSION + fileName.substring(6, fileName.length() - 4);
         }
         return fileName;
     }

@@ -41,7 +41,7 @@ public class SessionItemController implements Initializable {
     public void setData(LogFile logFile) {
         this.logFile = logFile;
 
-        sessionLabel.setText(Constants.SESSION + logFile.getName());
+        sessionLabel.setText(logFile.getAliasName());
         sessionLabel.setMinHeight(Region.USE_PREF_SIZE);
 
         deviceLabel.setText((logFile.getDeviceName()));

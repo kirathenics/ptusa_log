@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 public class LogManager {
     private List<LogFile> allLogFiles = new ArrayList<>();
     private Predicate<LogFile> filterPredicate = log -> true;
-    private Comparator<LogFile> sortComparator = Comparator.comparing(LogFile::getName);
+    private Comparator<LogFile> sortComparator = Comparator.comparing(LogFile::getAliasName);
     private String searchQuery = "";
 
     private final Consumer<List<LogFile>> onLogsUpdated; // UI-обновление
@@ -42,7 +42,7 @@ public class LogManager {
 
     private void applyFiltersAndSort() {
         List<LogFile> filteredLogs = allLogFiles.stream()
-                .filter(log -> log.getName().toLowerCase().contains(searchQuery.toLowerCase())
+                .filter(log -> log.getAliasName().toLowerCase().contains(searchQuery.toLowerCase())
                         || log.getDeviceName().toLowerCase().contains(searchQuery.toLowerCase()))
                 .filter(filterPredicate)
                 .sorted(sortComparator)

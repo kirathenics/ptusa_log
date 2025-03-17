@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS log_priorities (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    color TEXT NOT NULL,
+    priority INTEGER NOT NULL
+);

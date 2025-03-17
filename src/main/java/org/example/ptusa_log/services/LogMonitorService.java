@@ -1,6 +1,8 @@
 package org.example.ptusa_log.services;
 
 import javafx.application.Platform;
+import org.example.ptusa_log.DAO.LogFileDAO;
+import org.example.ptusa_log.DAO.SQLiteDatabaseManager;
 import org.example.ptusa_log.models.LogFile;
 import org.example.ptusa_log.utils.LogFileProcessor;
 import org.example.ptusa_log.utils.SystemPaths;
@@ -24,7 +26,8 @@ public class LogMonitorService {
     }
 
     public void loadInitialLogs() {
-        onLogsChanged.accept(readLogFiles());
+//        onLogsChanged.accept(readLogFiles());
+        onLogsChanged.accept(getLogFiles());
     }
 
     public void startWatching() {
@@ -59,7 +62,8 @@ public class LogMonitorService {
 
                 if (hasValidEvents) {
                     System.out.println("Изменения обнаружены! Обновление...");
-                    List<LogFile> logFiles = readLogFiles();
+//                    List<LogFile> logFiles = readLogFiles();
+                    List<LogFile> logFiles = getLogFiles();
                     Platform.runLater(() -> onLogsChanged.accept(logFiles));
                 }
 
@@ -71,17 +75,37 @@ public class LogMonitorService {
         }
     }
 
-    private List<LogFile> readLogFiles() {
-        List<LogFile> logFiles = new ArrayList<>();
+//    private List<LogFile> readLogFiles() {
+//        List<LogFile> logFiles = new ArrayList<>();
+//        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(LOGS_PATH), "ptusa_*.log")) {
+//            for (Path entry : stream) {
+//                String aliasName = LogFileProcessor.extractAliasName(entry);
+//                String deviceName = LogFileProcessor.extractDeviceName(entry);
+//                LogFileDAO.addLogFile(entry.toString(), aliasName, deviceName, 0);
+////                logFiles.add(new LogFile(logName, deviceName));
+//            }
+//        } catch (IOException e) {
+//            System.err.println("Ошибка чтения логов: " + e.getMessage());
+//        }
+//        return logFiles;
+//    }
+
+    private List<LogFile> getLogFiles() {
+        readLogFiles();
+        List<LogFile> logFiles = LogFileDAO.getLogFiles();
+        return logFiles;
+    }
+
+    private void readLogFiles() {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(LOGS_PATH), "ptusa_*.log")) {
             for (Path entry : stream) {
-                String logName = LogFileProcessor.extractLogName(entry);
+                String aliasName = LogFileProcessor.extractAliasName(entry);
                 String deviceName = LogFileProcessor.extractDeviceName(entry);
-                logFiles.add(new LogFile(logName, deviceName));
+                LogFileDAO.addLogFile(entry.toString(), aliasName, deviceName, 0);
+//                logFiles.add(new LogFile(logName, deviceName));
             }
         } catch (IOException e) {
             System.err.println("Ошибка чтения логов: " + e.getMessage());
         }
-        return logFiles;
     }
 }
