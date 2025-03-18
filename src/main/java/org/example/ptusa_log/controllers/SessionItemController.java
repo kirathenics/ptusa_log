@@ -7,6 +7,8 @@ import de.jensd.fx.glyphs.materialicons.MaterialIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -14,6 +16,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
+import javafx.stage.Stage;
 import org.example.ptusa_log.DAO.LogFileDAO;
 import org.example.ptusa_log.models.LogFile;
 import org.example.ptusa_log.services.LogManager;
@@ -134,22 +137,22 @@ public class SessionItemController implements Initializable {
     }
 
     private void openDetailScene(MouseEvent event) {
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "technic_maintenance_view.fxml"));
-//            Parent detailRoot = loader.load();
-//
-//            TechnicMaintenanceController controller = loader.getController();
-//            controller.setTechnic(technic);
-//
-//            Stage stage = new Stage();
-//            stage.setScene(new Scene(detailRoot));
-//            stage.setTitle(technic.getName());
-//            stage.setResizable(false);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "session_logs_view.fxml"));
+            Parent detailRoot = loader.load();
+
+            SessionLogsController controller = loader.getController();
+            controller.setLogFile(logFile);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(detailRoot));
+            stage.setTitle(logFile.getAliasName());
+            stage.setResizable(false);
 //            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource(Constants.IMAGE_PATH + "icon-app.png")).toExternalForm()));
-//            stage.show();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static double getItemWidth() {
