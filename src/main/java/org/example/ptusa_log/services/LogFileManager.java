@@ -1,12 +1,12 @@
 package org.example.ptusa_log.services;
 
 import org.example.ptusa_log.DAO.LogFileDAO;
+import org.example.ptusa_log.listeners.LogFileListener;
 import org.example.ptusa_log.models.LogFile;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class LogFileManager {
@@ -15,10 +15,10 @@ public class LogFileManager {
     private Comparator<LogFile> sortComparator = Comparator.comparing(LogFile::getAliasName);
     private String searchQuery = "";
 
-    private final Consumer<List<LogFile>> onLogsUpdated; // UI-обновление
+    private final LogFileListener logFileListener; // UI-обновление
 
-    public LogFileManager(Consumer<List<LogFile>> onLogsUpdated) {
-        this.onLogsUpdated = onLogsUpdated;
+    public LogFileManager(LogFileListener logFileListener) {
+        this.logFileListener = logFileListener;
     }
 
     public void updateLogs() {
@@ -27,32 +27,30 @@ public class LogFileManager {
 
     public void updateLogs(List<LogFile> newLogs) {
         this.allLogFiles = newLogs;
-        applyFiltersAndSort();
+        logFileListener.onLogsUpdated();
     }
 
     public void setSearchQuery(String query) {
         this.searchQuery = query;
-        applyFiltersAndSort();
+        logFileListener.onLogsUpdated();
     }
 
     public void setFilter(Predicate<LogFile> filter) {
         this.filterPredicate = filter;
-        applyFiltersAndSort();
+        logFileListener.onLogsUpdated();
     }
 
     public void setSorting(Comparator<LogFile> comparator) {
         this.sortComparator = comparator;
-        applyFiltersAndSort();
+        logFileListener.onLogsUpdated();
     }
 
-    private void applyFiltersAndSort() {
-        List<LogFile> filteredLogs = allLogFiles.stream()
+    public List<LogFile> getFilteredLogs() {
+        return allLogFiles.stream()
                 .filter(log -> log.getAliasName().toLowerCase().contains(searchQuery.toLowerCase())
                         || log.getDeviceName().toLowerCase().contains(searchQuery.toLowerCase()))
                 .filter(filterPredicate)
                 .sorted(sortComparator)
                 .toList();
-
-        onLogsUpdated.accept(filteredLogs);
     }
 }

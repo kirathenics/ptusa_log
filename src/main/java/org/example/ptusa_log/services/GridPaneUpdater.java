@@ -14,7 +14,6 @@ import java.util.List;
 
 public class GridPaneUpdater {
     private final GridPane sessionItemGridPane;
-    private List<LogFile> currentLogFiles;
 
     private double gridWidth;
     private int lastColumnCount = -1;
@@ -32,22 +31,22 @@ public class GridPaneUpdater {
 
     public void updateGridOnResize(double width) {
         gridWidth = width;
-        if (currentLogFiles != null) {
-            int columnCount = (int) Math.max(1, gridWidth / (SessionItemController.getItemWidth() + 20));
+        int columnCount = (int) Math.max(1, gridWidth / (SessionItemController.getItemWidth() + 20));
 
-            if (columnCount == lastColumnCount) {
-                return;
-            }
-            lastColumnCount = columnCount;
-
-            updateGrid(currentLogFiles);
+        if (columnCount == lastColumnCount) {
+            return;
         }
+        lastColumnCount = columnCount;
+
+        updateGrid();
     }
 
-    public void updateGrid(List<LogFile> logFiles) {
-        this.currentLogFiles = logFiles;
+    public void updateGrid() {
+        if (logFileManager == null) return;
+
+        List<LogFile> logFiles = logFileManager.getFilteredLogs();
         Platform.runLater(() -> {
-            int columnCount = (int) Math.max(1, gridWidth / (SessionItemController.getItemWidth() + 20));
+            lastColumnCount = (int) Math.max(1, gridWidth / (SessionItemController.getItemWidth() + 20));
 
             sessionItemGridPane.getChildren().clear();
             int column = 0, row = 1;
@@ -63,7 +62,7 @@ public class GridPaneUpdater {
                     sessionItemGridPane.add(anchorPane, column, row);
                     GridPane.setMargin(anchorPane, new Insets(10));
 
-                    column = (column + 1) % columnCount;
+                    column = (column + 1) % lastColumnCount;
                     if (column == 0) row++;
                 } catch (IOException e) {
                     throw new RuntimeException(e);
