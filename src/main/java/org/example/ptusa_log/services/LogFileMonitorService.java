@@ -2,29 +2,30 @@ package org.example.ptusa_log.services;
 
 import javafx.application.Platform;
 import org.example.ptusa_log.DAO.LogFileDAO;
-import org.example.ptusa_log.models.LogFile;
+import org.example.ptusa_log.listeners.LogFileListener;
 import org.example.ptusa_log.utils.LogFileProcessor;
 import org.example.ptusa_log.utils.SystemPaths;
 
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Consumer;
+import java.util.concurrent.TimeUnit;
 
 public class LogFileMonitorService {
     private static final String LOGS_PATH = SystemPaths.defineLogFilesPath();
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
-    private final Consumer<List<LogFile>> onLogsChanged;
     private volatile boolean running = true;
 
-    public LogFileMonitorService(Consumer<List<LogFile>> onLogsChanged) {
-        this.onLogsChanged = onLogsChanged;
+    private final LogFileListener logFileListener;
+
+    public LogFileMonitorService(LogFileListener logFileListener) {
+        this.logFileListener = logFileListener;
     }
 
     public void loadInitialLogs() {
-        onLogsChanged.accept(getLogFiles());
+        readLogFiles();
+        logFileListener.onLogsUpdated();
     }
 
     public void startWatching() {
@@ -46,11 +47,11 @@ public class LogFileMonitorService {
                     StandardWatchEventKinds.ENTRY_DELETE);
 
             while (running) {
-                WatchKey key = watchService.poll(); // Не блокируем поток
+                WatchKey key = watchService.poll(1000, TimeUnit.MILLISECONDS); // Не блокируем поток
 //                WatchKey key = watchService.take();
 
                 if (key == null) {
-                    Thread.sleep(1000); // Избегаем перегрузки процессора
+//                    Thread.sleep(1000);
                     continue;
                 }
 
@@ -59,8 +60,8 @@ public class LogFileMonitorService {
 
                 if (hasValidEvents) {
                     System.out.println("Изменения обнаружены! Обновление...");
-                    List<LogFile> logFiles = getLogFiles();
-                    Platform.runLater(() -> onLogsChanged.accept(logFiles));
+                    readLogFiles();
+                    Platform.runLater(() -> logFileListener.onLogsUpdated());
                 }
 
                 key.reset();
@@ -69,11 +70,6 @@ public class LogFileMonitorService {
             System.err.println("Ошибка мониторинга логов: " + e.getMessage());
             Thread.currentThread().interrupt();
         }
-    }
-
-    private List<LogFile> getLogFiles() {
-        readLogFiles();
-        return LogFileDAO.getLogFiles();
     }
 
     private void readLogFiles() {
@@ -86,5 +82,7 @@ public class LogFileMonitorService {
         } catch (IOException e) {
             System.err.println("Ошибка чтения логов: " + e.getMessage());
         }
+
+        LogFileDAO.removeDeletedLogFiles();
     }
 }

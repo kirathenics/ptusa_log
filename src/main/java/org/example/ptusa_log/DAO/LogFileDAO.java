@@ -3,6 +3,7 @@ package org.example.ptusa_log.DAO;
 import org.example.ptusa_log.models.LogFile;
 import org.example.ptusa_log.utils.LogFileProcessor;
 
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
@@ -88,6 +89,23 @@ public class LogFileDAO {
                     0);
         } else {
             setLogFileDeletion(logFile.getId(), 0);
+        }
+    }
+
+    public static void removeDeletedLogFiles() {
+        List<LogFile> logFiles = getLogFiles();
+
+        try (Connection conn = SQLiteDatabaseManager.connect();
+             PreparedStatement stmt = conn.prepareStatement("DELETE FROM log_files WHERE path = ?")) {
+
+            for (LogFile log : logFiles) {
+                if (!Files.exists(Paths.get(log.getPath()))) {
+                    stmt.setString(1, log.getPath());
+                    stmt.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
