@@ -4,14 +4,14 @@ import com.dlsc.gemsfx.ExpandingTextArea;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialicons.MaterialIconView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -33,6 +33,7 @@ public class SessionItemController implements Initializable {
 
     @FXML
     private ExpandingTextArea sessionTextArea;
+//    private TextArea sessionTextArea;
 
     @FXML
     private Label deviceLabel;
@@ -64,6 +65,16 @@ public class SessionItemController implements Initializable {
         initializeContextMenu();
 
         rootPane.setOnMouseClicked(this::openDetailScene);
+        sessionTextArea.setOnMouseClicked(this::openDetailScene);
+
+        Platform.runLater(() -> {
+            ScrollPane sp = (ScrollPane) sessionTextArea.lookup(".scroll-pane");
+            if (sp != null) {
+                for (Node n : sp.getChildrenUnmodifiable()) {
+                    n.setCache(false);
+                }
+            }
+        });
     }
 
     private void initializeContextMenu() {

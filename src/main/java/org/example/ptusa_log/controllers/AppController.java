@@ -438,18 +438,15 @@ public class AppController implements Initializable  {
 
         fileChooser.setInitialDirectory(new File(SystemPaths.defineLogFilesPath()));
 
-        // Фильтр для файлов (например, только .log файлы)
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Лог-файлы (*.log)", "*.log");
         fileChooser.getExtensionFilters().add(extFilter);
 
-        // Открытие диалога выбора файла
         File selectedFile = fileChooser.showOpenDialog(rootPane.getScene().getWindow());
 
         if (selectedFile != null) {
             String filePath = selectedFile.getAbsolutePath();
             System.out.println("Выбран файл: " + filePath);
 
-            // Здесь можно добавить логику обработки пути, например, сохранить в список сессий
             LogFileDAO.insertOrUpdateFile(filePath);
 
             logManager.updateLogs(LogFileDAO.getLogFiles());

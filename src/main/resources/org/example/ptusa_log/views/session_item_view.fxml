@@ -22,7 +22,8 @@
                         <ExpandingTextArea fx:id="sessionTextArea" styleClass="session-text-area" text="Сессия 2025-03-13_09-09-37">
                            <font>
                               <Font name="System Bold" size="14.0" />
-                           </font></ExpandingTextArea>
+                           </font>
+                        </ExpandingTextArea>
                      </children>
                   </VBox>
                   <Region HBox.hgrow="ALWAYS" />
