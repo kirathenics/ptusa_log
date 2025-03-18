@@ -13,4 +13,6 @@ module org.example.ptusa_log {
     opens org.example.ptusa_log.controllers to javafx.fxml;
     opens org.example.ptusa_log.models to javafx.base;
     exports org.example.ptusa_log.models;
+    exports org.example.ptusa_log.listeners;
+    exports org.example.ptusa_log.services;
 }

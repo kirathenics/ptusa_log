@@ -4,12 +4,9 @@ import com.dlsc.gemsfx.ExpandingTextArea;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialicons.MaterialIconView;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.CacheHint;
-import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -19,6 +16,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import org.example.ptusa_log.DAO.LogFileDAO;
 import org.example.ptusa_log.models.LogFile;
+import org.example.ptusa_log.services.LogManager;
 import org.example.ptusa_log.utils.Constants;
 
 import java.io.IOException;
@@ -43,6 +41,8 @@ public class SessionItemController implements Initializable {
 
     private LogFile logFile;
 
+    private LogManager logManager;
+
     public void setData(LogFile logFile) {
         this.logFile = logFile;
 
@@ -50,6 +50,10 @@ public class SessionItemController implements Initializable {
         sessionTextArea.setEditable(false);
 
         deviceLabel.setText(Constants.DEVICE + logFile.getDeviceName());
+    }
+
+    public void setLogManager(LogManager logManager) {
+        this.logManager = logManager;
     }
 
     @Override
@@ -117,16 +121,21 @@ public class SessionItemController implements Initializable {
         LogFileDAO.setAliasName(logFile.getId(), newText);
 
         System.out.println("Сохранено: " + newText);
+
+        logManager.updateLogs(LogFileDAO.getLogFiles());
     }
 
     private void handleDelete() {
         System.out.println("Удаление...");
+
         LogFileDAO.setLogFileDeletion(logFile.getId(), 1);
+
+        logManager.updateLogs(LogFileDAO.getLogFiles());
     }
 
     private void openDetailScene(MouseEvent event) {
 //        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.VIEW_PATH + "technic_maintenance_view.fxml"));
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "technic_maintenance_view.fxml"));
 //            Parent detailRoot = loader.load();
 //
 //            TechnicMaintenanceController controller = loader.getController();

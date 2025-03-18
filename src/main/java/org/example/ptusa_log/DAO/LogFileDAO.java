@@ -87,7 +87,7 @@ public class LogFileDAO {
                     LogFileProcessor.extractDeviceName(Paths.get(filePath)),
                     0);
         } else {
-            setLogFileDeletion(logFile.getId(), 9);
+            setLogFileDeletion(logFile.getId(), 0);
         }
     }
 

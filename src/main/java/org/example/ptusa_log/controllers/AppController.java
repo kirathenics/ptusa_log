@@ -1,11 +1,9 @@
 package org.example.ptusa_log.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import de.jensd.fx.glyphs.materialicons.MaterialIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -17,6 +15,7 @@ import org.example.ptusa_log.services.LogManager;
 import org.example.ptusa_log.services.LogMonitorService;
 import org.example.ptusa_log.services.GridPaneUpdater;
 import org.example.ptusa_log.utils.Constants;
+import org.example.ptusa_log.utils.SystemPaths;
 import org.example.ptusa_log.utils.UserDialogs;
 
 import java.io.File;
@@ -415,6 +414,8 @@ public class AppController implements Initializable  {
         logManager = new LogManager(gridPaneUpdater::updateGrid);
         logMonitorService = new LogMonitorService(logManager::updateLogs);
 
+        gridPaneUpdater.setLogManager(logManager);
+
         logMonitorService.loadInitialLogs();
         logMonitorService.startWatching();
 
@@ -435,6 +436,8 @@ public class AppController implements Initializable  {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Выберите файл сессии");
 
+        fileChooser.setInitialDirectory(new File(SystemPaths.defineLogFilesPath()));
+
         // Фильтр для файлов (например, только .log файлы)
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Лог-файлы (*.log)", "*.log");
         fileChooser.getExtensionFilters().add(extFilter);
@@ -449,6 +452,7 @@ public class AppController implements Initializable  {
             // Здесь можно добавить логику обработки пути, например, сохранить в список сессий
             LogFileDAO.insertOrUpdateFile(filePath);
 
+            logManager.updateLogs(LogFileDAO.getLogFiles());
         } else {
             System.out.println("Выбор файла отменён");
         }

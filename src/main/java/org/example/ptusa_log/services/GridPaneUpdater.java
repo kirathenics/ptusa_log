@@ -19,9 +19,15 @@ public class GridPaneUpdater {
     private double gridWidth;
     private int lastColumnCount = -1;
 
+    private LogManager logManager;
+
     public GridPaneUpdater(GridPane sessionItemGridPane) {
         this.sessionItemGridPane = sessionItemGridPane;
         gridWidth = sessionItemGridPane.getPrefWidth();
+    }
+
+    public void setLogManager(LogManager logManager) {
+        this.logManager = logManager;
     }
 
     public void updateGridOnResize(double width) {
@@ -52,6 +58,7 @@ public class GridPaneUpdater {
 
                     SessionItemController controller = fxmlLoader.getController();
                     controller.setData(logFile);
+                    controller.setLogManager(logManager);
 
                     sessionItemGridPane.add(anchorPane, column, row);
                     GridPane.setMargin(anchorPane, new Insets(10));
