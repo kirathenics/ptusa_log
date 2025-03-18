@@ -2,30 +2,57 @@ package org.example.ptusa_log.services;
 
 import org.example.ptusa_log.DAO.LogFileDAO;
 import org.example.ptusa_log.models.LogFile;
-import org.example.ptusa_log.utils.LogFileProcessor;
-import org.example.ptusa_log.utils.SystemPaths;
 
-import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class LogFileManager {
-    private final String logsPath = SystemPaths.defineLogFilesPath();
+    private List<LogFile> allLogFiles = new ArrayList<>();
+    private Predicate<LogFile> filterPredicate = log -> true;
+    private Comparator<LogFile> sortComparator = Comparator.comparing(LogFile::getAliasName);
+    private String searchQuery = "";
 
-    public String getLogsPath() {
-        return logsPath;
+    private final Consumer<List<LogFile>> onLogsUpdated; // UI-обновление
+
+    public LogFileManager(Consumer<List<LogFile>> onLogsUpdated) {
+        this.onLogsUpdated = onLogsUpdated;
     }
 
-    public List<LogFile> getLogFiles() {
-        return LogFileDAO.getLogFiles();
+    public void updateLogs() {
+        updateLogs(LogFileDAO.getLogFiles());
     }
 
-    public void addLogFile(String filePath) {
-        String aliasName = LogFileProcessor.extractAliasName(Paths.get(filePath));
-        String deviceName = LogFileProcessor.extractDeviceName(Paths.get(filePath));
-        LogFileDAO.addLogFile(filePath, aliasName, deviceName, 0);
+    public void updateLogs(List<LogFile> newLogs) {
+        this.allLogFiles = newLogs;
+        applyFiltersAndSort();
     }
 
-    public void deleteLogFile(LogFile logFile) {
-        LogFileDAO.setLogFileDeletion(logFile.getId(), 1);
+    public void setSearchQuery(String query) {
+        this.searchQuery = query;
+        applyFiltersAndSort();
+    }
+
+    public void setFilter(Predicate<LogFile> filter) {
+        this.filterPredicate = filter;
+        applyFiltersAndSort();
+    }
+
+    public void setSorting(Comparator<LogFile> comparator) {
+        this.sortComparator = comparator;
+        applyFiltersAndSort();
+    }
+
+    private void applyFiltersAndSort() {
+        List<LogFile> filteredLogs = allLogFiles.stream()
+                .filter(log -> log.getAliasName().toLowerCase().contains(searchQuery.toLowerCase())
+                        || log.getDeviceName().toLowerCase().contains(searchQuery.toLowerCase()))
+                .filter(filterPredicate)
+                .sorted(sortComparator)
+                .toList();
+
+        onLogsUpdated.accept(filteredLogs);
     }
 }

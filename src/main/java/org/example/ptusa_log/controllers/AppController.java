@@ -11,8 +11,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import org.example.ptusa_log.DAO.LogFileDAO;
-import org.example.ptusa_log.services.LogManager;
-import org.example.ptusa_log.services.LogMonitorService;
+import org.example.ptusa_log.services.LogFileManager;
+import org.example.ptusa_log.services.LogFileMonitorService;
 import org.example.ptusa_log.services.GridPaneUpdater;
 import org.example.ptusa_log.utils.Constants;
 import org.example.ptusa_log.utils.SystemPaths;
@@ -367,8 +367,8 @@ public class AppController implements Initializable  {
     @FXML
     private GridPane sessionItemGridPane;
 
-    private LogManager logManager;
-    private LogMonitorService logMonitorService;
+    private LogFileManager logFileManager;
+    private LogFileMonitorService logFileMonitorService;
     private GridPaneUpdater gridPaneUpdater;
 
     private final String ACTIVE_SIDEBAR_ICON_COLOR = "#fec526";
@@ -401,7 +401,7 @@ public class AppController implements Initializable  {
             loader.load();
 
             SearchBarController controller = loader.getController();
-            controller.setOnSearchQueryChange(logManager::setSearchQuery);
+            controller.setOnSearchQueryChange(logFileManager::setSearchQuery);
 
             searchBarContainer.getChildren().add(controller.getRootPane());
         } catch (IOException e) {
@@ -411,13 +411,13 @@ public class AppController implements Initializable  {
 
     private void initializeLogControls() {
         gridPaneUpdater = new GridPaneUpdater(sessionItemGridPane);
-        logManager = new LogManager(gridPaneUpdater::updateGrid);
-        logMonitorService = new LogMonitorService(logManager::updateLogs);
+        logFileManager = new LogFileManager(gridPaneUpdater::updateGrid);
+        logFileMonitorService = new LogFileMonitorService(logFileManager::updateLogs);
 
-        gridPaneUpdater.setLogManager(logManager);
+        gridPaneUpdater.setLogManager(logFileManager);
 
-        logMonitorService.loadInitialLogs();
-        logMonitorService.startWatching();
+        logFileMonitorService.loadInitialLogs();
+        logFileMonitorService.startWatching();
 
         scrollPane.widthProperty().addListener((obs, oldWidth, newWidth) ->
                 gridPaneUpdater.updateGridOnResize((double) newWidth)
@@ -449,7 +449,7 @@ public class AppController implements Initializable  {
 
             LogFileDAO.insertOrUpdateFile(filePath);
 
-            logManager.updateLogs(LogFileDAO.getLogFiles());
+            logFileManager.updateLogs();
         } else {
             System.out.println("Выбор файла отменён");
         }

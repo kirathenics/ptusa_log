@@ -18,8 +18,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import org.example.ptusa_log.DAO.LogFileDAO;
+import org.example.ptusa_log.listeners.LogFileListener;
 import org.example.ptusa_log.models.LogFile;
-import org.example.ptusa_log.services.LogManager;
 import org.example.ptusa_log.utils.Constants;
 
 import java.io.IOException;
@@ -33,7 +33,6 @@ public class SessionItemController implements Initializable {
 
     @FXML
     private ExpandingTextArea sessionTextArea;
-//    private TextArea sessionTextArea;
 
     @FXML
     private Label deviceLabel;
@@ -45,7 +44,7 @@ public class SessionItemController implements Initializable {
 
     private LogFile logFile;
 
-    private LogManager logManager;
+    private LogFileListener logFileListener;
 
     public void setData(LogFile logFile) {
         this.logFile = logFile;
@@ -56,8 +55,8 @@ public class SessionItemController implements Initializable {
         deviceLabel.setText(Constants.DEVICE + logFile.getDeviceName());
     }
 
-    public void setLogManager(LogManager logManager) {
-        this.logManager = logManager;
+    public void setLogFileListener(LogFileListener logFileListener) {
+        this.logFileListener = logFileListener;
     }
 
     @Override
@@ -136,7 +135,7 @@ public class SessionItemController implements Initializable {
 
         System.out.println("Сохранено: " + newText);
 
-        logManager.updateLogs(LogFileDAO.getLogFiles());
+        logFileListener.onLogsUpdated();
     }
 
     private void handleDelete() {
@@ -144,7 +143,7 @@ public class SessionItemController implements Initializable {
 
         LogFileDAO.setLogFileDeletion(logFile.getId(), 1);
 
-        logManager.updateLogs(LogFileDAO.getLogFiles());
+        logFileListener.onLogsUpdated();
     }
 
     private void openDetailScene(MouseEvent event) {
