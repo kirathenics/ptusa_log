@@ -59,23 +59,17 @@ public class LogSessionController implements Initializable {
     public void setLogFile(LogFile logFile) {
         this.logFile = logFile;
 
-        logRecordManager = new LogRecordManager(logFile.getPath(), () -> logRecordTableView.updateTable(logRecordManager.getFilteredLogs()));
-        sessionMonitorService = new SessionMonitorService(logFile.getPath(), logRecordManager::updateLogRecords);
-
-        sessionMonitorService.loadInitialLogs();
-        sessionMonitorService.startWatching();
+        initializeLogRecordServices();
+        loadSearchBar();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initializeLogTypeFilters();
-        loadSearchBar();
+        initializeLogPriorityFilters();
         initializeLogRecordTable();
-
-
     }
 
-    private void initializeLogTypeFilters() {
+    private void initializeLogPriorityFilters() {
         List<LogPriority> logPriorityList = LogPriorityDAO.getPriorities();
         for (LogPriority logPriority : logPriorityList) {
             Label label = createLogPriorityLabel(logPriority);
@@ -85,24 +79,31 @@ public class LogSessionController implements Initializable {
         allTypesLabel.setOnMouseClicked(mouseEvent -> resetLogPriorityFilter());
     }
 
+    private void initializeLogRecordTable() {
+        logRecordTableView = new LogRecordTableView.Builder().build();
+        logTableContainer.getChildren().add(logRecordTableView.getTableContainer());
+    }
+
+    private void initializeLogRecordServices() {
+        logRecordManager = new LogRecordManager(logFile.getPath(), () -> logRecordTableView.updateTable(logRecordManager.getFilteredLogs()));
+        sessionMonitorService = new SessionMonitorService(logFile.getPath(), logRecordManager::updateLogRecords);
+
+        sessionMonitorService.loadInitialLogs();
+        sessionMonitorService.startWatching();
+    }
+
     private void loadSearchBar() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "search_bar_view.fxml"));
             loader.load();
 
             SearchBarController controller = loader.getController();
-//            controller.setOnSearchQueryChange(logManager::setSearchQuery);
+            controller.setOnSearchQueryChange(logRecordManager::setSearchQuery);
 
             searchBarContainer.getChildren().add(controller.getRootPane());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private void initializeLogRecordTable() {
-        logRecordTableView = new LogRecordTableView.Builder().build();
-//        logRecordTableView.updateTable();
-        logTableContainer.getChildren().add(logRecordTableView.getTableContainer());
     }
 
     private Label createLogPriorityLabel(LogPriority logPriority) {
@@ -129,7 +130,7 @@ public class LogSessionController implements Initializable {
 
         selectedLabel = label;
 
-//        updateFilteredRecords();
+        logRecordManager.setFilter(logRecord -> logRecord.getPriority().equalsIgnoreCase(logPriority.getName()));
     }
 
     private void resetLogPriorityFilter() {
@@ -143,6 +144,6 @@ public class LogSessionController implements Initializable {
 
         selectedLabel = null;
 
-//        updateFilteredRecords();
+        logRecordManager.setFilter(log -> true);
     }
 }

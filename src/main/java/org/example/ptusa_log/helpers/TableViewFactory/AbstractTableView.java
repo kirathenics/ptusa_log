@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
@@ -13,13 +12,11 @@ import javafx.scene.control.skin.VirtualFlow;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 public abstract class AbstractTableView<T> {
     protected VBox tableContainer;
     protected TableView<T> tableView;
     protected ObservableList<T> observableList;
-    private FilteredList<T> filteredLogData;
 
     public AbstractTableView() {
         tableContainer = new VBox();
@@ -29,9 +26,7 @@ public abstract class AbstractTableView<T> {
         tableView.setPlaceholder(new Label("Нет результата"));
 
         observableList = FXCollections.observableArrayList();
-        filteredLogData = new FilteredList<>(observableList, p -> true);
-//        tableView.setItems(observableList);
-        tableView.setItems(filteredLogData);
+        tableView.setItems(observableList);
 
         observableList.addListener((ListChangeListener<T>) change -> Platform.runLater(this::adjustTableSize));
 
@@ -47,22 +42,10 @@ public abstract class AbstractTableView<T> {
         return tableContainer;
     }
 
-    public FilteredList<T> getFilteredList() {
-        return filteredLogData;
-    }
-
     protected abstract void setupColumns();
 
     public void setupTableSize() {
         tableView.getItems().addListener((ListChangeListener<? super Object>) change -> tableView.refresh());
-
-        tableView.getItems().addListener((ListChangeListener<? super Object>) change -> {
-            boolean hasItems = !tableView.getItems().isEmpty();
-//            changeTableVisibility(hasItems);
-        });
-
-        boolean hasItems = !tableView.getItems().isEmpty();
-//        changeTableVisibility(hasItems);
     }
 
     private void adjustTableSize() {
@@ -93,25 +76,6 @@ public abstract class AbstractTableView<T> {
 
         tableView.prefWidthProperty().bind(tableContainer.widthProperty());
     }
-
-//    public void hideTable() {
-//        changeTableVisibility(false);
-//        observableList.clear();
-//    }
-//
-//    private void changeTableVisibility(boolean shouldShowTable) {
-//        tableContainer.setVisible(shouldShowTable);
-//        tableContainer.setManaged(shouldShowTable);
-//    }
-
-//    public void updateTable(Supplier<List<T>> dataSupplier) {
-//        observableList.setAll(dataSupplier.get());
-//
-//        adjustColumnWidths();
-//
-//        Platform.runLater(this::adjustTableSize);
-//        Platform.runLater(() -> Platform.runLater(this::adjustTableSize));
-//    }
 
     public void updateTable(List<T> items) {
         observableList.setAll(items);

@@ -45,8 +45,8 @@ public class LogRecordTableView extends AbstractTableView<LogRecord> {
     protected void adjustColumnWidths() {
         double dateColumnWidth = 0.1;
         double timeColumnWidth = 0.1;
-        double typeColumnWidth = 0.15;
-        double infoColumnWidth = 0.6;
+        double typeColumnWidth = 0.1;
+        double infoColumnWidth = 0.67;
 
         dateColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(dateColumnWidth));
         timeColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(timeColumnWidth));
