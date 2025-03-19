@@ -7,10 +7,14 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.ptusa_log.DAO.LogPriorityDAO;
+import org.example.ptusa_log.helpers.TableViewFactory.LogRecordTableView;
 import org.example.ptusa_log.models.LogFile;
 import org.example.ptusa_log.models.LogPriority;
+import org.example.ptusa_log.services.LogRecordManager;
+import org.example.ptusa_log.services.SessionMonitorService;
 import org.example.ptusa_log.utils.Constants;
 
 import java.io.IOException;
@@ -18,7 +22,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class SessionLogsController implements Initializable {
+public class LogSessionController implements Initializable {
 
     @FXML
     private MaterialIconView backIconButton;
@@ -31,6 +35,14 @@ public class SessionLogsController implements Initializable {
 
     @FXML
     private Label allTypesLabel;
+
+    @FXML
+    private VBox logTableContainer;
+
+    private LogRecordTableView logRecordTableView;
+
+    private LogRecordManager logRecordManager;
+    private SessionMonitorService sessionMonitorService;
 
     private final String DEFAULT_INACTIVE_COLOR = "#bcbcbe";
 
@@ -46,12 +58,31 @@ public class SessionLogsController implements Initializable {
 
     public void setLogFile(LogFile logFile) {
         this.logFile = logFile;
+
+        logRecordManager = new LogRecordManager(logFile.getPath(), () -> logRecordTableView.updateTable(logRecordManager.getFilteredLogs()));
+        sessionMonitorService = new SessionMonitorService(logFile.getPath(), logRecordManager::updateLogRecords);
+
+        sessionMonitorService.loadInitialLogs();
+        sessionMonitorService.startWatching();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeLogTypeFilters();
         loadSearchBar();
+        initializeLogRecordTable();
+
+
+    }
+
+    private void initializeLogTypeFilters() {
+        List<LogPriority> logPriorityList = LogPriorityDAO.getPriorities();
+        for (LogPriority logPriority : logPriorityList) {
+            Label label = createLogPriorityLabel(logPriority);
+            logTypeLabelContainer.getChildren().add(label);
+        }
+
+        allTypesLabel.setOnMouseClicked(mouseEvent -> resetLogPriorityFilter());
     }
 
     private void loadSearchBar() {
@@ -68,14 +99,10 @@ public class SessionLogsController implements Initializable {
         }
     }
 
-    private void initializeLogTypeFilters() {
-        List<LogPriority> logPriorityList = LogPriorityDAO.getPriorities();
-        for (LogPriority logPriority : logPriorityList) {
-            Label label = createLogPriorityLabel(logPriority);
-            logTypeLabelContainer.getChildren().add(label);
-        }
-
-        allTypesLabel.setOnMouseClicked(mouseEvent -> resetLogPriorityFilter());
+    private void initializeLogRecordTable() {
+        logRecordTableView = new LogRecordTableView.Builder().build();
+//        logRecordTableView.updateTable();
+        logTableContainer.getChildren().add(logRecordTableView.getTableContainer());
     }
 
     private Label createLogPriorityLabel(LogPriority logPriority) {

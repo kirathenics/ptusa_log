@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" styleClass="parent" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ptusa_log.controllers.SessionLogsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" styleClass="parent" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ptusa_log.controllers.LogSessionController">
     <children>
         <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <left>
@@ -66,35 +66,10 @@
                                                         <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
                                                     </VBox.margin>
                                                 </HBox>
-<!--                                                <HBox fx:id="addButtonContainer" alignment="CENTER_LEFT">-->
-<!--                                                    <children>-->
-<!--                                                        <Label text="Сессии">-->
-<!--                                                            <font>-->
-<!--                                                                <Font size="18.0" />-->
-<!--                                                            </font>-->
-<!--                                                        </Label>-->
-<!--                                                        <Region prefWidth="80.0" HBox.hgrow="NEVER" />-->
-<!--                                                        <Button fx:id="addSessionButton" mnemonicParsing="false" styleClass="add-session-button" text="Добавить сессию">-->
-<!--                                                            <HBox.margin>-->
-<!--                                                                <Insets />-->
-<!--                                                            </HBox.margin>-->
-<!--                                                            <graphic>-->
-<!--                                                                <MaterialIconView fill="WHITE" glyphName="ADD" size="1.7em" />-->
-<!--                                                            </graphic>-->
-<!--                                                        </Button>-->
-<!--                                                        <Region HBox.hgrow="ALWAYS" />-->
-<!--                                                    </children>-->
-<!--                                                    <VBox.margin>-->
-<!--                                                        <Insets left="15.0" right="15.0" />-->
-<!--                                                    </VBox.margin>-->
-<!--                                                </HBox>-->
-                                                <HBox VBox.vgrow="ALWAYS">
-                                                    <children>
-                                                    </children>
-                                                    <VBox.margin>
-                                                        <Insets />
-                                                    </VBox.margin>
-                                                </HBox>
+                                    <VBox fx:id="logTableContainer" prefHeight="200.0" prefWidth="100.0">
+                                       <VBox.margin>
+                                          <Insets left="15.0" right="15.0" top="10.0" />
+                                       </VBox.margin></VBox>
                                             </children>
                                         </VBox>
                                     </content>

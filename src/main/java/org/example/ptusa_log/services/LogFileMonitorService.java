@@ -61,7 +61,7 @@ public class LogFileMonitorService {
                 if (hasValidEvents) {
                     System.out.println("Изменения обнаружены! Обновление...");
                     readLogFiles();
-                    Platform.runLater(() -> logFileListener.onLogsUpdated());
+                    Platform.runLater(logFileListener::onLogsUpdated);
                 }
 
                 key.reset();

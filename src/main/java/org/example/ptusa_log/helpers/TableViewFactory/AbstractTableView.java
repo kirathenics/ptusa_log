@@ -104,14 +104,14 @@ public abstract class AbstractTableView<T> {
 //        tableContainer.setManaged(shouldShowTable);
 //    }
 
-    public void updateTable(Supplier<List<T>> dataSupplier) {
-        observableList.setAll(dataSupplier.get());
-
-        adjustColumnWidths();
-
-        Platform.runLater(this::adjustTableSize);
-        Platform.runLater(() -> Platform.runLater(this::adjustTableSize));
-    }
+//    public void updateTable(Supplier<List<T>> dataSupplier) {
+//        observableList.setAll(dataSupplier.get());
+//
+//        adjustColumnWidths();
+//
+//        Platform.runLater(this::adjustTableSize);
+//        Platform.runLater(() -> Platform.runLater(this::adjustTableSize));
+//    }
 
     public void updateTable(List<T> items) {
         observableList.setAll(items);

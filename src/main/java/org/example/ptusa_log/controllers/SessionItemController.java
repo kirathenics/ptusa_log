@@ -152,16 +152,16 @@ public class SessionItemController implements Initializable {
 
     private void openDetailScene(MouseEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "session_logs_view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "log_session_view.fxml"));
             Parent detailRoot = loader.load();
 
-            SessionLogsController controller = loader.getController();
+            LogSessionController controller = loader.getController();
             controller.setLogFile(logFile);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(detailRoot));
             stage.setTitle(logFile.getAliasName());
-            stage.setResizable(false);
+//            stage.setResizable(false);
 //            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource(Constants.IMAGE_PATH + "icon-app.png")).toExternalForm()));
             stage.show();
         } catch (IOException e) {
