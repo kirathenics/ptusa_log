@@ -1,6 +1,5 @@
 package org.example.ptusa_log.services;
 
-import javafx.application.Platform;
 import org.example.ptusa_log.models.LogRecord;
 
 import java.io.File;
@@ -9,6 +8,7 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: безопасность доступа к файлу
 public class LogFileReader {
     private final String logPath;
 
