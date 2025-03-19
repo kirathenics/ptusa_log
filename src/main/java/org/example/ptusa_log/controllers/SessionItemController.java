@@ -62,18 +62,9 @@ public class SessionItemController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeContextMenu();
+        setupTextArea();
 
         rootPane.setOnMouseClicked(this::openDetailScene);
-        sessionTextArea.setOnMouseClicked(this::openDetailScene);
-
-        Platform.runLater(() -> {
-            ScrollPane sp = (ScrollPane) sessionTextArea.lookup(".scroll-pane");
-            if (sp != null) {
-                for (Node n : sp.getChildrenUnmodifiable()) {
-                    n.setCache(false);
-                }
-            }
-        });
     }
 
     private void initializeContextMenu() {
@@ -103,6 +94,19 @@ public class SessionItemController implements Initializable {
         });
     }
 
+    private void setupTextArea() {
+        sessionTextArea.setOnMouseClicked(this::openDetailScene);
+
+        Platform.runLater(() -> {
+            ScrollPane sp = (ScrollPane) sessionTextArea.lookup(".scroll-pane");
+            if (sp != null) {
+                for (Node n : sp.getChildrenUnmodifiable()) {
+                    n.setCache(false);
+                }
+            }
+        });
+    }
+
     private void handleEdit() {
         System.out.println("Редактирование...");
 
@@ -112,7 +116,7 @@ public class SessionItemController implements Initializable {
 
         sessionTextArea.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                event.consume(); // Убираем перенос строки
+                event.consume();
 
                 sessionTextArea.setText(sessionTextArea.getText().replace("\n", "").trim());
 
