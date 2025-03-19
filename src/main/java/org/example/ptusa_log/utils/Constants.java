@@ -4,6 +4,7 @@ public class Constants {
     public static final String PROJECT_PATH = "/org/example/ptusa_log/";
     public static final String VIEWS_PATH = PROJECT_PATH + "views/";
     public static final String DATABASE_PATH = PROJECT_PATH + "database/";
+    public static final String ICONS_PATH = PROJECT_PATH + "icons/";
 
     public static final String ABOUT_PROGRAM = "О программе";
     // TODO: write appropriate PROGRAM_INFO

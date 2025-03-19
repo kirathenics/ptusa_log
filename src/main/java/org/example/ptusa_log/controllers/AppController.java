@@ -1,5 +1,6 @@
 package org.example.ptusa_log.controllers;
 
+import com.dlsc.gemsfx.SVGImageView;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +22,7 @@ import org.example.ptusa_log.utils.UserDialogs;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class AppController implements Initializable  {
@@ -44,6 +46,9 @@ public class AppController implements Initializable  {
     private Button addSessionButton;
 
     @FXML
+    private SVGImageView gridViewIcon;
+
+    @FXML
     private GridPane sessionItemGridPane;
 
     private GridPaneUpdater gridPaneUpdater;
@@ -58,6 +63,7 @@ public class AppController implements Initializable  {
         initializeSidebarButtons();
         initializeLogControls();
         loadSearchBar();
+        initializeGridViewIcons();
 
         addSessionButton.setOnAction(event -> handleAddSession());
     }
@@ -74,20 +80,6 @@ public class AppController implements Initializable  {
         setActiveIcon(homeSidebarButton);
     }
 
-    private void loadSearchBar() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "search_bar_view.fxml"));
-            loader.load();
-
-            SearchBarController controller = loader.getController();
-            controller.setOnSearchQueryChange(logFileManager::setSearchQuery);
-
-            searchBarContainer.getChildren().add(controller.getRootPane());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private void initializeLogControls() {
         gridPaneUpdater = new GridPaneUpdater(sessionItemGridPane);
         logFileManager = new LogFileManager(gridPaneUpdater::updateGrid);
@@ -102,6 +94,46 @@ public class AppController implements Initializable  {
                 gridPaneUpdater.updateGridOnResize((double) newWidth)
         );
         gridPaneUpdater.updateGridOnResize(scrollPane.getPrefWidth());
+    }
+
+    private void loadSearchBar() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "search_bar_view.fxml"));
+            loader.load();
+
+            SearchBarController controller = loader.getController();
+            controller.setOnSearchQueryChange(logFileManager::setSearchQuery);
+
+            searchBarContainer.getChildren().add(controller.getRootPane());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void initializeGridViewIcons() {
+//        String svgUrl = Objects.requireNonNull(getClass().getResource(Constants.ICONS_PATH + "grid_view.svg")).toExternalForm();
+//        String svgUrl = Objects.requireNonNull(getClass().getResource("org/example/ptusa_log/icons/grid_view.svg")).toExternalForm();
+//        URL resourceUrl = getClass().getClassLoader().getResource("/org/example/ptusa_log/icons/grid_view.svg");
+//        System.out.println("Resource URL: " + resourceUrl);
+
+//        String svgUrl = Objects.requireNonNull(getClass().getResource("/org/example/ptusa_log/icons/grid_view.svg")).toExternalForm();
+//        String svgUrl = "C:\\Users\\bka32\\GitHub-repos\\ptusa_log\\src\\main\\resources\\org\\example\\ptusa_log\\icons\\grid_view.svg";
+
+//        File newFile = new File("/org/example/ptusa_log/icons/grid_view.svg");
+//        System.out.println(newFile.getAbsolutePath());
+//        gridViewIcon.setSvgUrl(newFile.getAbsolutePath());
+
+
+//        String svgUrl = Objects.requireNonNull(AppController.class.getResource("/org/example/ptusa_log/icons/grid_view.svg")).toExternalForm();
+
+
+//        String svgUrl = Objects.requireNonNull(this.getClass().getClassLoader().getResource("org/example/ptusa_log/icons/grid_view.svg")).toExternalForm();
+//        String svgUrl = Objects.requireNonNull(this.getClass().getClassLoader().getResource("grid_view.svg")).toExternalForm();
+//        gridViewIcon.setSvgUrl(svgUrl);
+
+        // работает
+//        File newFile = new File("C:/Users/bka32/GitHub-repos/ptusa_log/src/main/resources/org/example/ptusa_log/icons/grid_view.svg");
+//        gridViewIcon.setSvgUrl(newFile.toURI().toString());
     }
 
     private void setActiveIcon(FontAwesomeIconView activeIcon) {
