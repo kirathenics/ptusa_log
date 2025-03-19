@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -16,6 +17,7 @@ import org.example.ptusa_log.services.LogFileManager;
 import org.example.ptusa_log.services.LogFileMonitorService;
 import org.example.ptusa_log.services.GridPaneUpdater;
 import org.example.ptusa_log.utils.Constants;
+import org.example.ptusa_log.utils.SVGProcessor;
 import org.example.ptusa_log.utils.SystemPaths;
 import org.example.ptusa_log.utils.UserDialogs;
 
@@ -47,6 +49,9 @@ public class AppController implements Initializable  {
 
     @FXML
     private SVGImageView gridViewIcon;
+
+    @FXML
+    private SVGImageView rowViewIcon;
 
     @FXML
     private GridPane sessionItemGridPane;
@@ -110,32 +115,6 @@ public class AppController implements Initializable  {
         }
     }
 
-    private void initializeGridViewIcons() {
-//        String svgUrl = Objects.requireNonNull(getClass().getResource(Constants.ICONS_PATH + "grid_view.svg")).toExternalForm();
-//        String svgUrl = Objects.requireNonNull(getClass().getResource("org/example/ptusa_log/icons/grid_view.svg")).toExternalForm();
-//        URL resourceUrl = getClass().getClassLoader().getResource("/org/example/ptusa_log/icons/grid_view.svg");
-//        System.out.println("Resource URL: " + resourceUrl);
-
-//        String svgUrl = Objects.requireNonNull(getClass().getResource("/org/example/ptusa_log/icons/grid_view.svg")).toExternalForm();
-//        String svgUrl = "C:\\Users\\bka32\\GitHub-repos\\ptusa_log\\src\\main\\resources\\org\\example\\ptusa_log\\icons\\grid_view.svg";
-
-//        File newFile = new File("/org/example/ptusa_log/icons/grid_view.svg");
-//        System.out.println(newFile.getAbsolutePath());
-//        gridViewIcon.setSvgUrl(newFile.getAbsolutePath());
-
-
-//        String svgUrl = Objects.requireNonNull(AppController.class.getResource("/org/example/ptusa_log/icons/grid_view.svg")).toExternalForm();
-
-
-//        String svgUrl = Objects.requireNonNull(this.getClass().getClassLoader().getResource("org/example/ptusa_log/icons/grid_view.svg")).toExternalForm();
-//        String svgUrl = Objects.requireNonNull(this.getClass().getClassLoader().getResource("grid_view.svg")).toExternalForm();
-//        gridViewIcon.setSvgUrl(svgUrl);
-
-        // работает
-//        File newFile = new File("C:/Users/bka32/GitHub-repos/ptusa_log/src/main/resources/org/example/ptusa_log/icons/grid_view.svg");
-//        gridViewIcon.setSvgUrl(newFile.toURI().toString());
-    }
-
     private void setActiveIcon(FontAwesomeIconView activeIcon) {
         homeSidebarButton.setFill(Color.web(DEFAULT_SIDEBAR_ICON_COLOR));
         aboutSidebarButton.setFill(Color.web(DEFAULT_SIDEBAR_ICON_COLOR));
@@ -164,5 +143,31 @@ public class AppController implements Initializable  {
         } else {
             System.out.println("Выбор файла отменён");
         }
+    }
+
+    private boolean isGridViewSelected = true;
+
+    private void initializeGridViewIcons() {
+        updateIconColors();
+
+        // работает
+//        File newFile = new File("C:/Users/bka32/GitHub-repos/ptusa_log/src/main/resources/org/example/ptusa_log/icons/grid_view.svg");
+//        gridViewIcon.setSvgUrl(newFile.toURI().toString());
+    }
+
+    @FXML
+    private void toggleView(MouseEvent event) {
+        if (event.getSource() == gridViewIcon) {
+            isGridViewSelected = true;
+        } else if (event.getSource() == rowViewIcon) {
+            isGridViewSelected = false;
+        }
+
+        updateIconColors();
+    }
+
+    private void updateIconColors() {
+        gridViewIcon.setSvgUrl(SVGProcessor.getSvgUrl(isGridViewSelected ? "grid_view.svg" : "grid_view_inactive.svg"));
+        rowViewIcon.setSvgUrl(SVGProcessor.getSvgUrl(!isGridViewSelected ? "row_view.svg" : "row_view_inactive.svg"));
     }
 }

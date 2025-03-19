@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1150.0" styleClass="parent" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ptusa_log.controllers.AppController">
@@ -105,7 +104,11 @@
                                              </graphic>
                                           </Button>
                                           <Region HBox.hgrow="ALWAYS" />
-                                          <SVGImageView fx:id="gridViewIcon" fitHeight="24.0" fitWidth="24.0" svgUrl="grid_view.svg" />
+                                            <SVGImageView fx:id="gridViewIcon" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#toggleView">
+                                             <HBox.margin>
+                                                <Insets right="5.0" />
+                                             </HBox.margin></SVGImageView>
+                                            <SVGImageView fx:id="rowViewIcon" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#toggleView" />
                                        </children>
                                        <VBox.margin>
                                           <Insets left="15.0" right="15.0" />
