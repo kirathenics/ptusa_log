@@ -87,9 +87,9 @@ public class GridPaneUpdater {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "session_item_view.fxml"));
             AnchorPane anchorPane = fxmlLoader.load();
             SessionItemController controller = fxmlLoader.getController();
-            controller.setData(logFile);
+            controller.setLogFile(logFile);
             controller.setLogFileListener(logFileManager::updateLogs);
-            controller.updateHoverEffect(isGridViewSelected);
+            controller.setHoverEffect(isGridViewSelected);
             return anchorPane;
         } catch (IOException e) {
             throw new RuntimeException(e);

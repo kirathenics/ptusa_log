@@ -3,6 +3,7 @@ package org.example.ptusa_log.controllers;
 import com.dlsc.gemsfx.ExpandingTextArea;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import de.jensd.fx.glyphs.materialicons.MaterialIconView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -47,7 +48,7 @@ public class SessionItemController implements Initializable {
 
     private LogFileListener logFileListener;
 
-    public void setData(LogFile logFile) {
+    public void setLogFile(LogFile logFile) {
         this.logFile = logFile;
 
         sessionTextArea.setText(logFile.getAliasName());
@@ -60,16 +61,12 @@ public class SessionItemController implements Initializable {
         this.logFileListener = logFileListener;
     }
 
-    public void updateHoverEffect(boolean isGridViewSelected) {
+    public void setHoverEffect(boolean isGridViewSelected) {
         double scaleValue = isGridViewSelected ? 1.05 : 1.01;
 
-        rootPane.setOnMouseEntered(event -> {
-            rootPane.setStyle("-fx-border-color: #0f4876; -fx-scale-x: " + scaleValue + "; -fx-scale-y: " + scaleValue + ";");
-        });
+        rootPane.setOnMouseEntered(event -> rootPane.setStyle("-fx-border-color: #0f4876; -fx-scale-x: " + scaleValue + "; -fx-scale-y: " + scaleValue + ";"));
 
-        rootPane.setOnMouseExited(event -> {
-            rootPane.setStyle("-fx-border-color: transparent; -fx-scale-x: 1.0; -fx-scale-y: 1.0;");
-        });
+        rootPane.setOnMouseExited(event -> rootPane.setStyle("-fx-border-color: transparent; -fx-scale-x: 1.0; -fx-scale-y: 1.0;"));
     }
 
     @Override
@@ -84,14 +81,33 @@ public class SessionItemController implements Initializable {
         FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL);
         editIcon.setSize("1.5em");
         editIcon.setFill(Paint.valueOf("#000000"));
-        MenuItem editItem = new MenuItem(Constants.EDIT_CONTENT_MENU_ACTION, editIcon);
+        MenuItem editItem = new MenuItem(Constants.EDIT_CONTEXT_MENU_ACTION, editIcon);
 
         FontAwesomeIconView deleteIcon = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
         deleteIcon.setSize("1.5em");
         deleteIcon.setFill(Paint.valueOf("#B73F0C"));
-        MenuItem deleteItem = new MenuItem(Constants.DELETE_CONTENT_MENU_ACTION, deleteIcon);
+        MenuItem deleteItem = new MenuItem(Constants.DELETE_CONTEXT_MENU_ACTION, deleteIcon);
 
         contextMenu.getItems().addAll(editItem, deleteItem);
+
+        if (logFile != null && logFile.getVisibility() == LogFileVisibility.ARCHIVED.getValue()) {
+            MaterialIconView unarchiveIcon = new MaterialIconView(MaterialIcon.UNARCHIVE);
+            unarchiveIcon.setSize("1.5em");
+            unarchiveIcon.setFill(Paint.valueOf("#000000"));
+            MenuItem unarchiveItem = new MenuItem(Constants.UNARCHIVE_CONTEXT_MENU_ACTION, unarchiveIcon);
+            contextMenu.getItems().add(unarchiveItem);
+
+            unarchiveItem.setOnAction(event -> handleUnarchive());
+        }
+        else {
+            MaterialIconView archiveIcon = new MaterialIconView(MaterialIcon.ARCHIVE);
+            archiveIcon.setSize("1.5em");
+            archiveIcon.setFill(Paint.valueOf("#000000"));
+            MenuItem archiveItem = new MenuItem(Constants.ARCHIVE_CONTEXT_MENU_ACTION, archiveIcon);
+            contextMenu.getItems().add(archiveItem);
+
+            archiveItem.setOnAction(event -> handleArchive());
+        }
 
         editItem.setOnAction(event -> handleEdit());
         deleteItem.setOnAction(event -> handleDelete());
@@ -159,6 +175,18 @@ public class SessionItemController implements Initializable {
         System.out.println("Удаление...");
 
         LogFileDAO.setLogFileVisibility(logFile.getId(), LogFileVisibility.DELETED.getValue());
+
+        logFileListener.onLogsUpdated();
+    }
+
+    private void handleUnarchive() {
+        LogFileDAO.setLogFileVisibility(logFile.getId(), LogFileVisibility.VISIBLE.getValue());
+
+        logFileListener.onLogsUpdated();
+    }
+
+    private void handleArchive() {
+        LogFileDAO.setLogFileVisibility(logFile.getId(), LogFileVisibility.ARCHIVED.getValue());
 
         logFileListener.onLogsUpdated();
     }
