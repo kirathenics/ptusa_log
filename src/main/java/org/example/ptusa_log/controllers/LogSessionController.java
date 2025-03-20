@@ -44,7 +44,8 @@ public class LogSessionController implements Initializable {
     private LogRecordManager logRecordManager;
     private SessionMonitorService sessionMonitorService;
 
-    private final String DEFAULT_INACTIVE_COLOR = "#bcbcbe";
+    private static final String DEFAULT_INACTIVE_COLOR = "#bcbcbe";
+    private static final String ACTIVE_COLOR = "black";
 
     private Label selectedLabel;
 
@@ -67,16 +68,6 @@ public class LogSessionController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeLogPriorityFilters();
         initializeLogRecordTable();
-    }
-
-    private void initializeLogPriorityFilters() {
-        List<LogPriority> logPriorityList = LogPriorityDAO.getPriorities();
-        for (LogPriority logPriority : logPriorityList) {
-            Label label = createLogPriorityLabel(logPriority);
-            logTypeLabelContainer.getChildren().add(label);
-        }
-
-        allTypesLabel.setOnMouseClicked(mouseEvent -> resetLogPriorityFilter());
     }
 
     private void initializeLogRecordTable() {
@@ -106,44 +97,57 @@ public class LogSessionController implements Initializable {
         }
     }
 
+    private void initializeLogPriorityFilters() {
+        List<LogPriority> logPriorityList = LogPriorityDAO.getPriorities();
+        logPriorityList.forEach(priority -> logTypeLabelContainer.getChildren().add(createLogPriorityLabel(priority)));
+
+        configureAllTypesLabel();
+    }
+
+    private void configureAllTypesLabel() {
+        allTypesLabel.setOnMouseClicked(event -> resetLogPriorityFilter());
+        setLabelStyle(allTypesLabel, ACTIVE_COLOR, true);
+    }
+
     private Label createLogPriorityLabel(LogPriority logPriority) {
         Label label = new Label(logPriority.getName());
         label.getStyleClass().add("log-priority-label");
         HBox.setMargin(label, new Insets(0, 10, 0, 10));
 
-        label.setOnMouseClicked(mouseEvent -> applyLogPriorityFilter(label, logPriority));
+        label.setOnMouseClicked(event -> applyLogPriorityFilter(label, logPriority));
 
         return label;
     }
 
     private void applyLogPriorityFilter(Label label, LogPriority logPriority) {
-        allTypesLabel.getStyleClass().remove("selected-label");
-        allTypesLabel.setStyle("-fx-text-fill: " + DEFAULT_INACTIVE_COLOR + ";");
+        deselectLabel(allTypesLabel);
+        deselectLabel(selectedLabel);
 
-        if (selectedLabel != null) {
-            selectedLabel.getStyleClass().remove("selected-label");
-            selectedLabel.setStyle("-fx-text-fill: " + DEFAULT_INACTIVE_COLOR + ";");
-        }
-
-        label.getStyleClass().add("selected-label");
-        label.setStyle("-fx-text-fill: " + logPriority.getColor() + ";");
-
+        setLabelStyle(label, logPriority.getColor(), true);
         selectedLabel = label;
 
         logRecordManager.setFilter(logRecord -> logRecord.getPriority().equalsIgnoreCase(logPriority.getName()));
     }
 
     private void resetLogPriorityFilter() {
-        if (selectedLabel != null) {
-            selectedLabel.getStyleClass().remove("selected-label");
-            selectedLabel.setStyle("-fx-text-fill: " + DEFAULT_INACTIVE_COLOR + ";");
-        }
-
-        allTypesLabel.getStyleClass().add("selected-label");
-        allTypesLabel.setStyle("-fx-text-fill: black;");
-
+        deselectLabel(selectedLabel);
+        setLabelStyle(allTypesLabel, ACTIVE_COLOR, true);
         selectedLabel = null;
 
         logRecordManager.setFilter(log -> true);
+    }
+
+    private void setLabelStyle(Label label, String color, boolean isSelected) {
+        if (label == null) return;
+        label.setStyle("-fx-text-fill: " + color + ";");
+        if (isSelected) {
+            label.getStyleClass().add("selected-item");
+        } else {
+            label.getStyleClass().remove("selected-item");
+        }
+    }
+
+    private void deselectLabel(Label label) {
+        setLabelStyle(label, DEFAULT_INACTIVE_COLOR, false);
     }
 }
