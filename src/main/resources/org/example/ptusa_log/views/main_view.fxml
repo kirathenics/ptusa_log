@@ -24,7 +24,7 @@
                     <children>
                         <VBox alignment="TOP_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
-                                <FontAwesomeIconView fill="WHITE" glyphName="BARS" size="1.75em" styleClass="sidebar-opt">
+                                <FontAwesomeIconView fill="WHITE" glyphName="BARS" size="1.75em">
                                     <VBox.margin>
                                         <Insets top="15.0" />
                                     </VBox.margin>

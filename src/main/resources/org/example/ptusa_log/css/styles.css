@@ -39,9 +39,6 @@
 
 .session-item:hover {
     -fx-border-color: #0f4876;
-
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
 }
 
 .session-text-area {
@@ -135,12 +132,12 @@
     -fx-scale-y: 1.1;
 }
 
-.selected-label {
+.selected-item {
     -fx-scale-x: 1.0;
     -fx-scale-y: 1.0;
 }
 
-.selected-label:hover {
+.selected-item:hover {
     -fx-scale-x: 1.0;
     -fx-scale-y: 1.0;
 }

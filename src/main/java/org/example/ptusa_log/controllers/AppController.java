@@ -24,6 +24,9 @@ import org.example.ptusa_log.utils.UserDialogs;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class AppController implements Initializable  {
@@ -59,12 +62,13 @@ public class AppController implements Initializable  {
     private LogFileManager logFileManager;
     private LogFileMonitorService logFileMonitorService;
 
+    private final List<FontAwesomeIconView> sidebarIcons = new ArrayList<>();
     private final String ACTIVE_SIDEBAR_ICON_COLOR = "#fec526";
     private final String DEFAULT_SIDEBAR_ICON_COLOR = "#c1c1c1";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initializeSidebarButtons();
+        setupSidebarButtons();
         initializeLogControls();
         loadSearchBar();
         initializeGridViewIcons();
@@ -72,16 +76,31 @@ public class AppController implements Initializable  {
         addSessionButton.setOnAction(event -> handleAddSession());
     }
 
-    private void initializeSidebarButtons() {
-        homeSidebarButton.setOnMouseClicked(mouseEvent -> setActiveIcon(homeSidebarButton));
+    private void setupSidebarButtons() {
+        homeSidebarButton.setOnMouseClicked(event -> setActiveIcon(homeSidebarButton));
 
-        aboutSidebarButton.setOnMouseClicked(mouseEvent -> {
+        aboutSidebarButton.setOnMouseClicked(event -> {
             setActiveIcon(aboutSidebarButton);
             UserDialogs.showInfo(Constants.ABOUT_PROGRAM, Constants.PROGRAM_INFO);
             setActiveIcon(homeSidebarButton);
         });
 
+        sidebarIcons.addAll(Arrays.asList(homeSidebarButton, aboutSidebarButton));
+
         setActiveIcon(homeSidebarButton);
+    }
+
+    private void setActiveIcon(FontAwesomeIconView activeIcon) {
+        resetSidebarIcons();
+        activeIcon.setFill(Color.web(ACTIVE_SIDEBAR_ICON_COLOR));
+        activeIcon.getStyleClass().add("selected-item");
+    }
+
+    private void resetSidebarIcons() {
+        for (FontAwesomeIconView icon : sidebarIcons) {
+            icon.setFill(Color.web(DEFAULT_SIDEBAR_ICON_COLOR));
+            icon.getStyleClass().remove("selected-item");
+        }
     }
 
     private void initializeLogControls() {
@@ -112,13 +131,6 @@ public class AppController implements Initializable  {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private void setActiveIcon(FontAwesomeIconView activeIcon) {
-        homeSidebarButton.setFill(Color.web(DEFAULT_SIDEBAR_ICON_COLOR));
-        aboutSidebarButton.setFill(Color.web(DEFAULT_SIDEBAR_ICON_COLOR));
-
-        activeIcon.setFill(Color.web(ACTIVE_SIDEBAR_ICON_COLOR));
     }
 
     private void handleAddSession() {
