@@ -18,6 +18,7 @@ public class App extends Application {
 
         primaryStage.setTitle("ptusa_log");
         primaryStage.setScene(scene);
+        primaryStage.setMinWidth(680);
         primaryStage.show();
     }
 
