@@ -83,11 +83,15 @@ public class SessionItemController implements Initializable {
         FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL);
         editIcon.setSize("1.5em");
         editIcon.setFill(Paint.valueOf("#000000"));
+//        editIcon.getStyleClass().add("context-menu-item");
+//        editIcon.getStyleClass().add("test");
         MenuItem editItem = new MenuItem(Constants.EDIT_CONTEXT_MENU_ACTION, editIcon);
 
         FontAwesomeIconView deleteIcon = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
         deleteIcon.setSize("1.5em");
         deleteIcon.setFill(Paint.valueOf("#B73F0C"));
+//        deleteIcon.getStyleClass().add("context-menu-item");
+//        deleteIcon.getStyleClass().add("test");
         MenuItem deleteItem = new MenuItem(Constants.DELETE_CONTEXT_MENU_ACTION, deleteIcon);
 
         contextMenu.getItems().addAll(editItem, deleteItem);
@@ -96,6 +100,8 @@ public class SessionItemController implements Initializable {
             MaterialIconView unarchiveIcon = new MaterialIconView(MaterialIcon.UNARCHIVE);
             unarchiveIcon.setSize("1.5em");
             unarchiveIcon.setFill(Paint.valueOf("#000000"));
+//            unarchiveIcon.getStyleClass().add("context-menu-item");
+//            unarchiveIcon.getStyleClass().add("test");
             MenuItem unarchiveItem = new MenuItem(Constants.UNARCHIVE_CONTEXT_MENU_ACTION, unarchiveIcon);
             contextMenu.getItems().add(unarchiveItem);
 
@@ -105,6 +111,8 @@ public class SessionItemController implements Initializable {
             MaterialIconView archiveIcon = new MaterialIconView(MaterialIcon.ARCHIVE);
             archiveIcon.setSize("1.5em");
             archiveIcon.setFill(Paint.valueOf("#000000"));
+//            archiveIcon.getStyleClass().add("context-menu-item");
+//            archiveIcon.getStyleClass().add("test");
             MenuItem archiveItem = new MenuItem(Constants.ARCHIVE_CONTEXT_MENU_ACTION, archiveIcon);
             contextMenu.getItems().add(archiveItem);
 

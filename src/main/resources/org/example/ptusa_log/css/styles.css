@@ -93,6 +93,17 @@
     -fx-background-color: #ededed;
 }
 
+/* .test .label {
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial";
+    -fx-font-size: 12px;
+}
+  
+.test:focused {
+    -fx-background-color: #ededed;
+} */
+
 /* .menu-item:focused .label {
     -fx-text-fill: white;
 } */
