@@ -36,6 +36,11 @@
                                                 <Insets top="15.0" />
                                             </VBox.margin>
                                         </FontAwesomeIconView>
+                                        <FontAwesomeIconView fx:id="archiveSidebarButton" fill="#c1c1c1" glyphName="ARCHIVE" size="1.75em" styleClass="sidebar-opt">
+                                            <VBox.margin>
+                                                <Insets top="15.0" />
+                                            </VBox.margin>
+                                        </FontAwesomeIconView>
                                         <FontAwesomeIconView fx:id="aboutSidebarButton" fill="#c1c1c1" glyphName="QUESTION_CIRCLE_ALT" size="1.75em" styleClass="sidebar-opt">
                                             <VBox.margin>
                                                 <Insets top="15.0" />

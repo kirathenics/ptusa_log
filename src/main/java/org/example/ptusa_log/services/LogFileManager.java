@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 
 public class LogFileManager {
     private List<LogFile> allLogFiles = new ArrayList<>();
-    private Predicate<LogFile> filterPredicate = log -> true;
+    private Predicate<LogFile> filterPredicate = logFile -> true;
     private Comparator<LogFile> sortComparator = Comparator.comparing(LogFile::getAliasName);
     private String searchQuery = "";
 

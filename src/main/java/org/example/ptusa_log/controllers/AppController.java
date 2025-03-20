@@ -16,23 +16,20 @@ import org.example.ptusa_log.DAO.LogFileDAO;
 import org.example.ptusa_log.services.LogFileManager;
 import org.example.ptusa_log.services.LogFileMonitorService;
 import org.example.ptusa_log.services.GridPaneUpdater;
-import org.example.ptusa_log.utils.Constants;
-import org.example.ptusa_log.utils.SVGProcessor;
-import org.example.ptusa_log.utils.SystemPaths;
-import org.example.ptusa_log.utils.UserDialogs;
+import org.example.ptusa_log.utils.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class AppController implements Initializable  {
 
     @FXML
     private FontAwesomeIconView homeSidebarButton;
+
+    @FXML
+    private FontAwesomeIconView archiveSidebarButton;
 
     @FXML
     private FontAwesomeIconView aboutSidebarButton;
@@ -62,9 +59,10 @@ public class AppController implements Initializable  {
     private LogFileManager logFileManager;
     private LogFileMonitorService logFileMonitorService;
 
-    private final List<FontAwesomeIconView> sidebarIcons = new ArrayList<>();
     private final String ACTIVE_SIDEBAR_ICON_COLOR = "#fec526";
     private final String DEFAULT_SIDEBAR_ICON_COLOR = "#c1c1c1";
+
+    private FontAwesomeIconView activeIcon;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -77,30 +75,37 @@ public class AppController implements Initializable  {
     }
 
     private void setupSidebarButtons() {
-        homeSidebarButton.setOnMouseClicked(event -> setActiveIcon(homeSidebarButton));
-
-        aboutSidebarButton.setOnMouseClicked(event -> {
-            setActiveIcon(aboutSidebarButton);
-            UserDialogs.showInfo(Constants.ABOUT_PROGRAM, Constants.PROGRAM_INFO);
+        homeSidebarButton.setOnMouseClicked(mouseEvent -> {
             setActiveIcon(homeSidebarButton);
+            logFileManager.setFilter(logFile -> logFile.getVisibility() == LogFileVisibility.VISIBLE.getValue());
         });
 
-        sidebarIcons.addAll(Arrays.asList(homeSidebarButton, aboutSidebarButton));
+        archiveSidebarButton.setOnMouseClicked(mouseEvent -> {
+            setActiveIcon(archiveSidebarButton);
+            logFileManager.setFilter(logFile -> logFile.getVisibility() == LogFileVisibility.ARCHIVED.getValue());
+        });
 
+        aboutSidebarButton.setOnMouseClicked(mouseEvent -> {
+            FontAwesomeIconView previousActiveIcon = activeIcon;
+            setActiveIcon(aboutSidebarButton);
+            UserDialogs.showInfo(Constants.ABOUT_PROGRAM, Constants.PROGRAM_INFO);
+            setActiveIcon(previousActiveIcon);
+        });
+
+        activeIcon = homeSidebarButton;
         setActiveIcon(homeSidebarButton);
     }
 
-    private void setActiveIcon(FontAwesomeIconView activeIcon) {
-        resetSidebarIcons();
+    private void setActiveIcon(FontAwesomeIconView selectedIcon) {
+        resetActiveIcon();
+        activeIcon = selectedIcon;
         activeIcon.setFill(Color.web(ACTIVE_SIDEBAR_ICON_COLOR));
         activeIcon.getStyleClass().add("selected-item");
     }
 
-    private void resetSidebarIcons() {
-        for (FontAwesomeIconView icon : sidebarIcons) {
-            icon.setFill(Color.web(DEFAULT_SIDEBAR_ICON_COLOR));
-            icon.getStyleClass().remove("selected-item");
-        }
+    private void resetActiveIcon() {
+        activeIcon.setFill(Color.web(DEFAULT_SIDEBAR_ICON_COLOR));
+        activeIcon.getStyleClass().remove("selected-item");
     }
 
     private void initializeLogControls() {
@@ -109,6 +114,8 @@ public class AppController implements Initializable  {
         logFileMonitorService = new LogFileMonitorService(logFileManager::updateLogs);
 
         gridPaneUpdater.setLogManager(logFileManager);
+
+        logFileManager.setFilter(logFile -> logFile.getVisibility() == LogFileVisibility.VISIBLE.getValue());
 
         logFileMonitorService.loadInitialLogs();
         logFileMonitorService.startWatching();

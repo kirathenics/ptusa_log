@@ -3,40 +3,6 @@ package org.example.ptusa_log.models;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-//public class LogFile {
-//    private final SimpleStringProperty name;
-//    private final SimpleStringProperty deviceName;
-//
-//    public LogFile(String name, String deviceName) {
-//        this.name = new SimpleStringProperty(name);
-//        this.deviceName = new SimpleStringProperty(deviceName);
-//    }
-//
-//    public String getName() {
-//        return name.get();
-//    }
-//
-//    public SimpleStringProperty nameProperty() {
-//        return name;
-//    }
-//
-//    public String getDeviceName() {
-//        return deviceName.get();
-//    }
-//
-//    public SimpleStringProperty deviceNameProperty() {
-//        return deviceName;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "LogFile{" +
-//                "name=" + name.get() +
-//                ", deviceName=" + deviceName.get() +
-//                '}';
-//    }
-//}
-
 public class LogFile {
     private final SimpleIntegerProperty id;
     private final SimpleStringProperty path;
@@ -95,11 +61,11 @@ public class LogFile {
     @Override
     public String toString() {
         return "LogFile{" +
-                "id=" + id +
-                ", path=" + path +
-                ", aliasName=" + aliasName +
-                ", deviceName=" + deviceName +
-                ", isDeleted=" + visibility +
-                '}';
+                "id=" + id.getValue() +
+                ", path=" + path.getValue() +
+                ", aliasName=" + aliasName.getValue() +
+                ", deviceName=" + deviceName.getValue() +
+                ", isDeleted=" + visibility.getValue() +
+                "}";
     }
 }

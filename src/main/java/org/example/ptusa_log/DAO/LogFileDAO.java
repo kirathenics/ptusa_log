@@ -16,11 +16,12 @@ public class LogFileDAO {
 
     public static List<LogFile> getLogFiles() {
         List<LogFile> logs = new ArrayList<>();
-        String sql = "SELECT * FROM log_files WHERE visibility = 0 ORDER BY alias_name DESC";
+//        String query = "SELECT * FROM log_files WHERE visibility = 0 ORDER BY alias_name DESC";
+        String query = "SELECT * FROM log_files ORDER BY alias_name DESC";
 
         try (Connection conn = SQLiteDatabaseManager.connect();
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+             ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
                 logs.add(new LogFile(
@@ -39,10 +40,10 @@ public class LogFileDAO {
     }
 
     public static void addLogFile(String path, String aliasName, String deviceName, Integer visibility) {
-        String sql = "INSERT or IGNORE INTO log_files (path, alias_name, device_name, visibility) VALUES (?, ?, ?, ?)";
+        String query = "INSERT or IGNORE INTO log_files (path, alias_name, device_name, visibility) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = SQLiteDatabaseManager.connect();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, path);
             stmt.setString(2, aliasName);
@@ -55,10 +56,10 @@ public class LogFileDAO {
     }
 
     public static void setLogFileAliasName(Integer id, String aliasName) {
-        String sql = "UPDATE log_files SET alias_name = ? WHERE id = ?";
+        String query = "UPDATE log_files SET alias_name = ? WHERE id = ?";
 
         try (Connection conn = SQLiteDatabaseManager.connect();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, aliasName);
             stmt.setInt(2, id);
@@ -69,10 +70,10 @@ public class LogFileDAO {
     }
 
     public static void setLogFileVisibility(Integer id, Integer visibility) {
-        String sql = "UPDATE log_files SET visibility = ? WHERE id = ?";
+        String query = "UPDATE log_files SET visibility = ? WHERE id = ?";
 
         try (Connection conn = SQLiteDatabaseManager.connect();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setInt(1, visibility);
             stmt.setInt(2, id);

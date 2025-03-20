@@ -55,6 +55,8 @@ public class SessionItemController implements Initializable {
         sessionTextArea.setEditable(false);
 
         deviceLabel.setText(Constants.DEVICE + logFile.getDeviceName());
+
+        initializeContextMenu();
     }
 
     public void setLogFileListener(LogFileListener logFileListener) {
@@ -71,7 +73,7 @@ public class SessionItemController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initializeContextMenu();
+//        initializeContextMenu();
         setupTextArea();
 
         rootPane.setOnMouseClicked(this::openDetailScene);
@@ -90,7 +92,7 @@ public class SessionItemController implements Initializable {
 
         contextMenu.getItems().addAll(editItem, deleteItem);
 
-        if (logFile != null && logFile.getVisibility() == LogFileVisibility.ARCHIVED.getValue()) {
+        if (logFile.getVisibility() == LogFileVisibility.ARCHIVED.getValue()) {
             MaterialIconView unarchiveIcon = new MaterialIconView(MaterialIcon.UNARCHIVE);
             unarchiveIcon.setSize("1.5em");
             unarchiveIcon.setFill(Paint.valueOf("#000000"));
