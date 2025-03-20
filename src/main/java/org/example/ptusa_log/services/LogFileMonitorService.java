@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import org.example.ptusa_log.DAO.LogFileDAO;
 import org.example.ptusa_log.listeners.LogFileListener;
 import org.example.ptusa_log.utils.LogFileProcessor;
+import org.example.ptusa_log.utils.LogFileVisibility;
 import org.example.ptusa_log.utils.SystemPaths;
 
 import java.io.IOException;
@@ -77,7 +78,7 @@ public class LogFileMonitorService {
             for (Path entry : stream) {
                 String aliasName = LogFileProcessor.extractAliasName(entry);
                 String deviceName = LogFileProcessor.extractDeviceName(entry);
-                LogFileDAO.addLogFile(entry.toString(), aliasName, deviceName, 0);
+                LogFileDAO.addLogFile(entry.toString(), aliasName, deviceName, LogFileVisibility.VISIBLE.getValue());
             }
         } catch (IOException e) {
             System.err.println("Ошибка чтения логов: " + e.getMessage());

@@ -42,14 +42,14 @@ public class LogFile {
     private final SimpleStringProperty path;
     private final SimpleStringProperty aliasName;
     private final SimpleStringProperty deviceName;
-    private final SimpleIntegerProperty isDeleted;
+    private final SimpleIntegerProperty visibility;
 
-    public LogFile(Integer id, String path, String aliasName, String deviceName, Integer isDeleted) {
+    public LogFile(Integer id, String path, String aliasName, String deviceName, Integer visibility) {
         this.id = new SimpleIntegerProperty(id);
         this.path = new SimpleStringProperty(path);
         this.aliasName = new SimpleStringProperty(aliasName);
         this.deviceName = new SimpleStringProperty(deviceName);
-        this.isDeleted = new SimpleIntegerProperty(isDeleted);
+        this.visibility = new SimpleIntegerProperty(visibility);
     }
 
     public int getId() {
@@ -84,12 +84,12 @@ public class LogFile {
         return deviceName;
     }
 
-    public int getIsDeleted() {
-        return isDeleted.get();
+    public int getVisibility() {
+        return visibility.get();
     }
 
-    public SimpleIntegerProperty isDeletedProperty() {
-        return isDeleted;
+    public SimpleIntegerProperty visibilityProperty() {
+        return visibility;
     }
 
     @Override
@@ -99,7 +99,7 @@ public class LogFile {
                 ", path=" + path +
                 ", aliasName=" + aliasName +
                 ", deviceName=" + deviceName +
-                ", isDeleted=" + isDeleted +
+                ", isDeleted=" + visibility +
                 '}';
     }
 }

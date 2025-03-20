@@ -21,6 +21,7 @@ import org.example.ptusa_log.DAO.LogFileDAO;
 import org.example.ptusa_log.listeners.LogFileListener;
 import org.example.ptusa_log.models.LogFile;
 import org.example.ptusa_log.utils.Constants;
+import org.example.ptusa_log.utils.LogFileVisibility;
 
 import java.io.IOException;
 import java.net.URL;
@@ -147,7 +148,7 @@ public class SessionItemController implements Initializable {
         sessionTextArea.setEditable(false);
 
         String newText = sessionTextArea.getText().trim();
-        LogFileDAO.setAliasName(logFile.getId(), newText);
+        LogFileDAO.setLogFileAliasName(logFile.getId(), newText);
 
         System.out.println("Сохранено: " + newText);
 
@@ -157,7 +158,7 @@ public class SessionItemController implements Initializable {
     private void handleDelete() {
         System.out.println("Удаление...");
 
-        LogFileDAO.setLogFileDeletion(logFile.getId(), 1);
+        LogFileDAO.setLogFileVisibility(logFile.getId(), LogFileVisibility.DELETED.getValue());
 
         logFileListener.onLogsUpdated();
     }

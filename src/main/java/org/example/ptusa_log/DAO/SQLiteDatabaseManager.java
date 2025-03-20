@@ -31,8 +31,6 @@ public class SQLiteDatabaseManager {
         if (!dbFile.exists()) {
             try {
                 Files.createDirectories(Paths.get(dbFile.getParent()));
-//                dbFile.getParentFile().mkdirs();
-//                dbFile.createNewFile();
             } catch (Exception e) {
                 throw new RuntimeException("Ошибка создания директории для БД!", e);
             }
@@ -53,25 +51,6 @@ public class SQLiteDatabaseManager {
 
 //        applyMigrations();
     }
-
-//    private static void initializeLogFilesTable() {
-//        String sql = """
-//            CREATE TABLE IF NOT EXISTS log_files (
-//                id INTEGER PRIMARY KEY AUTOINCREMENT,
-//                path TEXT NOT NULL UNIQUE,
-//                alias_name TEXT NOT NULL,
-//                device_name TEXT NOT NULL,
-//                is_deleted INTEGER NOT NULL DEFAULT 0
-//            );
-//        """;
-//
-//        try (Connection conn = connect();
-//             Statement stmt = conn.createStatement()) {
-//            stmt.execute(sql);
-//        } catch (SQLException e) {
-//            throw new RuntimeException("Ошибка инициализации БД", e);
-//        }
-//    }
 
     private static void initializeLogFilesTable() {
         String schemaFile = "log_files_table_schema.sql";
@@ -105,7 +84,8 @@ public class SQLiteDatabaseManager {
 
 //    private static void applyMigrations() {
 //        List<String> migrations = List.of(
-//                "ALTER TABLE log_files ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+////                "ALTER TABLE log_files ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+//                "ALTER TABLE log_files RENAME COLUMN is_deleted TO visibility"
 //        );
 //
 //        try (Connection conn = connect();
@@ -120,4 +100,3 @@ public class SQLiteDatabaseManager {
 //        }
 //    }
 }
-

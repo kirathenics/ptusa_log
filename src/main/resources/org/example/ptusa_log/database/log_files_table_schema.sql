@@ -3,6 +3,6 @@ CREATE TABLE IF NOT EXISTS log_files (
     path TEXT NOT NULL UNIQUE,
     alias_name TEXT NOT NULL,
     device_name TEXT NOT NULL,
-    is_deleted INTEGER NOT NULL DEFAULT 0
+    visibility INTEGER NOT NULL DEFAULT 0
 --    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
