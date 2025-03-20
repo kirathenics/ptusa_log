@@ -43,6 +43,11 @@
                                                 <Insets top="15.0" />
                                             </VBox.margin>
                                         </FontAwesomeIconView>
+                              <FontAwesomeIconView fx:id="trashSidebarButton" fill="#c1c1c1" glyphName="TRASH" size="1.75em" styleClass="sidebar-opt">
+                                 <VBox.margin>
+                                    <Insets top="15.0" />
+                                 </VBox.margin>
+                              </FontAwesomeIconView>
                                         <FontAwesomeIconView fx:id="aboutSidebarButton" fill="#c1c1c1" glyphName="QUESTION_CIRCLE_ALT" size="1.75em" styleClass="sidebar-opt">
                                             <VBox.margin>
                                                 <Insets top="15.0" />
@@ -125,7 +130,7 @@
                                                 </HBox>
                                                 <HBox alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
                                                     <children>
-                                                        <GridPane fx:id="sessionItemGridPane" alignment="TOP_CENTER" GridPane.hgrow="SOMETIMES" GridPane.vgrow="SOMETIMES">
+                                                        <GridPane fx:id="sessionItemGridPane" GridPane.hgrow="SOMETIMES" GridPane.vgrow="SOMETIMES">
                                                             <rowConstraints>
                                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" />
                                                             </rowConstraints>

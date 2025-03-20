@@ -23,7 +23,7 @@ public abstract class AbstractTableView<T> {
         VBox.setMargin(tableContainer, new Insets(10,0,10,0));
 
         tableView = new TableView<>();
-        tableView.setPlaceholder(new Label("Нет результата"));
+        tableView.setPlaceholder(new Label("Нет данных для отображения"));
 
         observableList = FXCollections.observableArrayList();
         tableView.setItems(observableList);

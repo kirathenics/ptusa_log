@@ -32,6 +32,9 @@ public class AppController implements Initializable  {
     private FontAwesomeIconView archiveSidebarButton;
 
     @FXML
+    private FontAwesomeIconView trashSidebarButton;
+
+    @FXML
     private FontAwesomeIconView aboutSidebarButton;
 
     @FXML
@@ -83,6 +86,11 @@ public class AppController implements Initializable  {
         archiveSidebarButton.setOnMouseClicked(mouseEvent -> {
             setActiveIcon(archiveSidebarButton);
             logFileManager.setFilter(logFile -> logFile.getVisibility() == LogFileVisibility.ARCHIVED.getValue());
+        });
+
+        trashSidebarButton.setOnMouseClicked(mouseEvent -> {
+            setActiveIcon(trashSidebarButton);
+            logFileManager.setFilter(logFile -> logFile.getVisibility() == LogFileVisibility.DELETED.getValue());
         });
 
         aboutSidebarButton.setOnMouseClicked(mouseEvent -> {
