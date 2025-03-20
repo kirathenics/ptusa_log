@@ -2,10 +2,7 @@ package org.example.ptusa_log.DAO;
 
 import org.example.ptusa_log.models.LogPriority;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +22,11 @@ public class LogPriorityDAO {
 
     public static List<LogPriority> getPriorities() {
         List<LogPriority> logPriorities = new ArrayList<>();
-        String sql = "SELECT * FROM log_priorities ORDER BY id ASC";
+        String query = "SELECT * FROM log_priorities ORDER BY id ASC";
 
         try (Connection conn = SQLiteDatabaseManager.connect();
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+             ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
                 logPriorities.add(new LogPriority(
@@ -44,6 +41,27 @@ public class LogPriorityDAO {
         }
 
         return logPriorities;
+    }
+
+    public static String getColorByPriorityName(String name) {
+        String query = "SELECT color FROM log_priorities WHERE name = ? LIMIT 1";
+
+        String color = "#000000";
+
+        try (Connection conn = SQLiteDatabaseManager.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                color = rs.getString("color");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return color;
     }
 }
 

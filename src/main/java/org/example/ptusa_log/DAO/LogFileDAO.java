@@ -114,10 +114,10 @@ public class LogFileDAO {
     }
 
     public static LogFile findLogFileByFilePath(String filePath) {
-        String sql = "SELECT * FROM log_files WHERE path = ?";
+        String query = "SELECT * FROM log_files WHERE path = ?";
 
         try (Connection conn = SQLiteDatabaseManager.connect();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, filePath);
             ResultSet rs = stmt.executeQuery();

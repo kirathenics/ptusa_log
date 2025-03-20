@@ -3,6 +3,7 @@ package org.example.ptusa_log.helpers.TableViewFactory;
 import javafx.collections.FXCollections;
 import javafx.scene.control.TableColumn;
 import org.example.ptusa_log.helpers.TableColumnFactory.MultilineStringColumnFactory;
+import org.example.ptusa_log.helpers.TableColumnFactory.Wrappers.ColoredTextTableCellFactory;
 import org.example.ptusa_log.helpers.TableViewFactory.TableBuilder.AbstractTableBuilder;
 import org.example.ptusa_log.models.LogRecord;
 import org.example.ptusa_log.utils.Constants;
@@ -33,6 +34,8 @@ public class LogRecordTableView extends AbstractTableView<LogRecord> {
         timeColumn = new MultilineStringColumnFactory<LogRecord>().createColumn(Constants.TIME_LABEL, "time");
         priorityColumn = new MultilineStringColumnFactory<LogRecord>().createColumn(Constants.TYPE_LABEL, "priority");
         infoColumn = new MultilineStringColumnFactory<LogRecord>().createColumn(Constants.MESSAGE_LABEL, "message");
+
+        priorityColumn.setCellFactory(tc -> ColoredTextTableCellFactory.createWrappedCell());
 
         tableView.getColumns().addAll(Arrays.asList(
                 dateColumn,
