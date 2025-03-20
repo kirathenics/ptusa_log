@@ -59,6 +59,18 @@ public class SessionItemController implements Initializable {
         this.logFileListener = logFileListener;
     }
 
+    public void updateHoverEffect(boolean isGridViewSelected) {
+        double scaleValue = isGridViewSelected ? 1.05 : 1.01;
+
+        rootPane.setOnMouseEntered(event -> {
+            rootPane.setStyle("-fx-border-color: #0f4876; -fx-scale-x: " + scaleValue + "; -fx-scale-y: " + scaleValue + ";");
+        });
+
+        rootPane.setOnMouseExited(event -> {
+            rootPane.setStyle("-fx-border-color: transparent; -fx-scale-x: 1.0; -fx-scale-y: 1.0;");
+        });
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeContextMenu();

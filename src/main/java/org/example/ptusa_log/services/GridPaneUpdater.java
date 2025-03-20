@@ -17,6 +17,7 @@ public class GridPaneUpdater {
 
     private double gridWidth;
     private int lastColumnCount = -1;
+    private boolean isGridViewSelected = true;
 
     private LogFileManager logFileManager;
 
@@ -31,43 +32,71 @@ public class GridPaneUpdater {
 
     public void updateGridOnResize(double width) {
         gridWidth = width;
-        int columnCount = (int) Math.max(1, gridWidth / (SessionItemController.getItemWidth() + 20));
-
-        if (columnCount == lastColumnCount) {
-            return;
+        if (isGridViewSelected) {
+            int columnCount = calculateColumnCount();
+            if (columnCount == lastColumnCount) return;
+            lastColumnCount = columnCount;
         }
-        lastColumnCount = columnCount;
+        updateGrid();
+    }
 
+    public void setGridViewSelected(boolean isGridViewSelected) {
+        this.isGridViewSelected = isGridViewSelected;
         updateGrid();
     }
 
     public void updateGrid() {
         if (logFileManager == null) return;
-
         List<LogFile> logFiles = logFileManager.getFilteredLogs();
+
         Platform.runLater(() -> {
-            lastColumnCount = (int) Math.max(1, gridWidth / (SessionItemController.getItemWidth() + 20));
-
             sessionItemGridPane.getChildren().clear();
-            int column = 0, row = 1;
-            for (LogFile logFile : logFiles) {
-                try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "session_item_view.fxml"));
-                    AnchorPane anchorPane = fxmlLoader.load();
-
-                    SessionItemController controller = fxmlLoader.getController();
-                    controller.setData(logFile);
-                    controller.setLogFileListener(logFileManager::updateLogs);
-
-                    sessionItemGridPane.add(anchorPane, column, row);
-                    GridPane.setMargin(anchorPane, new Insets(10));
-
-                    column = (column + 1) % lastColumnCount;
-                    if (column == 0) row++;
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+            if (isGridViewSelected) {
+                updateGridView(logFiles);
+            } else {
+                updateRowView(logFiles);
             }
         });
+    }
+
+    private void updateGridView(List<LogFile> logFiles) {
+        lastColumnCount = calculateColumnCount();
+        int column = 0, row = 1;
+        for (LogFile logFile : logFiles) {
+            AnchorPane item = createSessionItem(logFile);
+            sessionItemGridPane.add(item, column, row);
+            GridPane.setMargin(item, new Insets(10));
+            column = (column + 1) % lastColumnCount;
+            if (column == 0) row++;
+        }
+    }
+
+    private void updateRowView(List<LogFile> logFiles) {
+        int row = 1;
+        for (LogFile logFile : logFiles) {
+            AnchorPane item = createSessionItem(logFile);
+            item.setPrefWidth(gridWidth - 30);
+            item.setMaxWidth(Double.MAX_VALUE);
+            sessionItemGridPane.add(item, 0, row++);
+            GridPane.setMargin(item, new Insets(10, 0, 10, 0));
+        }
+    }
+
+    private AnchorPane createSessionItem(LogFile logFile) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "session_item_view.fxml"));
+            AnchorPane anchorPane = fxmlLoader.load();
+            SessionItemController controller = fxmlLoader.getController();
+            controller.setData(logFile);
+            controller.setLogFileListener(logFileManager::updateLogs);
+            controller.updateHoverEffect(isGridViewSelected);
+            return anchorPane;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private int calculateColumnCount() {
+        return (int) Math.max(1, gridWidth / (SessionItemController.getItemWidth() + 20));
     }
 }

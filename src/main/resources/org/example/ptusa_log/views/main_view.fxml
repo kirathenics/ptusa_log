@@ -16,125 +16,107 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1150.0" styleClass="parent" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ptusa_log.controllers.AppController">
-   <children>
-      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <left>
-            <AnchorPane prefWidth="50.0" styleClass="sidebar" BorderPane.alignment="CENTER">
-               <children>
-                  <VBox alignment="TOP_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                         <FontAwesomeIconView fill="WHITE" glyphName="BARS" size="1.75em" styleClass="sidebar-opt">
-                             <VBox.margin>
-                                 <Insets top="15.0" />
-                             </VBox.margin>
-                         </FontAwesomeIconView>
-                         <VBox alignment="TOP_CENTER" fillWidth="false">
-                             <children>
-                                 <FontAwesomeIconView fx:id="homeSidebarButton" fill="#fec526" glyphName="HOME" size="1.75em" styleClass="sidebar-opt">
-                                     <VBox.margin>
-                                         <Insets top="15.0" />
-                                     </VBox.margin>
-                                 </FontAwesomeIconView>
-                                 <FontAwesomeIconView fx:id="aboutSidebarButton" fill="#c1c1c1" glyphName="QUESTION_CIRCLE_ALT" size="1.75em" styleClass="sidebar-opt">
-                                     <VBox.margin>
-                                         <Insets top="15.0" />
-                                     </VBox.margin>
-                                 </FontAwesomeIconView>
-                             </children>
-                             <VBox.margin>
-                                 <Insets top="10.0" />
-                             </VBox.margin>
-                         </VBox>
-                     </children>
-                  </VBox>
-               </children>
-            </AnchorPane>
-         </left>
-         <center>
-            <AnchorPane fx:id="rootPane" prefHeight="600.0" prefWidth="1100.0" styleClass="parent" BorderPane.alignment="CENTER">
-               <children>
-                  <VBox alignment="TOP_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" styleClass="transparent" VBox.vgrow="ALWAYS">
-                           <content>
-                              <VBox alignment="TOP_CENTER">
-                                 <children>
-                                    <HBox fx:id="searchBarContainer" alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0">
-                                       <children>
-<!--                                          <FontAwesomeIconView fill="#bcbcbe" glyphName="BOOK" size="1.7em" />-->
-<!--                                          <MaterialIconView fill="#bcbcbe" glyphName="KEYBOARD_ARROW_RIGHT" size="1.5em">-->
-<!--                                             <HBox.margin>-->
-<!--                                                <Insets left="7.0" />-->
-<!--                                             </HBox.margin>-->
-<!--                                          </MaterialIconView>-->
-<!--                                          <HBox fx:id="logTypeLabelContainer" alignment="CENTER_LEFT">-->
-<!--                                             <children>-->
-<!--                                                <Label fx:id="allTypesLabel" text="Все">-->
-<!--                                                   <HBox.margin>-->
-<!--                                                      <Insets left="5.0" right="5.0" />-->
-<!--                                                   </HBox.margin>-->
-<!--                                                   <styleClass>-->
-<!--                                                      <String fx:value="h1-label" />-->
-<!--                                                      <String fx:value="selected-label" />-->
-<!--                                                   </styleClass>-->
-<!--                                                </Label>-->
-<!--                                             </children>-->
-<!--                                          </HBox>-->
-                                          <Region HBox.hgrow="ALWAYS" />
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
-                                       </VBox.margin>
-                                    </HBox>
-                                    <HBox fx:id="addButtonContainer" alignment="CENTER_LEFT">
-                                       <children>
-                                          <Label text="Сессии">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                          <Region prefWidth="80.0" HBox.hgrow="NEVER" />
-                                          <Button fx:id="addSessionButton" mnemonicParsing="false" styleClass="add-session-button" text="Добавить сессию">
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
-                                             <graphic>
-                                                <MaterialIconView fill="WHITE" glyphName="ADD" size="1.7em" />
-                                             </graphic>
-                                          </Button>
-                                          <Region HBox.hgrow="ALWAYS" />
-                                            <SVGImageView fx:id="gridViewIcon" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#toggleView">
-                                             <HBox.margin>
-                                                <Insets right="5.0" />
-                                             </HBox.margin></SVGImageView>
-                                            <SVGImageView fx:id="rowViewIcon" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#toggleView" />
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets left="15.0" right="15.0" />
-                                       </VBox.margin>
-                                    </HBox>
-                                    <HBox VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <GridPane fx:id="sessionItemGridPane" alignment="TOP_CENTER" GridPane.hgrow="SOMETIMES" GridPane.vgrow="SOMETIMES">
-                                             <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                                             </rowConstraints>
-                                          </GridPane>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                           </content>
-                        </ScrollPane>
-                     </children>
-                  </VBox>
-               </children>
-            </AnchorPane>
-         </center>
-      </BorderPane>
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1240.0" styleClass="parent" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ptusa_log.controllers.AppController">
+    <children>
+        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <left>
+                <AnchorPane prefWidth="50.0" styleClass="sidebar" BorderPane.alignment="CENTER">
+                    <children>
+                        <VBox alignment="TOP_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <FontAwesomeIconView fill="WHITE" glyphName="BARS" size="1.75em" styleClass="sidebar-opt">
+                                    <VBox.margin>
+                                        <Insets top="15.0" />
+                                    </VBox.margin>
+                                </FontAwesomeIconView>
+                                <VBox alignment="TOP_CENTER" fillWidth="false">
+                                    <children>
+                                        <FontAwesomeIconView fx:id="homeSidebarButton" fill="#fec526" glyphName="HOME" size="1.75em" styleClass="sidebar-opt">
+                                            <VBox.margin>
+                                                <Insets top="15.0" />
+                                            </VBox.margin>
+                                        </FontAwesomeIconView>
+                                        <FontAwesomeIconView fx:id="aboutSidebarButton" fill="#c1c1c1" glyphName="QUESTION_CIRCLE_ALT" size="1.75em" styleClass="sidebar-opt">
+                                            <VBox.margin>
+                                                <Insets top="15.0" />
+                                            </VBox.margin>
+                                        </FontAwesomeIconView>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets top="10.0" />
+                                    </VBox.margin>
+                                </VBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+            </left>
+            <center>
+                <AnchorPane fx:id="rootPane" prefHeight="600.0" prefWidth="1100.0" styleClass="parent" BorderPane.alignment="CENTER">
+                    <children>
+                        <VBox alignment="TOP_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" styleClass="transparent" VBox.vgrow="ALWAYS">
+                                    <content>
+                                        <VBox alignment="TOP_CENTER">
+                                            <children>
+                                                <HBox fx:id="searchBarContainer" alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0">
+                                                    <children>
+                                                        <Region HBox.hgrow="ALWAYS" />
+                                                    </children>
+                                                    <VBox.margin>
+                                                        <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                                                    </VBox.margin>
+                                                </HBox>
+                                                <HBox fx:id="addButtonContainer" alignment="CENTER_LEFT">
+                                                    <children>
+                                                        <Label text="Сессии">
+                                                            <font>
+                                                                <Font size="18.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Region prefWidth="80.0" HBox.hgrow="SOMETIMES" />
+                                                        <Button fx:id="addSessionButton" mnemonicParsing="false" styleClass="add-session-button" text="Добавить сессию">
+                                                            <HBox.margin>
+                                                                <Insets />
+                                                            </HBox.margin>
+                                                            <graphic>
+                                                                <MaterialIconView fill="WHITE" glyphName="ADD" size="1.7em" />
+                                                            </graphic>
+                                                        </Button>
+                                                        <Region HBox.hgrow="ALWAYS" />
+                                                        <SVGImageView fx:id="gridViewIcon" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#toggleView" styleClass="grid-icon">
+                                                            <HBox.margin>
+                                                                <Insets right="5.0" />
+                                                            </HBox.margin>
+                                                        </SVGImageView>
+                                                        <SVGImageView fx:id="rowViewIcon" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#toggleView" styleClass="grid-icon" />
+                                                    </children>
+                                                    <VBox.margin>
+                                                        <Insets left="15.0" right="15.0" />
+                                                    </VBox.margin>
+                                                </HBox>
+                                                <HBox alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
+                                                    <children>
+                                                        <GridPane fx:id="sessionItemGridPane" alignment="TOP_CENTER" GridPane.hgrow="SOMETIMES" GridPane.vgrow="SOMETIMES">
+                                                            <rowConstraints>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                                            </rowConstraints>
+                                                        </GridPane>
+                                                    </children>
+                                                    <VBox.margin>
+                                                        <Insets />
+                                                    </VBox.margin>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                    </content>
+                                </ScrollPane>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+            </center>
+        </BorderPane>
+    </children>
 </AnchorPane>

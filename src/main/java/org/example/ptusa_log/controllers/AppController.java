@@ -24,7 +24,6 @@ import org.example.ptusa_log.utils.UserDialogs;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class AppController implements Initializable  {
@@ -149,10 +148,6 @@ public class AppController implements Initializable  {
 
     private void initializeGridViewIcons() {
         updateIconColors();
-
-        // работает
-//        File newFile = new File("C:/Users/bka32/GitHub-repos/ptusa_log/src/main/resources/org/example/ptusa_log/icons/grid_view.svg");
-//        gridViewIcon.setSvgUrl(newFile.toURI().toString());
     }
 
     @FXML
@@ -164,6 +159,7 @@ public class AppController implements Initializable  {
         }
 
         updateIconColors();
+        gridPaneUpdater.setGridViewSelected(isGridViewSelected);
     }
 
     private void updateIconColors() {

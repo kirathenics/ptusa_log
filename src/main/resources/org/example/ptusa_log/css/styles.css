@@ -145,6 +145,12 @@
     -fx-scale-y: 1.0;
 }
 
+.grid-icon:hover{
+    -fx-cursor: hand;
+    /* -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 10, 0, 0, 0); */
+    /* -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0, 0, 0); */
+}
+
 
 .search-field {
     -fx-background-radius: 30px
