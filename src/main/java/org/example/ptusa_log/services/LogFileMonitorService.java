@@ -78,7 +78,8 @@ public class LogFileMonitorService {
             for (Path entry : stream) {
                 String aliasName = LogFileProcessor.extractAliasName(entry);
                 String deviceName = LogFileProcessor.extractDeviceName(entry);
-                LogFileDAO.addLogFile(entry.toString(), aliasName, deviceName, LogFileVisibility.VISIBLE.getValue());
+//                LogFileDAO.addLogFile(entry.toString(), aliasName, deviceName, LogFileVisibility.VISIBLE.getValue());
+                LogFileDAO.addLogFile(entry.toString(), aliasName, "T1-PLCnext-Demo", LogFileVisibility.VISIBLE.getValue());
             }
         } catch (IOException e) {
             System.err.println("Ошибка чтения логов: " + e.getMessage());
