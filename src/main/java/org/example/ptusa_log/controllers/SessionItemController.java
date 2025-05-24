@@ -22,7 +22,7 @@ import org.example.ptusa_log.DAO.LogFileDAO;
 import org.example.ptusa_log.listeners.LogFileListener;
 import org.example.ptusa_log.models.LogFile;
 import org.example.ptusa_log.utils.Constants;
-import org.example.ptusa_log.utils.LogFileVisibility;
+import org.example.ptusa_log.utils.enums.LogFileVisibility;
 
 import java.io.IOException;
 import java.net.URL;

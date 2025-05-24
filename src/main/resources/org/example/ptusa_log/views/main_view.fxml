@@ -97,26 +97,33 @@
                                                             </graphic>
                                                         </Button>
                                                         <Region HBox.hgrow="ALWAYS" />
-<!--                                                        <Label text="Сортировка по" textFill="#878787">-->
-<!--                                                            <HBox.margin>-->
-<!--                                                                <Insets />-->
-<!--                                                            </HBox.margin>-->
-<!--                                                            <font>-->
-<!--                                                                <Font name="System Bold" size="12.0" />-->
-<!--                                                            </font>-->
-<!--                                                        </Label>-->
-<!--                                                        <MenuButton mnemonicParsing="false" text="MenuButton">-->
-<!--                                                            <items>-->
-<!--                                                                <MenuItem mnemonicParsing="false" text="Имя убывание">-->
-<!--                                                   <graphic>-->
-<!--                                                      <FontAwesomeIconView glyphName="SORT_ALPHA_DESC" size="1.5em" />-->
-<!--                                                   </graphic></MenuItem>-->
-<!--                                                                <MenuItem mnemonicParsing="false" text="Имя возрастание" />-->
-<!--                                                            </items>-->
-<!--                                             <HBox.margin>-->
-<!--                                                <Insets left="10.0" right="10.0" />-->
-<!--                                             </HBox.margin>-->
-<!--                                                        </MenuButton>-->
+                                                        <Label text="Сортировка" textFill="#878787">
+                                                            <HBox.margin>
+                                                                <Insets />
+                                                            </HBox.margin>
+                                                            <font>
+                                                                <Font name="System Bold" size="12.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <MenuButton fx:id="sortMenuButton" mnemonicParsing="false" prefWidth="160.0" styleClass="custom-menu-button" text="По умолчанию">
+                                                            <items>
+                                                                <MenuItem fx:id="sortByDefaultMenuItem" mnemonicParsing="false" text="По умолчанию">
+                                                                </MenuItem>
+                                                                <MenuItem fx:id="sortByNameDescMenuItem" mnemonicParsing="false" text="Имя убывание">
+                                                                    <graphic>
+                                                                        <FontAwesomeIconView glyphName="SORT_ALPHA_DESC" size="1.5em" />
+                                                                    </graphic>
+                                                                </MenuItem>
+                                                                <MenuItem fx:id="sortByNameAscMenuItem" mnemonicParsing="false" text="Имя возрастание">
+                                                                    <graphic>
+                                                                        <FontAwesomeIconView glyphName="SORT_ALPHA_ASC" size="1.5em" />
+                                                                    </graphic>
+                                                                </MenuItem>
+                                                            </items>
+                                                        <HBox.margin>
+                                                            <Insets left="10.0" right="40.0" />
+                                                        </HBox.margin>
+                                                        </MenuButton>
                                                         <SVGImageView fx:id="gridViewIcon" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#toggleView" styleClass="grid-icon">
                                                             <HBox.margin>
                                                                 <Insets right="5.0" />

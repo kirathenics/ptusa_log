@@ -2,7 +2,7 @@ package org.example.ptusa_log.DAO;
 
 import org.example.ptusa_log.models.LogFile;
 import org.example.ptusa_log.utils.LogFileProcessor;
-import org.example.ptusa_log.utils.LogFileVisibility;
+import org.example.ptusa_log.utils.enums.LogFileVisibility;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

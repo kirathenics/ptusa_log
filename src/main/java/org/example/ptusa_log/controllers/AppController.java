@@ -13,15 +13,20 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import org.example.ptusa_log.DAO.LogFileDAO;
+import org.example.ptusa_log.models.LogFile;
 import org.example.ptusa_log.services.LogFileManager;
 import org.example.ptusa_log.services.LogFileMonitorService;
 import org.example.ptusa_log.services.GridPaneUpdater;
 import org.example.ptusa_log.utils.*;
+import org.example.ptusa_log.utils.enums.LogFileVisibility;
+import org.example.ptusa_log.utils.enums.SortOrder;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 public class AppController implements Initializable  {
 
@@ -67,12 +72,29 @@ public class AppController implements Initializable  {
 
     private FontAwesomeIconView activeIcon;
 
+
+    private static final String SORT_PREF_KEY = "log_sort_order";
+    private final Preferences preferences = Preferences.userNodeForPackage(AppController.class);
+
+    @FXML
+    private MenuButton sortMenuButton;
+
+    @FXML
+    private MenuItem sortByDefaultMenuItem;
+
+    @FXML
+    private MenuItem sortByNameAscMenuItem;
+
+    @FXML
+    private MenuItem sortByNameDescMenuItem;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupSidebarButtons();
         initializeLogControls();
         loadSearchBar();
         initializeGridViewIcons();
+        initializeSortMenu();
 
         addSessionButton.setOnAction(event -> handleAddSession());
     }
@@ -192,5 +214,43 @@ public class AppController implements Initializable  {
     private void updateIconColors() {
         gridViewIcon.setSvgUrl(SVGProcessor.getSvgUrl(isGridViewSelected ? "grid_view.svg" : "grid_view_inactive.svg"));
         rowViewIcon.setSvgUrl(SVGProcessor.getSvgUrl(!isGridViewSelected ? "row_view.svg" : "row_view_inactive.svg"));
+    }
+
+    private void initializeSortMenu() {
+        sortByDefaultMenuItem.setOnAction(e -> setSortingAndSavePreference(SortOrder.DEFAULT));
+
+        sortByNameAscMenuItem.setOnAction(e -> setSortingAndSavePreference(SortOrder.NAME_ASC));
+
+        sortByNameDescMenuItem.setOnAction(e -> setSortingAndSavePreference(SortOrder.NAME_DESC));
+
+        SortOrder savedOrder = loadSavedSortOrder();
+        setSortingAndSavePreference(savedOrder);
+    }
+
+    private void setSortingAndSavePreference(SortOrder order) {
+        switch (order) {
+            case NAME_ASC -> {
+                logFileManager.setSorting(Comparator.comparing(LogFile::getAliasName));
+                sortMenuButton.setText("Имя возрастание");
+            }
+            case NAME_DESC -> {
+                logFileManager.setSorting(Comparator.comparing(LogFile::getAliasName).reversed());
+                sortMenuButton.setText("Имя убывание");
+            }
+            case DEFAULT -> {
+                logFileManager.setSorting(Comparator.comparing(LogFile::getId));
+                sortMenuButton.setText("По умолчанию");
+            }
+        }
+        preferences.put(SORT_PREF_KEY, order.name());
+    }
+
+    private SortOrder loadSavedSortOrder() {
+        String saved = preferences.get(SORT_PREF_KEY, SortOrder.DEFAULT.name());
+        try {
+            return SortOrder.valueOf(saved);
+        } catch (IllegalArgumentException e) {
+            return SortOrder.DEFAULT;
+        }
     }
 }

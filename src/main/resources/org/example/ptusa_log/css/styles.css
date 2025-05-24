@@ -261,6 +261,29 @@
 }
 
 
+.custom-menu-button {
+    -fx-background-color: #f6f6f6;
+    -fx-border-color: #dcdcdc;
+    -fx-border-radius: 16px;
+    -fx-background-radius: 16px;
+    -fx-padding: 2 4 2 4;
+    -fx-font-size: 13px;
+    -fx-text-fill: #333;
+}
+
+.custom-menu-button .label {
+    -fx-text-fill: #333;
+}
+
+.custom-menu-button:hover .arrow {
+    -fx-background-color: #000;
+}
+
+.menu-button:showing .arrow {
+    -fx-rotate: 180;
+}
+
+
 /* dark blue            0f4876 */
 /* dark dark blue       0a3151 */
 /* new dark dark blue   052c4d */

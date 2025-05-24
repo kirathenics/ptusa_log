@@ -5,6 +5,7 @@ module org.example.ptusa_log {
     requires de.jensd.fx.glyphs.materialicons;
     requires java.sql;
     requires com.dlsc.gemsfx;
+    requires java.prefs;
 
 
     opens org.example.ptusa_log to javafx.fxml;

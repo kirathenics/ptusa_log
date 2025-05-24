@@ -1,4 +1,4 @@
-package org.example.ptusa_log.utils;
+package org.example.ptusa_log.utils.enums;
 
 public enum LogFileVisibility {
     VISIBLE(0), DELETED(1), ARCHIVED(2);
