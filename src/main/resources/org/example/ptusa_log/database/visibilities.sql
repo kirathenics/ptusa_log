@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS visibilities (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE
+);
