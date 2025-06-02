@@ -1,6 +1,6 @@
 package org.example.ptusa_log.utils;
 
-public class Constants {
+public class StringConstants {
     public static final String PROJECT_PATH = "/org/example/ptusa_log/";
     public static final String VIEWS_PATH = PROJECT_PATH + "views/";
     public static final String DATABASE_PATH = PROJECT_PATH + "database/";
@@ -22,4 +22,10 @@ public class Constants {
     public static final String TIME_LABEL = "Время";
     public static final String TYPE_LABEL = "Тип";
     public static final String MESSAGE_LABEL = "Сообщение";
+
+    public static final String SORT_DEFAULT = "По умолчанию";
+    public static final String SORT_NAME_DESC = "Имя (по убыванию)";
+    public static final String SORT_NAME_ASC = "Имя (по возрастанию)";
+    public static final String SORT_TIME_DESC = "Время создания (по убыванию)";
+    public static final String SORT_TIME_ASC = "Время создания (по возрастанию)";
 }

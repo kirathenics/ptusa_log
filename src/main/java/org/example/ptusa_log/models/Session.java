@@ -9,15 +9,15 @@ public class Session {
     private final SimpleStringProperty aliasName;
     private final SimpleStringProperty deviceName;
     private final SimpleIntegerProperty visibility;
-    private final SimpleStringProperty created_at;
+    private final SimpleStringProperty createdAt;
 
-    public Session(Integer id, String path, String aliasName, String deviceName, Integer visibility, String created_at) {
+    public Session(Integer id, String path, String aliasName, String deviceName, Integer visibility, String createdAt) {
         this.id = new SimpleIntegerProperty(id);
         this.path = new SimpleStringProperty(path);
         this.aliasName = new SimpleStringProperty(aliasName);
         this.deviceName = new SimpleStringProperty(deviceName);
         this.visibility = new SimpleIntegerProperty(visibility);
-        this.created_at = new SimpleStringProperty(created_at);
+        this.createdAt = new SimpleStringProperty(createdAt);
     }
 
     public int getId() {
@@ -60,12 +60,12 @@ public class Session {
         return visibility;
     }
 
-    public String getCreated_at() {
-        return created_at.get();
+    public String getCreatedAt() {
+        return createdAt.get();
     }
 
-    public SimpleStringProperty created_atProperty() {
-        return created_at;
+    public SimpleStringProperty createdAtProperty() {
+        return createdAt;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class Session {
                 ", aliasName=" + aliasName +
                 ", deviceName=" + deviceName +
                 ", visibility=" + visibility +
-                ", created_at=" + created_at +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }

@@ -105,18 +105,30 @@
                                                                 <Font name="System Bold" size="12.0" />
                                                             </font>
                                                         </Label>
-                                                        <MenuButton fx:id="sortMenuButton" mnemonicParsing="false" prefWidth="160.0" styleClass="custom-menu-button" text="По умолчанию">
+<!--                                                        <MenuButton fx:id="sortMenuButton" mnemonicParsing="false" prefWidth="160.0" styleClass="custom-menu-button" text="По умолчанию">-->
+                                                        <MenuButton fx:id="sortMenuButton" mnemonicParsing="false" styleClass="custom-menu-button" text="По умолчанию">
+<!--                                                        <MenuButton fx:id="sortMenuButton" mnemonicParsing="false" prefWidth="265.0" styleClass="custom-menu-button" text="По умолчанию">-->
                                                             <items>
                                                                 <MenuItem fx:id="sortByDefaultMenuItem" mnemonicParsing="false" text="По умолчанию">
                                                                 </MenuItem>
-                                                                <MenuItem fx:id="sortByNameDescMenuItem" mnemonicParsing="false" text="Имя убывание">
+                                                                <MenuItem fx:id="sortByNameDescMenuItem" mnemonicParsing="false" text="Имя (по убыванию)">
                                                                     <graphic>
                                                                         <FontAwesomeIconView glyphName="SORT_ALPHA_DESC" size="1.5em" />
                                                                     </graphic>
                                                                 </MenuItem>
-                                                                <MenuItem fx:id="sortByNameAscMenuItem" mnemonicParsing="false" text="Имя возрастание">
+                                                                <MenuItem fx:id="sortByNameAscMenuItem" mnemonicParsing="false" text="Имя (по возрастанию)">
                                                                     <graphic>
                                                                         <FontAwesomeIconView glyphName="SORT_ALPHA_ASC" size="1.5em" />
+                                                                    </graphic>
+                                                                </MenuItem>
+                                                                <MenuItem fx:id="sortByTimeDescMenuItem" mnemonicParsing="false" text="Время создания (по убыванию)">
+                                                                    <graphic>
+                                                                        <SVGImageView fx:id="timeDescIcon" />
+                                                                    </graphic>
+                                                                </MenuItem>
+                                                                <MenuItem fx:id="sortByTimeAscMenuItem" mnemonicParsing="false" text="Время создания (по возрастанию)">
+                                                                    <graphic>
+                                                                        <SVGImageView fx:id="timeAscIcon" />
                                                                     </graphic>
                                                                 </MenuItem>
                                                             </items>

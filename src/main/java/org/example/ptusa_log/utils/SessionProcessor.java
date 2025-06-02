@@ -15,7 +15,7 @@ public class SessionProcessor {
         String fileName = path.getFileName().toString();
 
         if (fileName.startsWith(filePrefix) && fileName.endsWith(filePostfix)) {
-            return Constants.SESSION + fileName.substring(filePrefix.length(), fileName.length() - filePostfix.length());
+            return StringConstants.SESSION + fileName.substring(filePrefix.length(), fileName.length() - filePostfix.length());
         }
 
         return fileName;

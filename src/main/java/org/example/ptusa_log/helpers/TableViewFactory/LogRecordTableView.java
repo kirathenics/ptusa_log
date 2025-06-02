@@ -6,7 +6,7 @@ import org.example.ptusa_log.helpers.TableColumnFactory.MultilineStringColumnFac
 import org.example.ptusa_log.helpers.TableColumnFactory.Wrappers.ColoredTextTableCellFactory;
 import org.example.ptusa_log.helpers.TableViewFactory.TableBuilder.AbstractTableBuilder;
 import org.example.ptusa_log.models.LogRecord;
-import org.example.ptusa_log.utils.Constants;
+import org.example.ptusa_log.utils.StringConstants;
 
 import java.util.Arrays;
 
@@ -30,10 +30,10 @@ public class LogRecordTableView extends AbstractTableView<LogRecord> {
 
     @Override
     protected void setupColumns() {
-        dateColumn = new MultilineStringColumnFactory<LogRecord>().createColumn(Constants.DATE_LABEL, "date");
-        timeColumn = new MultilineStringColumnFactory<LogRecord>().createColumn(Constants.TIME_LABEL, "time");
-        priorityColumn = new MultilineStringColumnFactory<LogRecord>().createColumn(Constants.TYPE_LABEL, "priority");
-        infoColumn = new MultilineStringColumnFactory<LogRecord>().createColumn(Constants.MESSAGE_LABEL, "message");
+        dateColumn = new MultilineStringColumnFactory<LogRecord>().createColumn(StringConstants.DATE_LABEL, "date");
+        timeColumn = new MultilineStringColumnFactory<LogRecord>().createColumn(StringConstants.TIME_LABEL, "time");
+        priorityColumn = new MultilineStringColumnFactory<LogRecord>().createColumn(StringConstants.TYPE_LABEL, "priority");
+        infoColumn = new MultilineStringColumnFactory<LogRecord>().createColumn(StringConstants.MESSAGE_LABEL, "message");
 
         priorityColumn.setCellFactory(tc -> ColoredTextTableCellFactory.createWrappedCell());
 

@@ -15,7 +15,7 @@ import org.example.ptusa_log.models.Session;
 import org.example.ptusa_log.models.LogPriority;
 import org.example.ptusa_log.services.LogRecordManager;
 import org.example.ptusa_log.services.SessionMonitorService;
-import org.example.ptusa_log.utils.Constants;
+import org.example.ptusa_log.utils.StringConstants;
 
 import java.io.IOException;
 import java.net.URL;
@@ -85,7 +85,7 @@ public class LogSessionController implements Initializable {
 
     private void loadSearchBar() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "search_bar_view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(StringConstants.VIEWS_PATH + "search_bar_view.fxml"));
             loader.load();
 
             SearchBarController controller = loader.getController();

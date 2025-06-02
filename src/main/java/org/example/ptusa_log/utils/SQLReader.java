@@ -21,7 +21,7 @@ public class SQLReader {
 
     public static String readSQLFileFromResource(String resourcePath) {
         StringBuilder sb = new StringBuilder();
-        try (InputStream inputStream = SQLiteDatabaseManager.class.getResourceAsStream(Constants.DATABASE_PATH + resourcePath);
+        try (InputStream inputStream = SQLiteDatabaseManager.class.getResourceAsStream(StringConstants.DATABASE_PATH + resourcePath);
              BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream)))) {
             String line;
             while ((line = reader.readLine()) != null) {

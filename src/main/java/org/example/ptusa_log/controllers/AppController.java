@@ -83,10 +83,22 @@ public class AppController implements Initializable  {
     private MenuItem sortByDefaultMenuItem;
 
     @FXML
+    private MenuItem sortByNameDescMenuItem;
+
+    @FXML
     private MenuItem sortByNameAscMenuItem;
 
     @FXML
-    private MenuItem sortByNameDescMenuItem;
+    private MenuItem sortByTimeDescMenuItem;
+
+    @FXML
+    private MenuItem sortByTimeAscMenuItem;
+
+    @FXML
+    private SVGImageView timeDescIcon;
+
+    @FXML
+    private SVGImageView timeAscIcon;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -118,7 +130,7 @@ public class AppController implements Initializable  {
         aboutSidebarButton.setOnMouseClicked(mouseEvent -> {
             FontAwesomeIconView previousActiveIcon = activeIcon;
             setActiveIcon(aboutSidebarButton);
-            UserDialogs.showInfo(Constants.ABOUT_PROGRAM, Constants.PROGRAM_INFO);
+            UserDialogs.showInfo(StringConstants.ABOUT_PROGRAM, StringConstants.PROGRAM_INFO);
             setActiveIcon(previousActiveIcon);
         });
 
@@ -158,7 +170,7 @@ public class AppController implements Initializable  {
 
     private void loadSearchBar() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "search_bar_view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(StringConstants.VIEWS_PATH + "search_bar_view.fxml"));
             loader.load();
 
             SearchBarController controller = loader.getController();
@@ -217,11 +229,20 @@ public class AppController implements Initializable  {
     }
 
     private void initializeSortMenu() {
+        MenuButtonUtils.adjustMenuButtonWidthToLongestItem(sortMenuButton);
+
+        timeAscIcon.setSvgUrl(SVGProcessor.getSvgUrl("sort_clock_asc.svg"));
+        timeDescIcon.setSvgUrl(SVGProcessor.getSvgUrl("sort_clock_desc.svg"));
+
         sortByDefaultMenuItem.setOnAction(e -> setSortingAndSavePreference(SortOrder.DEFAULT));
+
+        sortByNameDescMenuItem.setOnAction(e -> setSortingAndSavePreference(SortOrder.NAME_DESC));
 
         sortByNameAscMenuItem.setOnAction(e -> setSortingAndSavePreference(SortOrder.NAME_ASC));
 
-        sortByNameDescMenuItem.setOnAction(e -> setSortingAndSavePreference(SortOrder.NAME_DESC));
+        sortByTimeDescMenuItem.setOnAction(e -> setSortingAndSavePreference(SortOrder.TIME_DESC));
+
+        sortByTimeAscMenuItem.setOnAction(e -> setSortingAndSavePreference(SortOrder.TIME_ASC));
 
         SortOrder savedOrder = loadSavedSortOrder();
         setSortingAndSavePreference(savedOrder);
@@ -229,17 +250,25 @@ public class AppController implements Initializable  {
 
     private void setSortingAndSavePreference(SortOrder order) {
         switch (order) {
-            case NAME_ASC -> {
-                logFileManager.setSorting(Comparator.comparing(Session::getAliasName));
-                sortMenuButton.setText("Имя возрастание");
+            case DEFAULT -> {
+                logFileManager.setSorting(Comparator.comparing(Session::getId));
+                sortMenuButton.setText(StringConstants.SORT_DEFAULT);
             }
             case NAME_DESC -> {
                 logFileManager.setSorting(Comparator.comparing(Session::getAliasName).reversed());
-                sortMenuButton.setText("Имя убывание");
+                sortMenuButton.setText(StringConstants.SORT_NAME_DESC);
             }
-            case DEFAULT -> {
-                logFileManager.setSorting(Comparator.comparing(Session::getId));
-                sortMenuButton.setText("По умолчанию");
+            case NAME_ASC -> {
+                logFileManager.setSorting(Comparator.comparing(Session::getAliasName));
+                sortMenuButton.setText(StringConstants.SORT_NAME_ASC);
+            }
+            case TIME_DESC -> {
+                logFileManager.setSorting(Comparator.comparing(Session::getCreatedAt));
+                sortMenuButton.setText(StringConstants.SORT_TIME_DESC);
+            }
+            case TIME_ASC -> {
+                logFileManager.setSorting(Comparator.comparing(Session::getCreatedAt));
+                sortMenuButton.setText(StringConstants.SORT_TIME_ASC);
             }
         }
         preferences.put(SORT_PREF_KEY, order.name());

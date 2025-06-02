@@ -7,7 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import org.example.ptusa_log.controllers.SessionItemController;
 import org.example.ptusa_log.models.Session;
-import org.example.ptusa_log.utils.Constants;
+import org.example.ptusa_log.utils.StringConstants;
 
 import java.io.IOException;
 import java.util.List;
@@ -84,7 +84,7 @@ public class GridPaneUpdater {
 
     private AnchorPane createSessionItem(Session session) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "session_item_view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(StringConstants.VIEWS_PATH + "session_item_view.fxml"));
             AnchorPane anchorPane = fxmlLoader.load();
             SessionItemController controller = fxmlLoader.getController();
             controller.setLogFile(session);

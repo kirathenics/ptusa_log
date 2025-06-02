@@ -4,6 +4,6 @@ import java.util.Objects;
 
 public class SVGProcessor {
     public static String getSvgUrl(String fileName) {
-        return Objects.requireNonNull(SVGProcessor.class.getResource(Constants.ICONS_PATH + fileName)).toExternalForm();
+        return Objects.requireNonNull(SVGProcessor.class.getResource(StringConstants.ICONS_PATH + fileName)).toExternalForm();
     }
 }

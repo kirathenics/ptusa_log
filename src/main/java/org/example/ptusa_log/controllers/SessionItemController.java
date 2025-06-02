@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import org.example.ptusa_log.DAO.SessionsDAO;
 import org.example.ptusa_log.listeners.LogFileListener;
 import org.example.ptusa_log.models.Session;
-import org.example.ptusa_log.utils.Constants;
+import org.example.ptusa_log.utils.StringConstants;
 import org.example.ptusa_log.utils.enums.LogFileVisibility;
 
 import java.io.IOException;
@@ -54,7 +54,7 @@ public class SessionItemController implements Initializable {
         sessionTextArea.setText(session.getAliasName());
         sessionTextArea.setEditable(false);
 
-        deviceLabel.setText(Constants.DEVICE + session.getDeviceName());
+        deviceLabel.setText(StringConstants.DEVICE + session.getDeviceName());
 
         initializeContextMenu();
     }
@@ -83,13 +83,13 @@ public class SessionItemController implements Initializable {
         FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL);
         editIcon.setSize("1.5em");
         editIcon.setFill(Paint.valueOf("#000000"));
-        MenuItem editItem = new MenuItem(Constants.EDIT_CONTEXT_MENU_ACTION, editIcon);
+        MenuItem editItem = new MenuItem(StringConstants.EDIT_CONTEXT_MENU_ACTION, editIcon);
         editItem.getStyleClass().add("context-menu-item");
 
         FontAwesomeIconView deleteIcon = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
         deleteIcon.setSize("1.5em");
         deleteIcon.setFill(Paint.valueOf("#B73F0C"));
-        MenuItem deleteItem = new MenuItem(Constants.DELETE_CONTEXT_MENU_ACTION, deleteIcon);
+        MenuItem deleteItem = new MenuItem(StringConstants.DELETE_CONTEXT_MENU_ACTION, deleteIcon);
         deleteItem.getStyleClass().add("context-menu-item");
 
         contextMenu.getItems().addAll(editItem, deleteItem);
@@ -98,7 +98,7 @@ public class SessionItemController implements Initializable {
             MaterialIconView unarchiveIcon = new MaterialIconView(MaterialIcon.UNARCHIVE);
             unarchiveIcon.setSize("1.5em");
             unarchiveIcon.setFill(Paint.valueOf("#000000"));
-            MenuItem unarchiveItem = new MenuItem(Constants.UNARCHIVE_CONTEXT_MENU_ACTION, unarchiveIcon);
+            MenuItem unarchiveItem = new MenuItem(StringConstants.UNARCHIVE_CONTEXT_MENU_ACTION, unarchiveIcon);
             unarchiveItem.getStyleClass().add("context-menu-item");
 
             contextMenu.getItems().add(unarchiveItem);
@@ -109,7 +109,7 @@ public class SessionItemController implements Initializable {
             MaterialIconView archiveIcon = new MaterialIconView(MaterialIcon.ARCHIVE);
             archiveIcon.setSize("1.5em");
             archiveIcon.setFill(Paint.valueOf("#000000"));
-            MenuItem archiveItem = new MenuItem(Constants.ARCHIVE_CONTEXT_MENU_ACTION, archiveIcon);
+            MenuItem archiveItem = new MenuItem(StringConstants.ARCHIVE_CONTEXT_MENU_ACTION, archiveIcon);
             archiveItem.getStyleClass().add("context-menu-item");
 
             contextMenu.getItems().add(archiveItem);
@@ -201,7 +201,7 @@ public class SessionItemController implements Initializable {
 
     private void openDetailScene(MouseEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "log_session_view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(StringConstants.VIEWS_PATH + "log_session_view.fxml"));
             Parent detailRoot = loader.load();
 
             LogSessionController controller = loader.getController();
@@ -211,7 +211,7 @@ public class SessionItemController implements Initializable {
             stage.setScene(new Scene(detailRoot));
             stage.setTitle(session.getAliasName());
 //            stage.setResizable(false);
-//            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource(Constants.IMAGE_PATH + "icon-app.png")).toExternalForm()));
+//            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource(StringConstants.IMAGE_PATH + "icon-app.png")).toExternalForm()));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -219,7 +219,7 @@ public class SessionItemController implements Initializable {
     }
 
     public static double getItemWidth() {
-        FXMLLoader fxmlLoader = new FXMLLoader(SessionItemController.class.getResource(Constants.VIEWS_PATH + "session_item_view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(SessionItemController.class.getResource(StringConstants.VIEWS_PATH + "session_item_view.fxml"));
         AnchorPane anchorPane;
         try {
             anchorPane = fxmlLoader.load();
