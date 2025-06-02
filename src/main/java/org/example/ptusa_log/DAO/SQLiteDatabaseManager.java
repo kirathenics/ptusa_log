@@ -46,14 +46,22 @@ public class SQLiteDatabaseManager {
     }
 
     private static void initializeDatabase() {
-        initializeLogFilesTable();
-        initializeLofPrioritiesTable();
+        createLogPrioritiesTable();
+        initializeLogPrioritiesTable();
 
-//        applyMigrations();
+        createVisibilitiesTable();
+        initializeVisibilitiesTable();
+
+        createSessionsTable();
+
+        createMainSearchHistoryTable();
+        createSessionSearchHistoryTable();
+
+        //        applyMigrations();
     }
 
-    private static void initializeLogFilesTable() {
-        String schemaFile = "log_files_table_schema.sql";
+    private static void createLogPrioritiesTable() {
+        String schemaFile = "log_priorities_table_schema.sql";
 
         String createTableSql = SQLReader.readSQLFileFromResource(schemaFile);
 
@@ -61,23 +69,85 @@ public class SQLiteDatabaseManager {
              Statement stmt = conn.createStatement()) {
             stmt.execute(createTableSql);
         } catch (SQLException e) {
-            throw new RuntimeException("Ошибка инициализации БД", e);
+            throw new RuntimeException("Ошибка создания таблицы log_priorities", e);
         }
     }
 
-    private static void initializeLofPrioritiesTable() {
-        String schemaFile = "log_priorities_table_schema.sql";
+    private static void initializeLogPrioritiesTable() {
         String dataFile = "log_priorities_data.sql";
 
-        String createTableSql = SQLReader.readSQLFileFromResource(schemaFile);
         String insertDefaultsSql = SQLReader.readSQLFileFromResource(dataFile);
 
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
-            stmt.execute(createTableSql);
             stmt.execute(insertDefaultsSql);
         } catch (SQLException e) {
-            throw new RuntimeException("Ошибка инициализации БД", e);
+            throw new RuntimeException("Ошибка инициализации таблицы log_priorities", e);
+        }
+    }
+
+    private static void createVisibilitiesTable() {
+        String schemaFile = "visibilities_table_schema.sql";
+
+        String createTableSql = SQLReader.readSQLFileFromResource(schemaFile);
+
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(createTableSql);
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка создания таблицы visibilities_table", e);
+        }
+    }
+
+    private static void initializeVisibilitiesTable() {
+        String schemaFile = "visibilities_table_schema.sql";
+
+        String createTableSql = SQLReader.readSQLFileFromResource(schemaFile);
+
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(createTableSql);
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка создания таблицы visibilities_table", e);
+        }
+    }
+
+    private static void createSessionsTable() {
+        String schemaFile = "sessions_table_schema.sql";
+
+        String createTableSql = SQLReader.readSQLFileFromResource(schemaFile);
+
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(createTableSql);
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка создания таблицы sessions", e);
+        }
+    }
+
+    private static void createMainSearchHistoryTable() {
+        String schemaFile = "main_search_history_table_schema.sql";
+
+        String createTableSql = SQLReader.readSQLFileFromResource(schemaFile);
+
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(createTableSql);
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка создания таблицы main_search_history", e);
+        }
+    }
+
+    private static void createSessionSearchHistoryTable() {
+        String schemaFile = "session_search_history_table_schema.sql";
+
+        String createTableSql = SQLReader.readSQLFileFromResource(schemaFile);
+
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(createTableSql);
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка создания таблицы session_search_history", e);
         }
     }
 

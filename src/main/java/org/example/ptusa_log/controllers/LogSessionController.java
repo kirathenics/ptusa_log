@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.ptusa_log.DAO.LogPriorityDAO;
 import org.example.ptusa_log.helpers.TableViewFactory.LogRecordTableView;
-import org.example.ptusa_log.models.LogFile;
+import org.example.ptusa_log.models.Session;
 import org.example.ptusa_log.models.LogPriority;
 import org.example.ptusa_log.services.LogRecordManager;
 import org.example.ptusa_log.services.SessionMonitorService;
@@ -49,7 +49,7 @@ public class LogSessionController implements Initializable {
 
     private Label selectedLabel;
 
-    private LogFile logFile;
+    private Session session;
 
     @FXML
     private void goBack() {
@@ -57,8 +57,8 @@ public class LogSessionController implements Initializable {
         stage.close();
     }
 
-    public void setLogFile(LogFile logFile) {
-        this.logFile = logFile;
+    public void setLogFile(Session session) {
+        this.session = session;
 
         initializeLogRecordServices();
         loadSearchBar();
@@ -76,8 +76,8 @@ public class LogSessionController implements Initializable {
     }
 
     private void initializeLogRecordServices() {
-        logRecordManager = new LogRecordManager(logFile.getPath(), () -> logRecordTableView.updateTable(logRecordManager.getFilteredLogs()));
-        sessionMonitorService = new SessionMonitorService(logFile.getPath(), logRecordManager::updateLogRecords);
+        logRecordManager = new LogRecordManager(session.getPath(), () -> logRecordTableView.updateTable(logRecordManager.getFilteredLogs()));
+        sessionMonitorService = new SessionMonitorService(session.getPath(), logRecordManager::updateLogRecords);
 
         sessionMonitorService.loadInitialLogs();
         sessionMonitorService.startWatching();

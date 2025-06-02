@@ -41,7 +41,7 @@ public class LogRecordManager {
         logFileListener.onLogsUpdated();
     }
 
-//    public void setSorting(Comparator<LogFile> comparator) {
+//    public void setSorting(Comparator<Session> comparator) {
 //        this.sortComparator = comparator;
 //        logFileListener.onLogsUpdated();
 //    }

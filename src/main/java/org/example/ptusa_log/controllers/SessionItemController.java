@@ -18,9 +18,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import org.example.ptusa_log.DAO.LogFileDAO;
+import org.example.ptusa_log.DAO.SessionsDAO;
 import org.example.ptusa_log.listeners.LogFileListener;
-import org.example.ptusa_log.models.LogFile;
+import org.example.ptusa_log.models.Session;
 import org.example.ptusa_log.utils.Constants;
 import org.example.ptusa_log.utils.enums.LogFileVisibility;
 
@@ -44,17 +44,17 @@ public class SessionItemController implements Initializable {
 
     private final ContextMenu contextMenu = new ContextMenu();
 
-    private LogFile logFile;
+    private Session session;
 
     private LogFileListener logFileListener;
 
-    public void setLogFile(LogFile logFile) {
-        this.logFile = logFile;
+    public void setLogFile(Session session) {
+        this.session = session;
 
-        sessionTextArea.setText(logFile.getAliasName());
+        sessionTextArea.setText(session.getAliasName());
         sessionTextArea.setEditable(false);
 
-        deviceLabel.setText(Constants.DEVICE + logFile.getDeviceName());
+        deviceLabel.setText(Constants.DEVICE + session.getDeviceName());
 
         initializeContextMenu();
     }
@@ -94,7 +94,7 @@ public class SessionItemController implements Initializable {
 
         contextMenu.getItems().addAll(editItem, deleteItem);
 
-        if (logFile.getVisibility() == LogFileVisibility.ARCHIVED.getValue()) {
+        if (session.getVisibility() == LogFileVisibility.ARCHIVED.getValue()) {
             MaterialIconView unarchiveIcon = new MaterialIconView(MaterialIcon.UNARCHIVE);
             unarchiveIcon.setSize("1.5em");
             unarchiveIcon.setFill(Paint.valueOf("#000000"));
@@ -172,7 +172,7 @@ public class SessionItemController implements Initializable {
         sessionTextArea.setEditable(false);
 
         String newText = sessionTextArea.getText().trim();
-        LogFileDAO.setLogFileAliasName(logFile.getId(), newText);
+        SessionsDAO.setSessionAliasName(session.getId(), newText);
 
         System.out.println("Сохранено: " + newText);
 
@@ -182,19 +182,19 @@ public class SessionItemController implements Initializable {
     private void handleDelete() {
         System.out.println("Удаление...");
 
-        LogFileDAO.setLogFileVisibility(logFile.getId(), LogFileVisibility.DELETED.getValue());
+        SessionsDAO.setSessionVisibility(session.getId(), LogFileVisibility.DELETED.getValue());
 
         logFileListener.onLogsUpdated();
     }
 
     private void handleUnarchive() {
-        LogFileDAO.setLogFileVisibility(logFile.getId(), LogFileVisibility.VISIBLE.getValue());
+        SessionsDAO.setSessionVisibility(session.getId(), LogFileVisibility.VISIBLE.getValue());
 
         logFileListener.onLogsUpdated();
     }
 
     private void handleArchive() {
-        LogFileDAO.setLogFileVisibility(logFile.getId(), LogFileVisibility.ARCHIVED.getValue());
+        SessionsDAO.setSessionVisibility(session.getId(), LogFileVisibility.ARCHIVED.getValue());
 
         logFileListener.onLogsUpdated();
     }
@@ -205,11 +205,11 @@ public class SessionItemController implements Initializable {
             Parent detailRoot = loader.load();
 
             LogSessionController controller = loader.getController();
-            controller.setLogFile(logFile);
+            controller.setLogFile(session);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(detailRoot));
-            stage.setTitle(logFile.getAliasName());
+            stage.setTitle(session.getAliasName());
 //            stage.setResizable(false);
 //            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource(Constants.IMAGE_PATH + "icon-app.png")).toExternalForm()));
             stage.show();

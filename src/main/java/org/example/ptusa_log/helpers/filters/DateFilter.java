@@ -1,6 +1,6 @@
 package org.example.ptusa_log.helpers.filters;
 
-import org.example.ptusa_log.models.LogFile;
+import org.example.ptusa_log.models.Session;
 
 import java.time.LocalDate;
 
@@ -12,8 +12,8 @@ public class DateFilter implements LogFilter {
     }
 
     @Override
-    public boolean apply(LogFile logFile) {
-//        return logFile.getDate().isAfter(date.atStartOfDay());
+    public boolean apply(Session session) {
+//        return session.getDate().isAfter(date.atStartOfDay());
         return true;
     }
 }

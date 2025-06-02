@@ -1,9 +1,9 @@
 package org.example.ptusa_log.services;
 
 import javafx.application.Platform;
-import org.example.ptusa_log.DAO.LogFileDAO;
+import org.example.ptusa_log.DAO.SessionsDAO;
 import org.example.ptusa_log.listeners.LogFileListener;
-import org.example.ptusa_log.utils.LogFileProcessor;
+import org.example.ptusa_log.utils.SessionProcessor;
 import org.example.ptusa_log.utils.enums.LogFileVisibility;
 import org.example.ptusa_log.utils.SystemPaths;
 
@@ -76,15 +76,23 @@ public class LogFileMonitorService {
     private void readLogFiles() {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(LOGS_PATH), "ptusa_*.log")) {
             for (Path entry : stream) {
-                String aliasName = LogFileProcessor.extractAliasName(entry);
-                String deviceName = LogFileProcessor.extractDeviceName(entry);
-//                LogFileDAO.addLogFile(entry.toString(), aliasName, deviceName, LogFileVisibility.VISIBLE.getValue());
-                LogFileDAO.addLogFile(entry.toString(), aliasName, "T1-PLCnext-Demo", LogFileVisibility.VISIBLE.getValue());
+                String aliasName = SessionProcessor.extractAliasName(entry);
+                String deviceName = SessionProcessor.extractDeviceName(entry);
+                String timestamp = SessionProcessor.extractTimestamp(entry);
+
+                //TODO: fix
+//                SessionsDAO.addLogFile(entry.toString(), aliasName, deviceName, LogFileVisibility.VISIBLE.getValue());
+                SessionsDAO.addSession(
+                        entry.toString(),
+                        aliasName,
+                        "T1-PLCnext-Demo",
+                        LogFileVisibility.VISIBLE.getValue(),
+                        timestamp);
             }
         } catch (IOException e) {
             System.err.println("Ошибка чтения логов: " + e.getMessage());
         }
 
-        LogFileDAO.removeDeletedLogFiles();
+        SessionsDAO.removeDeletedSessionsFromFolder();
     }
 }

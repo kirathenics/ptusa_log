@@ -6,12 +6,18 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class LogFileProcessor {
+public class SessionProcessor {
+
+    private static final String filePrefix = "ptusa_";
+    private static final String filePostfix = ".log";
+
     public static String extractAliasName(Path path) {
         String fileName = path.getFileName().toString();
-        if (fileName.startsWith("ptusa_") && fileName.endsWith(".log")) {
-            return Constants.SESSION + fileName.substring(6, fileName.length() - 4);
+
+        if (fileName.startsWith(filePrefix) && fileName.endsWith(filePostfix)) {
+            return Constants.SESSION + fileName.substring(filePrefix.length(), fileName.length() - filePostfix.length());
         }
+
         return fileName;
     }
 
@@ -24,6 +30,18 @@ public class LogFileProcessor {
         } catch (IOException e) {
             System.err.println("Ошибка чтения файла: " + path.getFileName());
         }
-        return "Неизвестно";
+
+        return "Неизвестное устройство";
+    }
+
+    public static String extractTimestamp(Path path) {
+        String fileName = path.getFileName().toString();
+
+        if (fileName.startsWith(filePrefix) && fileName.endsWith(filePostfix)) {
+            String timestampPart = fileName.substring(filePrefix.length(), fileName.length() - filePostfix.length());
+            return timestampPart.replace('_', ' ').replaceAll("-", ":");
+        }
+
+        return null;
     }
 }

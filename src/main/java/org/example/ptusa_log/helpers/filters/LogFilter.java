@@ -1,8 +1,8 @@
 package org.example.ptusa_log.helpers.filters;
 
-import org.example.ptusa_log.models.LogFile;
+import org.example.ptusa_log.models.Session;
 
 @FunctionalInterface
 public interface LogFilter {
-    boolean apply(LogFile logFile);
+    boolean apply(Session session);
 }

@@ -6,7 +6,7 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import org.example.ptusa_log.controllers.SessionItemController;
-import org.example.ptusa_log.models.LogFile;
+import org.example.ptusa_log.models.Session;
 import org.example.ptusa_log.utils.Constants;
 
 import java.io.IOException;
@@ -47,23 +47,23 @@ public class GridPaneUpdater {
 
     public void updateGrid() {
         if (logFileManager == null) return;
-        List<LogFile> logFiles = logFileManager.getFilteredLogs();
+        List<Session> sessions = logFileManager.getFilteredLogs();
 
         Platform.runLater(() -> {
             sessionItemGridPane.getChildren().clear();
             if (isGridViewSelected) {
-                updateGridView(logFiles);
+                updateGridView(sessions);
             } else {
-                updateRowView(logFiles);
+                updateRowView(sessions);
             }
         });
     }
 
-    private void updateGridView(List<LogFile> logFiles) {
+    private void updateGridView(List<Session> sessions) {
         lastColumnCount = calculateColumnCount();
         int column = 0, row = 1;
-        for (LogFile logFile : logFiles) {
-            AnchorPane item = createSessionItem(logFile);
+        for (Session session : sessions) {
+            AnchorPane item = createSessionItem(session);
             sessionItemGridPane.add(item, column, row);
             GridPane.setMargin(item, new Insets(10));
             column = (column + 1) % lastColumnCount;
@@ -71,10 +71,10 @@ public class GridPaneUpdater {
         }
     }
 
-    private void updateRowView(List<LogFile> logFiles) {
+    private void updateRowView(List<Session> sessions) {
         int row = 1;
-        for (LogFile logFile : logFiles) {
-            AnchorPane item = createSessionItem(logFile);
+        for (Session session : sessions) {
+            AnchorPane item = createSessionItem(session);
             item.setPrefWidth(gridWidth - 30);
             item.setMaxWidth(Double.MAX_VALUE);
             sessionItemGridPane.add(item, 0, row++);
@@ -82,12 +82,12 @@ public class GridPaneUpdater {
         }
     }
 
-    private AnchorPane createSessionItem(LogFile logFile) {
+    private AnchorPane createSessionItem(Session session) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Constants.VIEWS_PATH + "session_item_view.fxml"));
             AnchorPane anchorPane = fxmlLoader.load();
             SessionItemController controller = fxmlLoader.getController();
-            controller.setLogFile(logFile);
+            controller.setLogFile(session);
             controller.setLogFileListener(logFileManager::updateLogs);
             controller.setHoverEffect(isGridViewSelected);
             return anchorPane;

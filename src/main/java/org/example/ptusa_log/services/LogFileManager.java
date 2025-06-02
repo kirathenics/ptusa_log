@@ -1,8 +1,8 @@
 package org.example.ptusa_log.services;
 
-import org.example.ptusa_log.DAO.LogFileDAO;
+import org.example.ptusa_log.DAO.SessionsDAO;
 import org.example.ptusa_log.listeners.LogFileListener;
-import org.example.ptusa_log.models.LogFile;
+import org.example.ptusa_log.models.Session;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class LogFileManager {
-    private List<LogFile> allLogFiles = new ArrayList<>();
-    private Predicate<LogFile> filterPredicate = logFile -> true;
-    private Comparator<LogFile> sortComparator = Comparator.comparing(LogFile::getAliasName);
+    private List<Session> allSessions = new ArrayList<>();
+    private Predicate<Session> filterPredicate = logFile -> true;
+    private Comparator<Session> sortComparator = Comparator.comparing(Session::getAliasName);
     private String searchQuery = "";
 
     private final LogFileListener logFileListener; // UI-обновление
@@ -22,11 +22,11 @@ public class LogFileManager {
     }
 
     public void updateLogs() {
-        updateLogs(LogFileDAO.getLogFiles());
+        updateLogs(SessionsDAO.getSessions());
     }
 
-    public void updateLogs(List<LogFile> newLogs) {
-        this.allLogFiles = newLogs;
+    public void updateLogs(List<Session> newLogs) {
+        this.allSessions = newLogs;
         logFileListener.onLogsUpdated();
     }
 
@@ -35,18 +35,18 @@ public class LogFileManager {
         logFileListener.onLogsUpdated();
     }
 
-    public void setFilter(Predicate<LogFile> filter) {
+    public void setFilter(Predicate<Session> filter) {
         this.filterPredicate = filter;
         logFileListener.onLogsUpdated();
     }
 
-    public void setSorting(Comparator<LogFile> comparator) {
+    public void setSorting(Comparator<Session> comparator) {
         this.sortComparator = comparator;
         logFileListener.onLogsUpdated();
     }
 
-    public List<LogFile> getFilteredLogs() {
-        return allLogFiles.stream()
+    public List<Session> getFilteredLogs() {
+        return allSessions.stream()
                 .filter(log -> log.getAliasName().toLowerCase().contains(searchQuery.toLowerCase())
                         || log.getDeviceName().toLowerCase().contains(searchQuery.toLowerCase()))
                 .filter(filterPredicate)

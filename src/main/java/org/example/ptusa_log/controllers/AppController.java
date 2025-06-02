@@ -12,8 +12,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import org.example.ptusa_log.DAO.LogFileDAO;
-import org.example.ptusa_log.models.LogFile;
+import org.example.ptusa_log.DAO.SessionsDAO;
+import org.example.ptusa_log.models.Session;
 import org.example.ptusa_log.services.LogFileManager;
 import org.example.ptusa_log.services.LogFileMonitorService;
 import org.example.ptusa_log.services.GridPaneUpdater;
@@ -185,7 +185,7 @@ public class AppController implements Initializable  {
             String filePath = selectedFile.getAbsolutePath();
             System.out.println("Выбран файл: " + filePath);
 
-            LogFileDAO.insertOrUpdateFile(filePath);
+            SessionsDAO.insertOrUpdateSession(filePath);
 
             logFileManager.updateLogs();
         } else {
@@ -230,15 +230,15 @@ public class AppController implements Initializable  {
     private void setSortingAndSavePreference(SortOrder order) {
         switch (order) {
             case NAME_ASC -> {
-                logFileManager.setSorting(Comparator.comparing(LogFile::getAliasName));
+                logFileManager.setSorting(Comparator.comparing(Session::getAliasName));
                 sortMenuButton.setText("Имя возрастание");
             }
             case NAME_DESC -> {
-                logFileManager.setSorting(Comparator.comparing(LogFile::getAliasName).reversed());
+                logFileManager.setSorting(Comparator.comparing(Session::getAliasName).reversed());
                 sortMenuButton.setText("Имя убывание");
             }
             case DEFAULT -> {
-                logFileManager.setSorting(Comparator.comparing(LogFile::getId));
+                logFileManager.setSorting(Comparator.comparing(Session::getId));
                 sortMenuButton.setText("По умолчанию");
             }
         }

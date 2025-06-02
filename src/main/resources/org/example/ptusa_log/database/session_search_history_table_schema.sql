@@ -3,5 +3,5 @@ CREATE TABLE IF NOT EXISTS session_search_history (
     query TEXT NOT NULL,
     session_id INTEGER NOT NULL,
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (session_id) REFERENCES log_files(id)
+    FOREIGN KEY (session_id) REFERENCES sessions(id)
 );

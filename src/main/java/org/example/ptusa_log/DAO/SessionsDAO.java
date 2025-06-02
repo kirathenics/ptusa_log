@@ -1,7 +1,7 @@
 package org.example.ptusa_log.DAO;
 
-import org.example.ptusa_log.models.LogFile;
-import org.example.ptusa_log.utils.LogFileProcessor;
+import org.example.ptusa_log.models.Session;
+import org.example.ptusa_log.utils.SessionProcessor;
 import org.example.ptusa_log.utils.enums.LogFileVisibility;
 
 import java.nio.file.Files;
@@ -11,36 +11,36 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LogFileDAO {
-    private LogFileDAO() {}
+public class SessionsDAO {
+    private SessionsDAO() {}
 
-    public static List<LogFile> getLogFiles() {
-        List<LogFile> logs = new ArrayList<>();
-//        String query = "SELECT * FROM log_files WHERE visibility = 0 ORDER BY alias_name DESC";
-        String query = "SELECT * FROM log_files ORDER BY alias_name DESC";
+    public static List<Session> getSessions() {
+        List<Session> sessionList = new ArrayList<>();
+        String query = "SELECT * FROM sessions ORDER BY alias_name DESC";
 
         try (Connection conn = SQLiteDatabaseManager.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
-                logs.add(new LogFile(
+                sessionList.add(new Session(
                         rs.getInt("id"),
                         rs.getString("path"),
                         rs.getString("alias_name"),
                         rs.getString("device_name"),
-                        rs.getInt("visibility")
+                        rs.getInt("visibility"),
+                        rs.getString("created_at")
                 ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return logs;
+        return sessionList;
     }
 
-    public static void addLogFile(String path, String aliasName, String deviceName, Integer visibility) {
-        String query = "INSERT or IGNORE INTO log_files (path, alias_name, device_name, visibility) VALUES (?, ?, ?, ?)";
+    public static void addSession(String path, String aliasName, String deviceName, Integer visibility, String created_at) {
+        String query = "INSERT or IGNORE INTO sessions (path, alias_name, device_name, visibility, created_at) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = SQLiteDatabaseManager.connect();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -49,14 +49,15 @@ public class LogFileDAO {
             stmt.setString(2, aliasName);
             stmt.setString(3, deviceName);
             stmt.setInt(4, visibility);
+            stmt.setString(5, created_at);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static void setLogFileAliasName(Integer id, String aliasName) {
-        String query = "UPDATE log_files SET alias_name = ? WHERE id = ?";
+    public static void setSessionAliasName(Integer id, String aliasName) {
+        String query = "UPDATE sessions SET alias_name = ? WHERE id = ?";
 
         try (Connection conn = SQLiteDatabaseManager.connect();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -69,7 +70,7 @@ public class LogFileDAO {
         }
     }
 
-    public static void setLogFileVisibility(Integer id, Integer visibility) {
+    public static void setSessionVisibility(Integer id, Integer visibility) {
         String query = "UPDATE log_files SET visibility = ? WHERE id = ?";
 
         try (Connection conn = SQLiteDatabaseManager.connect();
@@ -83,28 +84,30 @@ public class LogFileDAO {
         }
     }
 
-    public static void insertOrUpdateFile(String filePath) {
-        LogFile logFile = findLogFileByFilePath(filePath);
-        if (logFile == null) {
+    public static void insertOrUpdateSession(String filePath) {
+        Session session = findSessionByFilePath(filePath);
+        if (session == null) {
             Path path = Paths.get(filePath);
-            addLogFile(filePath,
-                    LogFileProcessor.extractAliasName(path),
-                    LogFileProcessor.extractDeviceName(path),
-                    LogFileVisibility.VISIBLE.getValue());
+            addSession(filePath,
+                    SessionProcessor.extractAliasName(path),
+                    SessionProcessor.extractDeviceName(path),
+                    LogFileVisibility.VISIBLE.getValue(),
+                    SessionProcessor.extractTimestamp(path)
+                    );
         } else {
-            setLogFileVisibility(logFile.getId(), LogFileVisibility.VISIBLE.getValue());
+            setSessionVisibility(session.getId(), LogFileVisibility.VISIBLE.getValue());
         }
     }
 
-    public static void removeDeletedLogFiles() {
-        List<LogFile> logFiles = getLogFiles();
+    public static void removeDeletedSessionsFromFolder() {
+        List<Session> sessions = getSessions();
 
         try (Connection conn = SQLiteDatabaseManager.connect();
-             PreparedStatement stmt = conn.prepareStatement("DELETE FROM log_files WHERE path = ?")) {
+             PreparedStatement stmt = conn.prepareStatement("DELETE FROM sessions WHERE path = ?")) {
 
-            for (LogFile log : logFiles) {
-                if (!Files.exists(Paths.get(log.getPath()))) {
-                    stmt.setString(1, log.getPath());
+            for (Session session : sessions) {
+                if (!Files.exists(Paths.get(session.getPath()))) {
+                    stmt.setString(1, session.getPath());
                     stmt.executeUpdate();
                 }
             }
@@ -113,8 +116,8 @@ public class LogFileDAO {
         }
     }
 
-    public static LogFile findLogFileByFilePath(String filePath) {
-        String query = "SELECT * FROM log_files WHERE path = ?";
+    public static Session findSessionByFilePath(String filePath) {
+        String query = "SELECT * FROM sessions WHERE path = ?";
 
         try (Connection conn = SQLiteDatabaseManager.connect();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -123,12 +126,13 @@ public class LogFileDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new LogFile(
+                return new Session(
                         rs.getInt("id"),
                         rs.getString("path"),
                         rs.getString("alias_name"),
                         rs.getString("device_name"),
-                        rs.getInt("visibility")
+                        rs.getInt("visibility"),
+                        rs.getString("created_at")
                 );
             }
         } catch (SQLException e) {
