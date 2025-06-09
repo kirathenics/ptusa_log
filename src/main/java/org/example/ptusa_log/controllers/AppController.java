@@ -13,6 +13,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import org.example.ptusa_log.DAO.SessionsDAO;
+import org.example.ptusa_log.DAO.services.MainSearchHistoryService;
+import org.example.ptusa_log.DAO.services.SearchHistoryService;
 import org.example.ptusa_log.models.Session;
 import org.example.ptusa_log.services.LogFileManager;
 import org.example.ptusa_log.services.LogFileMonitorService;
@@ -100,6 +102,8 @@ public class AppController implements Initializable  {
     @FXML
     private SVGImageView timeAscIcon;
 
+    SearchBarController searchBarController;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupSidebarButtons();
@@ -115,16 +119,19 @@ public class AppController implements Initializable  {
         homeSidebarButton.setOnMouseClicked(mouseEvent -> {
             setActiveIcon(homeSidebarButton);
             logFileManager.setFilter(logFile -> logFile.getVisibility() == LogFileVisibility.VISIBLE.getValue());
+            searchBarController.setContext(LogFileVisibility.VISIBLE.getValue());
         });
 
         archiveSidebarButton.setOnMouseClicked(mouseEvent -> {
             setActiveIcon(archiveSidebarButton);
             logFileManager.setFilter(logFile -> logFile.getVisibility() == LogFileVisibility.ARCHIVED.getValue());
+            searchBarController.setContext(LogFileVisibility.ARCHIVED.getValue());
         });
 
         trashSidebarButton.setOnMouseClicked(mouseEvent -> {
             setActiveIcon(trashSidebarButton);
             logFileManager.setFilter(logFile -> logFile.getVisibility() == LogFileVisibility.DELETED.getValue());
+            searchBarController.setContext(LogFileVisibility.DELETED.getValue());
         });
 
         aboutSidebarButton.setOnMouseClicked(mouseEvent -> {
@@ -173,10 +180,13 @@ public class AppController implements Initializable  {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(StringConstants.VIEWS_PATH + "search_bar_view.fxml"));
             loader.load();
 
-            SearchBarController controller = loader.getController();
-            controller.setOnSearchQueryChange(logFileManager::setSearchQuery);
+            searchBarController = loader.getController();
+            searchBarController.setOnSearchQueryChange(logFileManager::setSearchQuery);
+            SearchHistoryService searchHistoryService = new MainSearchHistoryService();
+            searchBarController.setSearchHistoryService(searchHistoryService);
+            searchBarController.setContext(LogFileVisibility.VISIBLE.getValue());
 
-            searchBarContainer.getChildren().add(controller.getRootPane());
+            searchBarContainer.getChildren().add(searchBarController.getRootPane());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

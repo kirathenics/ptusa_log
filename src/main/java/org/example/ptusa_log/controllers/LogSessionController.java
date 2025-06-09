@@ -10,6 +10,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.ptusa_log.DAO.LogPriorityDAO;
+import org.example.ptusa_log.DAO.services.SearchHistoryService;
+import org.example.ptusa_log.DAO.services.SessionSearchHistoryService;
 import org.example.ptusa_log.helpers.TableViewFactory.LogRecordTableView;
 import org.example.ptusa_log.models.Session;
 import org.example.ptusa_log.models.LogPriority;
@@ -88,10 +90,13 @@ public class LogSessionController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(StringConstants.VIEWS_PATH + "search_bar_view.fxml"));
             loader.load();
 
-            SearchBarController controller = loader.getController();
-            controller.setOnSearchQueryChange(logRecordManager::setSearchQuery);
+            SearchBarController searchBarController = loader.getController();
+            searchBarController.setOnSearchQueryChange(logRecordManager::setSearchQuery);
+            SearchHistoryService searchHistoryService = new SessionSearchHistoryService();
+            searchBarController.setSearchHistoryService(searchHistoryService);
+            searchBarController.setContext(session.getId());
 
-            searchBarContainer.getChildren().add(controller.getRootPane());
+            searchBarContainer.getChildren().add(searchBarController.getRootPane());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

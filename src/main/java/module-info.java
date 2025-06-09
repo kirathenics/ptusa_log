@@ -16,4 +16,5 @@ module org.example.ptusa_log {
     exports org.example.ptusa_log.models;
     exports org.example.ptusa_log.listeners;
     exports org.example.ptusa_log.services;
+    exports org.example.ptusa_log.DAO.services;
 }
