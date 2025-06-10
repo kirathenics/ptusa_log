@@ -2,6 +2,7 @@ package org.example.ptusa_log.controllers;
 
 import com.dlsc.gemsfx.SVGImageView;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,9 +17,7 @@ import org.example.ptusa_log.DAO.SessionsDAO;
 import org.example.ptusa_log.DAO.services.MainSearchHistoryService;
 import org.example.ptusa_log.DAO.services.SearchHistoryService;
 import org.example.ptusa_log.models.Session;
-import org.example.ptusa_log.services.LogFileManager;
-import org.example.ptusa_log.services.LogFileMonitorService;
-import org.example.ptusa_log.services.GridPaneUpdater;
+import org.example.ptusa_log.services.*;
 import org.example.ptusa_log.utils.*;
 import org.example.ptusa_log.utils.enums.LogFileVisibility;
 import org.example.ptusa_log.utils.enums.SortOrder;
@@ -26,7 +25,11 @@ import org.example.ptusa_log.utils.enums.SortOrder;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
@@ -104,6 +107,8 @@ public class AppController implements Initializable  {
 
     SearchBarController searchBarController;
 
+    private List<LogAlertService> alertServices = new ArrayList<>();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupSidebarButtons();
@@ -173,6 +178,24 @@ public class AppController implements Initializable  {
                 gridPaneUpdater.updateGridOnResize((double) newWidth)
         );
         gridPaneUpdater.updateGridOnResize(scrollPane.getPrefWidth());
+
+        initializeLogAlertService();
+    }
+
+    private void initializeLogAlertService() {
+        List<Session> sessions = SessionsDAO.getAllSessions();
+
+        for (Session session : sessions) {
+            Path logPath = Paths.get(session.getPath());
+
+            LogAlertService service = new LogAlertService(logPath, record -> {
+                Platform.runLater(() -> NotificationService.showNotification(record, logPath));
+            });
+
+            alertServices.add(service);
+            service.start();
+        }
+
     }
 
     private void loadSearchBar() {

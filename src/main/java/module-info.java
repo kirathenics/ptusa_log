@@ -6,6 +6,7 @@ module org.example.ptusa_log {
     requires java.sql;
     requires com.dlsc.gemsfx;
     requires java.prefs;
+    requires org.controlsfx.controls;
 
 
     opens org.example.ptusa_log to javafx.fxml;
@@ -17,4 +18,5 @@ module org.example.ptusa_log {
     exports org.example.ptusa_log.listeners;
     exports org.example.ptusa_log.services;
     exports org.example.ptusa_log.DAO.services;
+    exports org.example.ptusa_log.DAO;
 }

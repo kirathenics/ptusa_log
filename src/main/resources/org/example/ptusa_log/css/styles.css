@@ -312,6 +312,14 @@
     -fx-background-color: #4083BB;
 }
 
+.search-history-label {
+    -fx-text-fill: #000000;
+}
+
+.search-history-label:selected {
+    -fx-text-fill: #FFFFFF;
+}
+
 
 .close-icon {
     -fx-fill: #bcbcbe;
@@ -324,8 +332,8 @@
 .close-icon:hover {
     -fx-fill: #888888; 
 
-    /* -fx-scale-x: 1.1;
-    -fx-scale-y: 1.1; */
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
 }
 
 /* dark blue            0f4876 */

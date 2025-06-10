@@ -14,6 +14,31 @@ import java.util.List;
 public class SessionsDAO {
     private SessionsDAO() {}
 
+    public static List<Session> getAllSessions() {
+        List<Session> sessionList = new ArrayList<>();
+        String query = "SELECT * FROM sessions";
+
+        try (Connection conn = SQLiteDatabaseManager.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                sessionList.add(new Session(
+                        rs.getInt("id"),
+                        rs.getString("path"),
+                        rs.getString("alias_name"),
+                        rs.getString("device_name"),
+                        rs.getInt("visibility"),
+                        rs.getString("created_at")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return sessionList;
+    }
+
     public static List<Session> getSessions() {
         List<Session> sessionList = new ArrayList<>();
         String query = "SELECT * FROM sessions ORDER BY alias_name DESC";
