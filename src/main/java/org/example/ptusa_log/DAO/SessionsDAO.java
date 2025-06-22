@@ -2,6 +2,7 @@ package org.example.ptusa_log.DAO;
 
 import org.example.ptusa_log.models.Session;
 import org.example.ptusa_log.utils.SessionProcessor;
+import org.example.ptusa_log.utils.StringConstants;
 import org.example.ptusa_log.utils.enums.LogFileVisibility;
 
 import java.nio.file.Files;
@@ -96,7 +97,7 @@ public class SessionsDAO {
     }
 
     public static void setSessionVisibility(Integer id, Integer visibility) {
-        String query = "UPDATE log_files SET visibility = ? WHERE id = ?";
+        String query = "UPDATE sessions SET visibility = ? WHERE id = ?";
 
         try (Connection conn = SQLiteDatabaseManager.connect();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -109,18 +110,40 @@ public class SessionsDAO {
         }
     }
 
+//    public static void insertOrUpdateSession(String filePath) {
+//        Session session = findSessionByFilePath(filePath);
+//        if (session == null) {
+//            Path path = Paths.get(filePath);
+//            addSession(filePath,
+//                    SessionProcessor.extractAliasName(path),
+//                    SessionProcessor.extractDeviceName(path),
+//                    LogFileVisibility.VISIBLE.getValue(),
+//                    SessionProcessor.extractTimestamp(path)
+//                    );
+//        } else {
+//            setSessionVisibility(session.getId(), LogFileVisibility.VISIBLE.getValue());
+//        }
+//    }
+
     public static void insertOrUpdateSession(String filePath) {
         Session session = findSessionByFilePath(filePath);
+        Path path = Paths.get(filePath);
+        String deviceName = SessionProcessor.extractDeviceName(path);
+
         if (session == null) {
-            Path path = Paths.get(filePath);
             addSession(filePath,
                     SessionProcessor.extractAliasName(path),
-                    SessionProcessor.extractDeviceName(path),
+                    deviceName,
                     LogFileVisibility.VISIBLE.getValue(),
                     SessionProcessor.extractTimestamp(path)
-                    );
+            );
         } else {
             setSessionVisibility(session.getId(), LogFileVisibility.VISIBLE.getValue());
+
+            if (StringConstants.UNKNOWN_DEVICE.equals(session.getDeviceName()) &&
+                    !StringConstants.UNKNOWN_DEVICE.equals(deviceName)) {
+                updateSessionDeviceName(session.getId(), deviceName);
+            }
         }
     }
 
@@ -165,5 +188,19 @@ public class SessionsDAO {
         }
 
         return null;
+    }
+
+    public static void updateSessionDeviceName(Integer id, String deviceName) {
+        String query = "UPDATE sessions SET device_name = ? WHERE id = ?";
+
+        try (Connection conn = SQLiteDatabaseManager.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, deviceName);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

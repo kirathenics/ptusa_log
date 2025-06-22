@@ -31,7 +31,7 @@ public class SessionProcessor {
             System.err.println("Ошибка чтения файла: " + path.getFileName());
         }
 
-        return "Неизвестное устройство";
+        return StringConstants.UNKNOWN_DEVICE;
     }
 
     public static String extractTimestamp(Path path) {

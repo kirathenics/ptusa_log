@@ -7,11 +7,11 @@ public class StringConstants {
     public static final String ICONS_PATH = PROJECT_PATH + "icons/";
 
     public static final String ABOUT_PROGRAM = "О программе";
-    // TODO: write appropriate PROGRAM_INFO
-    public static final String PROGRAM_INFO = "Данная программа предоставляет логи контроллеров";
+    public static final String PROGRAM_INFO = "Программа предназначена для просмотра, фильтрации и управления сессиями контроллеров.";
 
     public static final String SESSION = "Сессия ";
     public static final String DEVICE = "Устройство: ";
+    public static final String UNKNOWN_DEVICE = "Неизвестное устройство";
 
     public static final String EDIT_CONTEXT_MENU_ACTION = "Редактировать";
     public static final String DELETE_CONTEXT_MENU_ACTION = "Удалить";

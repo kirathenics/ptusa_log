@@ -3,8 +3,6 @@ package org.example.ptusa_log.services;
 import javafx.application.Platform;
 import org.example.ptusa_log.DAO.SessionsDAO;
 import org.example.ptusa_log.listeners.LogFileListener;
-import org.example.ptusa_log.utils.SessionProcessor;
-import org.example.ptusa_log.utils.enums.LogFileVisibility;
 import org.example.ptusa_log.utils.SystemPaths;
 
 import java.io.IOException;
@@ -73,21 +71,26 @@ public class LogFileMonitorService {
         }
     }
 
+//    private void readLogFiles() {
+//        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(LOGS_PATH), "ptusa_*.log")) {
+//            for (Path entry : stream) {
+//                String aliasName = SessionProcessor.extractAliasName(entry);
+//                String deviceName = SessionProcessor.extractDeviceName(entry);
+//                String timestamp = SessionProcessor.extractTimestamp(entry);
+//
+//                SessionsDAO.addSession(entry.toString(), aliasName, deviceName, LogFileVisibility.VISIBLE.getValue(), timestamp);
+//            }
+//        } catch (IOException e) {
+//            System.err.println("Ошибка чтения логов: " + e.getMessage());
+//        }
+//
+//        SessionsDAO.removeDeletedSessionsFromFolder();
+//    }
+
     private void readLogFiles() {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(LOGS_PATH), "ptusa_*.log")) {
             for (Path entry : stream) {
-                String aliasName = SessionProcessor.extractAliasName(entry);
-                String deviceName = SessionProcessor.extractDeviceName(entry);
-                String timestamp = SessionProcessor.extractTimestamp(entry);
-
-                //TODO: fix
-//                SessionsDAO.addLogFile(entry.toString(), aliasName, deviceName, LogFileVisibility.VISIBLE.getValue());
-                SessionsDAO.addSession(
-                        entry.toString(),
-                        aliasName,
-                        "T1-PLCnext-Demo",
-                        LogFileVisibility.VISIBLE.getValue(),
-                        timestamp);
+                SessionsDAO.insertOrUpdateSession(entry.toString());
             }
         } catch (IOException e) {
             System.err.println("Ошибка чтения логов: " + e.getMessage());
