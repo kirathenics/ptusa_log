@@ -284,7 +284,7 @@ public class AppController implements Initializable  {
     private void setSortingAndSavePreference(SortOrder order) {
         switch (order) {
             case DEFAULT -> {
-                logFileManager.setSorting(Comparator.comparing(Session::getId));
+                logFileManager.setSorting(Comparator.comparing(Session::getId).reversed());
                 sortMenuButton.setText(StringConstants.SORT_DEFAULT);
             }
             case NAME_DESC -> {
@@ -296,7 +296,7 @@ public class AppController implements Initializable  {
                 sortMenuButton.setText(StringConstants.SORT_NAME_ASC);
             }
             case TIME_DESC -> {
-                logFileManager.setSorting(Comparator.comparing(Session::getCreatedAt));
+                logFileManager.setSorting(Comparator.comparing(Session::getCreatedAt).reversed());
                 sortMenuButton.setText(StringConstants.SORT_TIME_DESC);
             }
             case TIME_ASC -> {

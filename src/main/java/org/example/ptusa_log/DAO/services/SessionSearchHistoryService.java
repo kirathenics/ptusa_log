@@ -29,6 +29,8 @@ public class SessionSearchHistoryService extends SearchHistoryService {
 
         if (!SessionSearchHistoryDAO.findByQueryAndSessionId(query, sessionId)) {
             SessionSearchHistoryDAO.addQuery(query, sessionId);
+        } else {
+            SessionSearchHistoryDAO.updateTimestamp(query, sessionId);
         }
     }
 

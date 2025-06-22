@@ -27,7 +27,7 @@ public class MainSearchHistoryDAO {
                         rs.getInt("id"),
                         rs.getString("query"),
                         rs.getInt("visibility"),
-                        rs.getString("created_at")
+                        rs.getString("timestamp")
                 ));
             }
 
@@ -45,7 +45,7 @@ public class MainSearchHistoryDAO {
                 WHERE visibility = ?
                   AND query LIKE ?
                 GROUP BY query
-                ORDER BY created_at DESC
+                ORDER BY timestamp DESC
                 LIMIT ?
             ),
             secondary_queries AS (
@@ -54,13 +54,13 @@ public class MainSearchHistoryDAO {
                   AND query LIKE ?
                   AND query NOT IN (SELECT query FROM primary_queries)
                 GROUP BY query
-                ORDER BY created_at DESC
+                ORDER BY timestamp DESC
                 LIMIT ?
             )
             SELECT * FROM primary_queries
             UNION ALL
             SELECT * FROM secondary_queries
-            ORDER BY created_at DESC
+            ORDER BY timestamp DESC
             LIMIT ?
         """;
 
@@ -85,7 +85,7 @@ public class MainSearchHistoryDAO {
                         rs.getInt("id"),
                         rs.getString("query"),
                         rs.getInt("visibility"),
-                        rs.getString("created_at")
+                        rs.getString("timestamp")
                 ));
             }
 
@@ -118,6 +118,24 @@ public class MainSearchHistoryDAO {
 
         try (Connection conn = SQLiteDatabaseManager.connect();
              PreparedStatement stmt = conn.prepareStatement(insertQuery)) {
+
+            stmt.setString(1, query);
+            stmt.setInt(2, visibility);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateTimestamp(String query, int visibility) {
+        String updateQuery = """
+            UPDATE main_search_history
+            SET timestamp = CURRENT_TIMESTAMP
+            WHERE query = ? AND visibility = ?
+        """;
+
+        try (Connection conn = SQLiteDatabaseManager.connect();
+             PreparedStatement stmt = conn.prepareStatement(updateQuery)) {
 
             stmt.setString(1, query);
             stmt.setInt(2, visibility);

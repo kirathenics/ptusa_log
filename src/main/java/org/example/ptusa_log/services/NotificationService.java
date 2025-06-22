@@ -11,7 +11,7 @@ import java.nio.file.Path;
 public class NotificationService {
     public static void showNotification(LogRecord record, Path path) {
         Notifications.create()
-                .title("Критический лог: " + path.getFileName())
+                .title("Критическая ситуация: " + path.getFileName())
                 .text(record.getMessage())
                 .onAction(e -> WindowCreator.openLogWindow(path))
                 .hideAfter(Duration.seconds(10))

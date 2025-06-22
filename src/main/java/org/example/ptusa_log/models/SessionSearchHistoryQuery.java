@@ -7,13 +7,13 @@ public class SessionSearchHistoryQuery {
     private final SimpleIntegerProperty id;
     private final SimpleStringProperty query;
     private final SimpleIntegerProperty sessionId;
-    private final SimpleStringProperty createdAt;
+    private final SimpleStringProperty timestamp;
 
-    public SessionSearchHistoryQuery(int id, String query, int sessionId, String createdAt) {
+    public SessionSearchHistoryQuery(int id, String query, int sessionId, String timestamp) {
         this.id = new SimpleIntegerProperty(id);
         this.query = new SimpleStringProperty(query);
         this.sessionId = new SimpleIntegerProperty(sessionId);
-        this.createdAt = new SimpleStringProperty(createdAt);
+        this.timestamp = new SimpleStringProperty(timestamp);
     }
 
     public int getId() {
@@ -40,11 +40,11 @@ public class SessionSearchHistoryQuery {
         return sessionId;
     }
 
-    public String getCreatedAt() {
-        return createdAt.get();
+    public String getTimestamp() {
+        return timestamp.get();
     }
 
     public SimpleStringProperty createdArProperty() {
-        return createdAt;
+        return timestamp;
     }
 }

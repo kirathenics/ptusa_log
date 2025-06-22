@@ -29,6 +29,8 @@ public class MainSearchHistoryService extends SearchHistoryService {
 
         if (!MainSearchHistoryDAO.findByQueryAndVisibility(query, visibility)) {
             MainSearchHistoryDAO.addQuery(query, visibility);
+        } else {
+            MainSearchHistoryDAO.updateTimestamp(query, visibility);
         }
     }
 

@@ -7,13 +7,13 @@ public class MainSearchHistoryQuery {
     private final SimpleIntegerProperty id;
     private final SimpleStringProperty query;
     private final SimpleIntegerProperty visibility;
-    private final SimpleStringProperty createdAt;
+    private final SimpleStringProperty timestamp;
 
-    public MainSearchHistoryQuery(int id, String query, int visibility, String createdAt) {
+    public MainSearchHistoryQuery(int id, String query, int visibility, String timestamp) {
         this.id = new SimpleIntegerProperty(id);
         this.query = new SimpleStringProperty(query);
         this.visibility = new SimpleIntegerProperty(visibility);
-        this.createdAt = new SimpleStringProperty(createdAt);
+        this.timestamp = new SimpleStringProperty(timestamp);
     }
 
     public int getId() {
@@ -40,11 +40,11 @@ public class MainSearchHistoryQuery {
         return visibility;
     }
 
-    public String getCreatedAt() {
-        return createdAt.get();
+    public String getTimestamp() {
+        return timestamp.get();
     }
 
     public SimpleStringProperty createdArProperty() {
-        return createdAt;
+        return timestamp;
     }
 }
