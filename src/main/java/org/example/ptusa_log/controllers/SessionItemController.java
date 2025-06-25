@@ -13,11 +13,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import org.example.ptusa_log.App;
 import org.example.ptusa_log.DAO.SessionsDAO;
 import org.example.ptusa_log.listeners.LogFileListener;
 import org.example.ptusa_log.models.Session;
@@ -26,6 +28,7 @@ import org.example.ptusa_log.utils.enums.LogFileVisibility;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class SessionItemController implements Initializable {
@@ -210,8 +213,8 @@ public class SessionItemController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(detailRoot));
             stage.setTitle(session.getAliasName());
+            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream( StringConstants.ICONS_PATH + "app.png"))));
 //            stage.setResizable(false);
-//            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource(StringConstants.IMAGE_PATH + "icon-app.png")).toExternalForm()));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

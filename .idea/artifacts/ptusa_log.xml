@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="ptusa_log">
+    <output-path>$PROJECT_DIR$/out/artifacts/ptusa_log</output-path>
+    <root id="root">
+      <element id="archive" name="ptusa_log.jar">
+        <element id="module-output" name="ptusa_log" />
+      </element>
+    </root>
+  </artifact>
+</component>
